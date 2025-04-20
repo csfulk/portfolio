@@ -1,0 +1,92 @@
+@import './primitives.css';
+/* Base Button Styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg) var(--spacing-2xl); /* Replace hardcoded padding with spacing variables */
+  font-size: var(--font-size-md); /* Use font size variable */
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.1s ease, transform 0.1s ease;
+  border-radius: var(--radius-full); /* Use border-radius variable */
+}
+
+/* Primary Variant */
+.button-primary {
+  background-color: var(--buttonPrimary);
+  color: var(--textNeutralPrimary); /* Ensure this color is applied */
+}
+
+.button-primary:hover {
+  background-color: var(--buttonHover);
+
+}
+
+/* Secondary Variant */
+.button-secondary {
+  background-color: var(--surface-1);
+  color: var(--text);
+}
+
+.button-secondary:hover {
+  background-color: var(--surface-2);
+}
+
+/* Outline Variant */
+.button-outline {
+  background-color: transparent;
+  color: var(--textPrimary);
+  border: var(--spacing-xxs) solid var(--primary); /* Replace hardcoded border width with spacing variable */
+}
+
+.button-outline:hover {
+  background-color: var(--primary-light);
+  color: #ffffff;
+}
+
+/* Text-Only Variant */
+.button-text {
+  background-color: transparent;
+  color: inherit; /* Inherit color from parent */
+  border: none;
+}
+
+
+
+/* Destructive Variant */
+.button-destructive {
+  background-color: var(--destructive);
+  color: #ffffff;
+}
+
+.button-destructive:hover {
+  background-color: var(--destructive-hover);
+}
+
+/* Rounded Button */
+.button-rounded {
+  border-radius: var(--spacing-5xl); /* Replace hardcoded border-radius with spacing variable */
+}
+
+/* Icon Styles */
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-icon.leading {
+  margin-right: var(--spacing-sm); /* Replace hardcoded margin with spacing variable */
+}
+
+.button-icon.trailing {
+  margin-left: var(--spacing-sm); /* Replace hardcoded margin with spacing variable */
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm); /* 1rem */
+  margin-top: var(--spacing-lg); /* 1.25rem */
+}

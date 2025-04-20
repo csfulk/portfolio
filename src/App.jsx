@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React, { Suspense, useState } from 'react';
+import { ThemeProvider } from './theme/ThemeProvider';
+import { Navigation } from './components/layout/Navigation'; // Named export
+import Footer from './components/layout/Footer'; // Default export
+import Hero from './components/Hero'; // Default export
+import PasswordGate from './components/PasswordGate'; // Default export
 
-function App() {
-  const [count, setCount] = useState(0)
+// Lazy-loaded sections
+const SectionOne = React.lazy(() => import('./components/sections/SectionOne'));
+const SectionTwo = React.lazy(() => import('./components/sections/SectionTwo'));
+const SectionThree = React.lazy(() => import('./components/sections/SectionThree'));
+const SectionFour = React.lazy(() => import('./components/sections/SectionFour'));
+
+const App = () => {
+  const [authenticated, setAuthenticated] = useState(true);
+
+  console.log('Rendering PasswordGate');
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <ThemeProvider>
+      {authenticated ? (
+        <>
+          <Navigation />
+          <Hero />
+          <Suspense fallback={<div>Loading sections...</div>}>
+            <SectionOne />
+            <SectionTwo />
+            <SectionThree />
+            <SectionFour />
+          </Suspense>
+          <Footer />
+        </>
+      ) : (
+        <PasswordGate onAuth={() => setAuthenticated(true)} />
+      )}
+    </ThemeProvider>
+  );
+};
 
-export default App
+export default App;

@@ -1,0 +1,157 @@
+/* Import Primitives */
+@import './primitives.css';
+
+/* Import Responsive Styles */
+@import './responsive.css';
+
+/* Section Layout */
+.section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: var(--surfaceSection);
+}
+
+.section-content {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-lg); /* Space between columns */
+  width: 100%;
+}
+
+/* Left Column */
+.section-left {
+  flex: 0 0 40%; /* Left column takes up 40% of the width */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--spacing-xl); /* Space between items */
+  padding-left: var(--horizontal-padding); /* Use the shared padding variable */
+  padding-top: 180px;
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.section-logo {
+  width: 217px;
+  height: auto;
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--textPrimarySection);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--textPrimarySection);
+
+}
+
+.section-description {
+  font-size: var(--font-size-sm);
+  color: var(--textPrimarySection);
+  line-height: 1.8;
+  text-overflow: ellipsis;
+  white-space: normal;
+  transition: all 0.3s ease;
+}
+
+.section-description:not(.expanded) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Description text */
+.section-description p {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.8; /* Improve line spacing */
+  word-wrap: break-word; /* Ensure long words break to the next line */
+  color: var(--textPrimarySection); /* Ensure consistent text color */
+}
+
+/* Description container */
+.section-description-container {
+  position: relative;
+  max-height: none; /* Let React control this with inline styles */
+  overflow: hidden; /* Hide overflowing text */
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and natural easing */
+  
+}
+
+/* Gradient effect for truncated description */
+.section-description-container.truncated::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  max-height: none; /* Allow JS to dynamically assign the height using scrollHeight */
+  right: 0;
+  height: 1.8em; /* Match the line-height */
+  
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 1;;
+}
+
+/* Expanded description container */
+.section-description-container.expanded {
+  max-height: none; /* Allow JS to dynamically assign the height using scrollHeight */
+  overflow: visible; /* Allow full content to be visible */
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and natural easing */
+}
+
+/* Toggle button */
+.toggle-button {
+  position: absolute;
+  bottom: 0.25rem; /* Adjust to align with the bottom of the container */
+  right: 0; /* Adjust to align with the right of the container */
+  background: none;
+  border: none;
+  color: var(--textNeutralPrimary); /* Use primary color */
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1; /* Ensure the button is above the gradient */
+  background: linear-gradient(to left, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+  width: 100px;
+  text-align: right;
+}
+
+.section-bullets {
+  list-style: disc;
+  padding-left: var(--spacing-lg);
+  color: var(--textSecdonarySection);
+  line-height: 2.25;
+  margin: 0;
+}
+
+.section-bullet {
+  font-size: var(--font-size-sm);
+}
+
+/* Highlight the role in the bullet points */
+.role-highlight {
+  font-weight: 600;
+  color: #ffffff; /* White color for the role */
+}
+
+/* Right Column */
+.section-right {
+  flex: 0 0 60%; /* Right column takes up 60% of the width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image */
+.section-image {
+  width: 100%; /* Image fills the full width of the column */
+  height: 100%; /* Image fills the full height of the column */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+

@@ -1,0 +1,48 @@
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px; /* Slightly smaller font size for tablets */
+  }
+
+  section {
+    padding: var(--spacing-md); /* Adjust padding for tablets */
+  }
+
+  .hero .overlay {
+    padding-left: var(--spacing-4xl); /* Adjust padding for tablets */
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Smaller font size for mobile devices */
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr; /* Single column for smaller screens */
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr; /* Single column for smaller screens */
+  }
+
+  .hero .overlay {
+    padding-left: var(--spacing-3xl); /* Adjust padding for mobile */
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  html {
+    font-size: 13px; /* Even smaller font size for small screens */
+  }
+
+  section {
+    padding: var(--spacing-sm); /* Adjust padding for small screens */
+  }
+
+  .hero .overlay {
+    padding-left: var(--spacing-md); /* Adjust padding for small screens */
+  }
+}
