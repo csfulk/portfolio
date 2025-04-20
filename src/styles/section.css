@@ -8,16 +8,19 @@
 .section {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
+  align-items: flex-start; /* Align columns to the top */
+  min-height: 100vh; /* Minimum height is the full viewport */
   background-color: var(--surfaceSection);
+  padding-bottom: var(--spacing-xl); /* Add spacing below the section */
 }
 
+/* Section Content */
 .section-content {
   display: flex;
   flex-direction: row;
   gap: var(--spacing-lg); /* Space between columns */
   width: 100%;
+  align-items: flex-start; /* Ensure both columns align at the top */
 }
 
 /* Left Column */
@@ -26,19 +29,66 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--spacing-xl); /* Space between items */
+  gap: var(--spacing-2xl); /* Space between items */
   padding-left: var(--horizontal-padding); /* Use the shared padding variable */
   padding-top: 180px;
   box-sizing: border-box; /* Ensure padding is included in the width */
+  overflow-y: visible; /* Allow the left column to grow dynamically */
+}
+
+/* Right Column */
+.section-right {
+  flex: 0 0 60%; /* Right column takes up 60% of the width */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align the image at the top */
+  height: 100vh; /* Fix the height of the right column to the viewport */
+  overflow: hidden; /* Prevent content overflow */
+  position: sticky; /* Keep the right column fixed in place */
+  top: 0; /* Stick to the top of the viewport */
+}
+
+/* Image */
+.section-image {
+  width: 100%; /* Image fills the full width of the column */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 100%; /* Prevent the image from growing beyond the right column */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
+/* Left Column */
+.section-left {
+  flex: 0 0 40%; /* Left column takes up 40% of the width */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--spacing-2xl); /* Space between items */
+  padding-left: var(--horizontal-padding); /* Use the shared padding variable */
+  padding-top: 200px;
+  box-sizing: border-box; /* Ensure padding is included in the width */
+  overflow-y: visible; /* Allow the left column to grow dynamically */
 }
 
 .section-logo {
-  width: 217px;
-  height: auto;
+  display: block; /* Ensure the image doesn't have extra inline spacing */
+  width: auto; /* Allow the width to adjust based on the image's aspect ratio */
+  height: 24px; /* Set a fixed height to maintain consistency */
+  object-fit: contain; /* Ensure the image scales while preserving its aspect ratio */
+  margin: 0; /* Remove centering */
+  padding: 0; /* Ensure no unintended padding */
+}
+
+.logo-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align child elements to the left */
+  gap: var(--spacing-md); /* Add spacing between the logo and title */
+  padding: 0; /* Remove any unintended padding */
+  margin: 0; /* Remove any unintended margin */
 }
 
 .section-title {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
   line-height: 1.4;
   color: var(--textPrimarySection);
@@ -51,6 +101,7 @@
 
 }
 
+/* Description text */
 .section-description {
   font-size: var(--font-size-sm);
   color: var(--textPrimarySection);
@@ -63,7 +114,7 @@
 .section-description:not(.expanded) {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical;
 }
 
@@ -79,9 +130,8 @@
 .section-description-container {
   position: relative;
   max-height: none; /* Let React control this with inline styles */
-  overflow: hidden; /* Hide overflowing text */
+  overflow: hidden; /* Hide overflowing text and bullet points */
   transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and natural easing */
-  
 }
 
 /* Gradient effect for truncated description */
@@ -106,9 +156,8 @@
 
 /* Toggle button */
 .toggle-button {
-  position: absolute;
-  bottom: 0.25rem; /* Adjust to align with the bottom of the container */
-  right: 0; /* Adjust to align with the right of the container */
+  position: relative; /* Change to relative positioning */
+  margin-top: var(--spacing-sm); /* Add spacing above the button */
   background: none;
   border: none;
   color: var(--textNeutralPrimary); /* Use primary color */
@@ -116,22 +165,33 @@
   font-weight: 600;
   cursor: pointer;
   padding: 0;
-  z-index: 1; /* Ensure the button is above the gradient */
-  background: linear-gradient(to left, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
-  width: 100px;
+  z-index: 1; /* Ensure the button is above other elements */
   text-align: right;
+}
+
+/* Adjust toggle button for expanded state */
+.section-description-container.expanded .toggle-button {
+  position: relative; /* Ensure it stays below the content */
+  margin-top: var(--spacing-md); /* Add spacing between the last sentence and the button */
 }
 
 .section-bullets {
   list-style: disc;
   padding-left: var(--spacing-lg);
-  color: var(--textSecdonarySection);
+  color: var(--textSecondarySection);
   line-height: 2.25;
   margin: 0;
+  display: block; /* Ensure bullets are displayed */
 }
 
-.section-bullet {
-  font-size: var(--font-size-sm);
+/* Hide bullet points when truncated */
+.section-description-container.truncated .section-bullets {
+  display: none; /* Hide bullets when the description is truncated */
+}
+
+/* Show bullet points when expanded */
+.section-description-container.expanded .section-bullets {
+  display: block; /* Show bullets when expanded */
 }
 
 /* Highlight the role in the bullet points */
@@ -145,13 +205,28 @@
   flex: 0 0 60%; /* Right column takes up 60% of the width */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Align the image at the top */
+  height: 100vh; /* Fix the height of the right column to the viewport */
+  overflow: hidden; /* Prevent content overflow */
+  position: sticky; /* Keep the right column fixed in place */
+  top: 0; /* Stick to the top of the viewport */
 }
 
 /* Image */
 .section-image {
   width: 100%; /* Image fills the full width of the column */
-  height: 100%; /* Image fills the full height of the column */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 100%; /* Prevent the image from growing beyond the right column */
   object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
+/* Vertical Button Group */
+.button-group-vertical {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: flex-start; /* Center buttons vertically */
+  flex-direction: column; /* Stack buttons vertically */
+  gap: var(--spacing-md); /* Add spacing between buttons */
+
 }
 

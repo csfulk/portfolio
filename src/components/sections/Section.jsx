@@ -9,7 +9,8 @@ const Section = ({
   subtitle, 
   description, 
   bulletPoints, 
-  image 
+  image, 
+  children // Allow custom content to be passed as children
 }) => {
   const [isExpanded, setIsExpanded] = useState(false); // State to toggle description
 
@@ -22,23 +23,25 @@ const Section = ({
       <div className="section-content">
         {/* Left Column */}
         <div className="section-left">
-          <img src={logo} alt="Logo" className="section-logo" />
-          <h1 className="section-title">{title}</h1>
+          <div className='logo-title-wrapper'>
+            <img src={logo} alt="Logo" className="section-logo" />
+            <h1 className="section-title">{title}</h1>
+          </div>
           <h2 className="section-subtitle">{subtitle}</h2>
           <div className={`section-description-container ${isExpanded ? 'expanded' : 'truncated'}`}>
             <p className={`section-description ${isExpanded ? 'expanded' : 'truncated'}`}>{description}</p>
-             <button className="toggle-button" onClick={toggleDescription}>
-             {isExpanded ? 'Less' : '...more'}
+            <ul className="section-bullets">
+              {bulletPoints.map((point, index) => (
+                <li key={index} className="section-bullet">
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <button className="toggle-button" onClick={toggleDescription}>
+              {isExpanded ? 'Less' : '...more'}
             </button>
           </div>
-
-          <ul className="section-bullets">
-            {bulletPoints.map((point, index) => (
-              <li key={index} className="section-bullet">
-                {point}
-              </li>
-            ))}
-          </ul>
+          {children /* Render any custom content passed as children */}
         </div>
 
         {/* Right Column */}
@@ -58,10 +61,12 @@ Section.propTypes = {
   description: PropTypes.string.isRequired,
   bulletPoints: PropTypes.arrayOf(PropTypes.string).isRequired,
   image: PropTypes.string.isRequired,
+  children: PropTypes.node, // Allow custom content as children
 };
 
 Section.defaultProps = {
   className: '', // Default to an empty string
+  children: null, // Default to no custom content
 };
 
 export default Section;

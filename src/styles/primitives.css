@@ -65,7 +65,7 @@
   --font-family-primary: 'Inter Tight', sans-serif;
 
   font-size: 14px;
-  --horizontal-padding: var(--spacing-6xl);
+  --horizontal-padding: var(--spacing-7xl);
 }
 
 @media (max-width: 1024px) { /* Tablet */

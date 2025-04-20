@@ -32,9 +32,9 @@ const Hero = () => {
             onClick={() => scrollToSection('.first-section')} // Use the utility function
           />
           <Button
-            text="Featured Proejcts"
+            text="Featured Projects"
             variant="secondary"
-            className="button-secdondary"
+            className="button-secondary"
             onClick={() => alert('Secondary Button Clicked')}
           />
         </div>
