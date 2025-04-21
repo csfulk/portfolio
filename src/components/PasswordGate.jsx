@@ -12,7 +12,8 @@ const PasswordGate = ({ onAuth, onExpand, onClose }) => {
     const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
 
     if (password === sitePassword) {
-      onAuth(password);
+      console.log('Password correct, calling onAuth...');
+      onAuth(); // Call onAuth without arguments
       onExpand();
     } else {
       setCaption('Wrong password. Try again.');
