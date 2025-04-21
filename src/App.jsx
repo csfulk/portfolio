@@ -6,6 +6,7 @@ import Footer from './components/layout/Footer'; // Default export
 import Hero from './components/Hero'; // Default export
 import PasswordGate from './components/PasswordGate'; // Default export
 import Modal from './components/Modal'; // Import the Modal component
+import FeaturedProjectViewer from './components/projectViewer'; // Import the FeaturedProjectViewer component
 
 // Lazy-loaded sections
 const SectionOne = React.lazy(() => import('./components/sections/SectionOne'));
@@ -22,13 +23,35 @@ const App = () => {
   const handleAuth = () => {
     console.log('Authentication successful');
     setAuthenticated(true); // Set the user as authenticated
+
+    // Set the modal content and expand the modal after authentication
+    setTimeout(() => {
+      setModalContent(
+        <FeaturedProjectViewer
+          title="Case Study 1"
+          images={Array.from({ length: 23 }, (_, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return `/assets/yt_case_study_01/feature_project_ytms_${num}.png`;
+          })}
+        />
+      );
+      setExpanded(true); // Expand the modal
+    }, 100); // Adjust the delay as needed
   };
 
   const openModal = (content) => {
     console.log('Opening modal with content:', content);
     setModalContent(content); // Set the content to display in the modal
     setModalOpen(true); // Open the modal
-    setExpanded(false); // Reset the modal expansion state
+
+    // Retain the expanded state if already expanded
+    if (isExpanded) {
+      setTimeout(() => {
+        setExpanded(true);
+      }, 100); // Adjust the delay as needed
+    } else {
+      setExpanded(false); // Reset the modal expansion state
+    }
   };
 
   const expandModal = () => {

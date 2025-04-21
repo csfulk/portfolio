@@ -23,10 +23,7 @@ const Modal = ({ children, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        {/* Remove or comment out the close button */}
-        {/* <button className="modal-close" onClick={onClose}>
-          &times;
-        </button> */}
+        {console.log('Modal Children:', children)}
         {children}
       </div>
     </div>

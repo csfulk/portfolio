@@ -3,6 +3,7 @@ import React from 'react';
 import Section from './Section';
 import Button from '../Button';
 import scrollToSection from '../../scripts/scrollToSection'; // Import the scroll utility
+import ProjectViewer from '../projectViewer'; // Import the ProjectViewer component
 
 const SectionOne = ({ authenticated, openModal }) => {
   const description = `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
@@ -13,9 +14,15 @@ const SectionOne = ({ authenticated, openModal }) => {
     // Scroll the section to the top of the viewport
     scrollToSection('.first-section');
 
-    // Open the modal with the case study content
     if (authenticated) {
-      openModal(<div>{caseStudy} content goes here!</div>);
+      // Define images for "Case Study 1"
+      const images = Array.from({ length: 23 }, (_, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        return `/assets/yt_case_study_01/feature_project_ytms_${num}.png`;
+      });
+
+      // Pass ProjectViewer to the modal
+      openModal(<ProjectViewer title="Case Study 1" images={images} />);
     } else {
       openModal(null); // Trigger password modal
     }
