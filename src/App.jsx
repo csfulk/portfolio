@@ -4,7 +4,8 @@ import { ThemeProvider } from './theme/ThemeProvider';
 import { Navigation } from './components/layout/Navigation'; // Named export
 import Footer from './components/layout/Footer'; // Default export
 import Hero from './components/Hero'; // Default export
-import PasswordGate from './components/PasswordGate'; // Default export
+import PasswordGate from './components/PasswordGate'; // Default export\
+
 
 // Lazy-loaded sections
 const SectionOne = React.lazy(() => import('./components/sections/SectionOne'));

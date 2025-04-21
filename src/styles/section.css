@@ -160,9 +160,9 @@
   margin-top: var(--spacing-sm); /* Add spacing above the button */
   background: none;
   border: none;
-  color: var(--textNeutralPrimary); /* Use primary color */
+  color: var(--textSecondary); /* Use primary color */
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   padding: 0;
   z-index: 1; /* Ensure the button is above other elements */

@@ -1,31 +1,53 @@
 @import './primitives.css';
+
 /* Base Button Styles */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-xl); /* Replace hardcoded padding with spacing variables */
-  font-size: var(--font-size-sm); /* Use font size variable */
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: background-color 0.1s ease, transform 0.1s ease;
-  border-radius: var(--radius-full); /* Use border-radius variable */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border-radius: var(--radius-full);
   line-height: normal;
 }
 
-/* Primary Variant */
+/* Icon Styles */
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  font-size: var(--font-size-lg); /* Adjust icon size */
+  fill: currentColor; /* Inherit color from the button */
+}
+
+.button-icon .button-text {
+  padding-top:20px;
+}
+
+.button-icon.leading {
+  margin-right: var(--spacing-sm); /* Space between icon and text */
+}
+
+.button-icon.trailing {
+  margin-left: var(--spacing-sm); /* Space between text and icon */
+}
+
+/* Button Variants */
 .button-primary {
   background-color: var(--buttonPrimary);
-  color: var(--textNeutralPrimary); /* Ensure this color is applied */
+  color: var(--textNeutralPrimary);
 }
 
 .button-primary:hover {
   background-color: var(--buttonHover);
-
 }
 
-/* Secondary Variant */
 .button-secondary {
   background-color: var(--surface-1);
   color: var(--textPrimary);
@@ -35,35 +57,22 @@
   background-color: var(--surface-2);
 }
 
-/* Outline Variant */
 .button-outline {
   background-color: transparent;
   color: var(--textPrimary);
-  border: var(--spacing-xxs) solid var(--primary); /* Replace hardcoded border width with spacing variable */
+  border: var(--spacing-xxs) solid var(--primary);
 }
 
 .button-outline:hover {
-  background-color: var(--primary-light);
-  color: #ffffff;
+  color: var(--textSecondary);
 }
 
-/* Text-Only Variant */
 .button-text {
   background-color: transparent;
-
-  padding: var(--spacing-xs) 0; /* Remove padding for text-only buttons */
+  padding: var(--spacing-xs) 0;
   border: none;
 }
 
-.button-case-study {
-  background-color: transparent;
-  color: var(--textNeutralPrimary); /* Use your desired color variable */
-  padding: var(--spacing-xs) 0; /* Remove padding for text-only buttons */
-  border: none;
-}
-
-
-/* Destructive Variant */
 .button-destructive {
   background-color: var(--destructive);
   color: #ffffff;
@@ -73,28 +82,19 @@
   background-color: var(--destructive-hover);
 }
 
-/* Rounded Button */
 .button-rounded {
-  border-radius: var(--spacing-5xl); /* Replace hardcoded border-radius with spacing variable */
+  border-radius: var(--spacing-5xl);
 }
 
-/* Icon Styles */
-.button-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.case-study-button {
+  color: var(--textNeutralPrimary);
 }
 
-.button-icon.leading {
-  margin-right: var(--spacing-sm); /* Replace hardcoded margin with spacing variable */
+.case-study-button .button-text {
+  padding-top: 10px;
 }
 
-.button-icon.trailing {
-  margin-left: var(--spacing-sm); /* Replace hardcoded margin with spacing variable */
-}
 
-.button-group {
-  display: flex;
-  gap: var(--spacing-sm); /* 1rem */
-  margin-top: var(--spacing-lg); /* 1.25rem */
+.case-study-button:hover {
+  color: var(--textSecondary);
 }

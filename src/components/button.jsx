@@ -1,36 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/button.css'; // Import styles for the button
+import '../styles/button.css'; // Import button styles
+import '../styles/icon-font.css'; // Import icon font styles
 
-const Button = ({ text, leadingIcon, trailingIcon, onClick, rounded, className, variant }) => {
+const Button = ({ text, icon, iconPosition, onClick, className, variant }) => {
   return (
     <button
-      className={`button button-${variant} ${rounded ? 'button-rounded' : ''} ${className}`}
+      className={`button button-${variant} ${className}`.trim()}
       onClick={onClick}
+      aria-label={text}
     >
-      {leadingIcon && <span className="button-icon leading">{leadingIcon}</span>}
+      {icon && iconPosition === 'leading' && (
+        <i className={`icon ${icon} button-icon leading`} aria-hidden="true"></i>
+      )}
       <span className="button-text">{text}</span>
-      {trailingIcon && <span className="button-icon trailing">{trailingIcon}</span>}
+      {icon && iconPosition === 'trailing' && (
+        <i className={`icon ${icon} button-icon trailing`} aria-hidden="true"></i>
+      )}
     </button>
   );
 };
 
 Button.propTypes = {
   text: PropTypes.string.isRequired, // Button text
-  leadingIcon: PropTypes.node, // Icon to display before the text
-  trailingIcon: PropTypes.node, // Icon to display after the text
+  icon: PropTypes.string, // Icon class name (e.g., "icon-Lock")
+  iconPosition: PropTypes.oneOf(['leading', 'trailing']), // Icon position
   onClick: PropTypes.func, // Click handler
-  rounded: PropTypes.bool, // Whether the button has rounded corners
   className: PropTypes.string, // Additional custom classes
-  variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'text', 'destructive']), // Button variant
+  variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'text', 'destructive', 'rounded']), // Button variant
 };
 
 Button.defaultProps = {
-  leadingIcon: null,
-  trailingIcon: null,
-  onClick: () => {},
-  rounded: false,
-  className: '',
+  icon: null, // No icon by default
+  iconPosition: 'leading', // Default icon position
+  onClick: () => {}, // Default click handler
+  className: '', // Default to no additional classes
   variant: 'primary', // Default to primary variant
 };
 

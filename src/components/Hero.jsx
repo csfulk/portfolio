@@ -26,13 +26,13 @@ const Hero = () => {
 
         <div className="button-group">
           <Button
-            text="Career History"
+            text="Case Studies"
             variant="primary"
             className="button-primary"
             onClick={() => scrollToSection('.first-section')} // Use the utility function
           />
           <Button
-            text="Featured Projects"
+            text="Open Resume"
             variant="secondary"
             className="button-secondary"
             onClick={() => alert('Secondary Button Clicked')}

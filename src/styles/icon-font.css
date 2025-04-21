@@ -1,0 +1,68 @@
+/* Define the font-face */
+@font-face {
+  font-family: 'IcoMoon';
+  src: url('/assets/icon_font/icons/fonts/icomoon.eot'); /* IE9 Compat Modes */
+  src: url('/assets/icon_font/icons/fonts/icomoon.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/assets/icon_font/icons/fonts/icomoon.woff') format('woff'), /* Modern Browsers */
+       url('/assets/icon_font/icons/fonts/icomoon.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/assets/icon_font/icons/fonts/icomoon.svg#IcoMoon') format('svg'); /* Legacy iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Base class for icons */
+.icon {
+  font-family: 'IcoMoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-File_dock_add:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-File_dock_light:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-File_dock_search_light:before {
+  content: "\e902";
+  color: #fff;
+}
+.icon-File_dock_search:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-Key_alt_light:before {
+  content: "\e904";
+
+}
+.icon-Key_alt:before {
+  content: "\e905";
+}
+.icon-Lock_alt_light:before {
+  content: "\e906";
+}
+.icon-Lock_alt:before {
+  content: "\e907";
+}
+.icon-Lock_light:before {
+  content: "\e908";
+}
+.icon-Lock:before {
+  content: "\e909";
+}
+.icon-Unlock_light:before {
+  content: "\e90a";
+}
+.icon-Unlock:before {
+  content: "\e90b";
+}

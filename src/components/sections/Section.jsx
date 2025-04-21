@@ -38,7 +38,7 @@ const Section = ({
               ))}
             </ul>
             <button className="toggle-button" onClick={toggleDescription}>
-              {isExpanded ? 'Less' : '...more'}
+              {isExpanded ? 'Less' : 'Read more'}
             </button>
           </div>
           {children /* Render any custom content passed as children */}
