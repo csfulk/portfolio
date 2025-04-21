@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/ProjectViewer.css'; // Optional: for styling
+import Button from './button'; // Import the Button component
 
-const FeaturedProjectViewer = ({ title, images }) => {
+const FeaturedProjectViewer = ({ title, images, closeModal }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const showPrevious = () => {
@@ -16,9 +17,36 @@ const FeaturedProjectViewer = ({ title, images }) => {
     );
   };
 
+  const resetToFirstImage = () => {
+    setCurrentIndex(0); // Reset to the first image
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        showPrevious();
+      } else if (e.key === 'ArrowRight') {
+        showNext();
+      } else if (e.key === 'r' || e.key === 'R') {
+        resetToFirstImage(); // Reset to the first image when "R" is pressed
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentIndex]); // Dependency ensures the effect updates with the current index
+
   return (
     <div className="project-viewer">
-      <h2 className="project-title">{title}</h2>
+      {/* Close Button */}
+      <Button
+        text="X"
+        onClick={closeModal}
+        variant="text"
+        className="close-button"
+      />
       <div className="image-container">
         <img
           src={images[currentIndex]}
@@ -27,14 +55,38 @@ const FeaturedProjectViewer = ({ title, images }) => {
         />
       </div>
       <div className="navigation-buttons">
-        <button onClick={showPrevious} className="nav-button">Previous</button>
+        <Button
+          text="Previous"
+          onClick={showPrevious}
+          variant="text" // Use the text variant
+          className="nav-button"
+        />
         <span className="image-count">
           {currentIndex + 1} / {images.length}
         </span>
-        <button onClick={showNext} className="nav-button">Next</button>
+        <Button
+          text="Next"
+          onClick={showNext}
+          variant="text" // Use the text variant
+          className="nav-button"
+        />
       </div>
     </div>
   );
 };
 
 export default FeaturedProjectViewer;
+
+<button
+  onClick={() =>
+    openModal(
+      <FeaturedProjectViewer
+        closeModal={closeModal}
+        title="Project"
+        images={['image1.jpg', 'image2.jpg']}
+      />
+    )
+  }
+>
+  Open Project Viewer
+</button>

@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { ThemeProvider } from './theme/ThemeProvider';
 import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
@@ -11,23 +11,38 @@ import SectionThree from './components/sections/SectionThree';
 import SectionFour from './components/sections/SectionFour';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
+import FeaturedProjectViewer from './components/projectViewer';
 
 const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    console.log('Closing modal...');
+    setIsModalOpen(false);
+    setModalContent(null);
+  };
+
   const {
-    isModalOpen,
-    modalContent,
     isExpanded,
     loading,
-    openModal,
-    closeModal,
+    transitioning,
     setExpanded,
     setLoading,
+    startTransition,
+    completeTransition,
   } = useModal();
 
   const { authenticated, openPasswordGate } = useAuth({
-    setLoading,
+    startTransition,
+    completeTransition,
     setModalContent: openModal,
-    setExpanded,
+    setExpanded, // Pass setExpanded to useAuth
   });
 
   useEffect(() => {
@@ -59,9 +74,26 @@ const App = () => {
           <SectionFour />
         </Suspense>
         <Footer />
+        <button
+          onClick={() =>
+            openModal(
+              <FeaturedProjectViewer
+                closeModal={closeModal}
+                title="Project"
+                images={['image1.jpg', 'image2.jpg']}
+              />
+            )
+          }
+        >
+          Open Project Viewer
+        </button>
         {isModalOpen && (
-          <Modal onClose={closeModal}>
-            <div className={`modal-content ${isExpanded ? 'expanded' : ''}`}>
+          <div className="modal-overlay">
+            <div
+              className={`modal-container ${
+                transitioning ? 'transitioning' : ''
+              } ${isExpanded ? 'expanded' : ''}`}
+            >
               {loading ? (
                 <div className="loading-spinner">
                   <div className="spinner"></div>
@@ -70,7 +102,7 @@ const App = () => {
                 modalContent
               )}
             </div>
-          </Modal>
+          </div>
         )}
       </>
     </ThemeProvider>

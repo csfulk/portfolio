@@ -13,8 +13,7 @@ const PasswordGate = ({ onAuth, onExpand, onClose }) => {
 
     if (password === sitePassword) {
       console.log('Password correct, calling onAuth...');
-      onAuth(); // Call onAuth without arguments
-      onExpand();
+      onAuth(); // Trigger authentication logic
     } else {
       setCaption('Wrong password. Try again.');
       setIsError(true);

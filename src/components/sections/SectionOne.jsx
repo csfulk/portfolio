@@ -6,10 +6,9 @@ import ProjectViewer from '../projectViewer'; // Import the ProjectViewer compon
 import PasswordGate from '../PasswordGate'; // Import PasswordGate
 
 const SectionOne = ({ authenticated, openModal, openPasswordGate }) => {
-  const description = `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. 
-  I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
-  One standout chapter was leading the Movies & Shows team, where I scaled design from a single storefront to five globally...
-  In 2018, I also led the design system for YouTube on TV. That system still powers the experience today...`;
+  const description = `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
+  One standout chapter was leading the Movies & Shows team, where I scaled design from a single storefront to five globally, helping grow subscriptions from 68 million to over 180 million. It was a mix of strategic thinking and hands-on design—aligning business goals with what people actually enjoy using.
+  In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make it the #1 rated streaming app on Nielsen.`;
 
   const handleCaseStudyClick = (caseStudy) => {
     scrollToSection('.first-section');
@@ -40,7 +39,7 @@ const SectionOne = ({ authenticated, openModal, openPasswordGate }) => {
     console.log('Viewer Props:', viewerProps);
 
     if (authenticated) {
-      openModal(<ProjectViewer {...viewerProps} />);
+      openModal(<ProjectViewer {...viewerProps} />, true); // Pass true for expanded state
     } else {
       openPasswordGate(viewerProps);
     }

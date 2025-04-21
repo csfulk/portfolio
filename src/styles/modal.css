@@ -6,13 +6,13 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.8); /* Alpha black background */
-  display: flex;
+  display: flex; /* Use Flexbox for centering */
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* Centered modal container */
+/* Modal container */
 .modal-container {
   background: var(--surfaceModal);
   border-radius: 2rem;
@@ -26,23 +26,58 @@
   align-items: center;
   gap: var(--spacing-xl);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1); /* Center and default scale */
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Smooth transition */
+  z-index: 1001;
+  opacity: 1;
 }
 
-/* Expanded modal content */
-.modal-content.expanded {
+/* Transitioning state */
+.modal-container.transitioning {
+  opacity: 0.8; /* Slight fade effect */
+  /* Removed transform: scale(0.95); to prevent shrinking */
+}
+
+/* Expanded modal container */
+.modal-container.expanded {
+  transform: translate(-50%, -50%) scale(1.0); /* Full-screen scale */
   width: 100vw; /* Full width of the viewport */
   height: 100vh; /* Full height of the viewport */
   max-width: none; /* Remove max-width constraint */
   max-height: none; /* Remove max-height constraint */
   border-radius: 0; /* Remove border radius */
   padding: 0; /* Remove padding */
+  box-shadow: none; /* Remove shadow for full-screen modal */
+  opacity: 1; /* Ensure full opacity */
+}
+
+/* Project viewer container */
+.project-viewer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--surfaceModal);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--surfaceModal);
-  box-shadow: none; /* Remove shadow for full-screen modal */
+  z-index: 1002; /* Above the modal-container */
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Smooth fade-in animation */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Close button */
