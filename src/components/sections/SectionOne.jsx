@@ -1,9 +1,9 @@
-//sections/SectionOne.jsx
 import React from 'react';
 import Section from './Section';
 import Button from '../Button';
 import scrollToSection from '../../scripts/scrollToSection'; // Import the scroll utility
 import ProjectViewer from '../projectViewer'; // Import the ProjectViewer component
+import PasswordGate from '../PasswordGate'; // Import PasswordGate
 
 const SectionOne = ({ authenticated, openModal }) => {
   const description = `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
@@ -11,20 +11,44 @@ const SectionOne = ({ authenticated, openModal }) => {
   In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make it the #1 rated streaming app on Nielsen.`;
 
   const handleCaseStudyClick = (caseStudy) => {
-    // Scroll the section to the top of the viewport
     scrollToSection('.first-section');
+    console.log('Scrolling to .first-section');
+    console.log('Authenticated:', authenticated);
+
+    let title = '';
+    let folder = '';
+    let images = [];
+
+    if (caseStudy === 'Case Study 1') {
+      title = 'YouTube Living Room Case Study';
+      folder = '/assets/yt_case_study_00';
+      images = Array.from({ length: 18 }, (_, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        return `${folder}/featured_ytlr_${num}.png`;
+      });
+    } else if (caseStudy === 'Case Study 2') {
+      title = 'YouTube Movies & Shows Case Study';
+      folder = '/assets/yt_case_study_01';
+      images = Array.from({ length: 23 }, (_, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        return `${folder}/feature_project_ytms_${num}.png`;
+      });
+    }
+
+    const viewerComponent = <ProjectViewer title={title} images={images} />;
 
     if (authenticated) {
-      // Define images for "Case Study 1"
-      const images = Array.from({ length: 23 }, (_, i) => {
-        const num = String(i + 1).padStart(2, '0');
-        return `/assets/yt_case_study_01/feature_project_ytms_${num}.png`;
-      });
-
-      // Pass ProjectViewer to the modal
-      openModal(<ProjectViewer title="Case Study 1" images={images} />);
+      openModal(viewerComponent);
     } else {
-      openModal(null); // Trigger password modal
+      openModal(
+        <PasswordGate
+          onAuth={() => {
+            handleAuth(() => openModal(viewerComponent)); // Pass callback to handleAuth
+          }}
+          onExpand={() => {}}
+          onClose={() => openModal(null)}
+        />
+      );
     }
   };
 

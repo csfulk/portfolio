@@ -24,33 +24,22 @@ const App = () => {
     console.log('Authentication successful');
     setAuthenticated(true); // Set the user as authenticated
 
-    // Set the modal content and expand the modal after authentication
+    // Expand the modal after authentication
     setTimeout(() => {
-      setModalContent(
-        <FeaturedProjectViewer
-          title="Case Study 1"
-          images={Array.from({ length: 23 }, (_, i) => {
-            const num = String(i + 1).padStart(2, '0');
-            return `/assets/yt_case_study_01/feature_project_ytms_${num}.png`;
-          })}
-        />
-      );
-      setExpanded(true); // Expand the modal
+      setExpanded(true);
     }, 100); // Adjust the delay as needed
   };
 
   const openModal = (content) => {
-    console.log('Opening modal with content:', content);
-    setModalContent(content); // Set the content to display in the modal
-    setModalOpen(true); // Open the modal
+    setModalContent(content);
+    setModalOpen(true);
 
-    // Retain the expanded state if already expanded
     if (isExpanded) {
       setTimeout(() => {
         setExpanded(true);
-      }, 100); // Adjust the delay as needed
+      }, 100);
     } else {
-      setExpanded(false); // Reset the modal expansion state
+      setExpanded(false);
     }
   };
 
