@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import '../styles/button.css'; // Import button styles
 import '../styles/icon-font.css'; // Import icon font styles
 
-const Button = ({ text, icon, iconPosition, onClick, className, variant }) => {
+const Button = ({
+  text,
+  icon = null, // Default to no icon
+  iconPosition = 'leading', // Default icon position
+  onClick = () => {}, // Default click handler
+  className = '', // Default to no additional classes
+  variant = 'primary', // Default to primary variant
+}) => {
   return (
     <button
       className={`button button-${variant} ${className}`.trim()}
@@ -28,14 +35,6 @@ Button.propTypes = {
   onClick: PropTypes.func, // Click handler
   className: PropTypes.string, // Additional custom classes
   variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'text', 'destructive', 'rounded']), // Button variant
-};
-
-Button.defaultProps = {
-  icon: null, // No icon by default
-  iconPosition: 'leading', // Default icon position
-  onClick: () => {}, // Default click handler
-  className: '', // Default to no additional classes
-  variant: 'primary', // Default to primary variant
 };
 
 export default Button;

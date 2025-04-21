@@ -25,25 +25,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-View_hide_light:before {
+  content: "\e90c";
+}
+.icon-View_hide:before {
+  content: "\e90d";
+}
+.icon-View_light:before {
+  content: "\e90e";
+}
+.icon-View:before {
+  content: "\e90f";
+}
 .icon-File_dock_add:before {
   content: "\e900";
-  color: #fff;
 }
 .icon-File_dock_light:before {
   content: "\e901";
-  color: #fff;
 }
 .icon-File_dock_search_light:before {
   content: "\e902";
-  color: #fff;
 }
 .icon-File_dock_search:before {
   content: "\e903";
-  color: #fff;
 }
 .icon-Key_alt_light:before {
   content: "\e904";
-
 }
 .icon-Key_alt:before {
   content: "\e905";

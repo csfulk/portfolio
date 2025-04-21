@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?j1oemg');
-  src:  url('fonts/icomoon.eot?j1oemg#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?j1oemg') format('truetype'),
-    url('fonts/icomoon.woff?j1oemg') format('woff'),
-    url('fonts/icomoon.svg?j1oemg#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?3d2yeb');
+  src:  url('fonts/icomoon.eot?3d2yeb#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?3d2yeb') format('truetype'),
+    url('fonts/icomoon.woff?3d2yeb') format('woff'),
+    url('fonts/icomoon.svg?3d2yeb#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-View_hide_light:before {
+  content: "\e90c";
+  color: #fff;
+}
+.icon-View_hide:before {
+  content: "\e90d";
+  color: #fff;
+}
+.icon-View_light:before {
+  content: "\e90e";
+  color: #fff;
+}
+.icon-View:before {
+  content: "\e90f";
+  color: #fff;
+}
 .icon-File_dock_add:before {
   content: "\e900";
   color: #fff;
@@ -43,26 +59,33 @@
 }
 .icon-Key_alt_light:before {
   content: "\e904";
-
+  color: #fff;
 }
 .icon-Key_alt:before {
   content: "\e905";
+  color: #fff;
 }
 .icon-Lock_alt_light:before {
   content: "\e906";
+  color: #fff;
 }
 .icon-Lock_alt:before {
   content: "\e907";
+  color: #fff;
 }
 .icon-Lock_light:before {
   content: "\e908";
+  color: #fff;
 }
 .icon-Lock:before {
   content: "\e909";
+  color: #fff;
 }
 .icon-Unlock_light:before {
   content: "\e90a";
+  color: #fff;
 }
 .icon-Unlock:before {
   content: "\e90b";
+  color: #fff;
 }

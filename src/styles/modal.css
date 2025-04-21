@@ -1,0 +1,65 @@
+/* Full-screen modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8); /* Alpha black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Centered modal container */
+.modal-container {
+  background: var(--surfaceModal);
+  border-radius: 2rem;
+  padding: var(--spacing-2xl);
+  max-width: 500px;
+  width: 24rem;
+  aspect-ratio: 16 / 9; /* Horizontal aspect ratio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-xl);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Expanded modal content */
+.modal-content.expanded {
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  max-width: none; /* Remove max-width constraint */
+  max-height: none; /* Remove max-height constraint */
+  border-radius: 0; /* Remove border radius */
+  padding: 0; /* Remove padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--surfaceModal);
+  box-shadow: none; /* Remove shadow for full-screen modal */
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Prevent scrolling when the modal is open */
+.no-scroll {
+  overflow: hidden;
+  height: 100%; /* Prevent scrolling on mobile devices */
+}

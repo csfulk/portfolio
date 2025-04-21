@@ -1,83 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import '../styles/PasswordGate.css';
 
-const PasswordGate = ({ onAuth }) => {
-  const [input, setInput] = useState('');
-  const [error, setError] = useState(false);
-
-  console.log(import.meta.env); // Add this log to debug environment variables
+const PasswordGate = ({ onAuth, onExpand, onClose }) => {
+  const [password, setPassword] = useState('');
+  const [caption, setCaption] = useState('');
+  const [isError, setIsError] = useState(false);
+  const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
 
-    const expectedPassword = import.meta.env.VITE_SITE_PASSWORD;
-    console.log('Expected Password:', expectedPassword); // Add this log
-    console.log('Entered Password:', input); // Optional: Log the user input for debugging
-
-    if (input === expectedPassword) {
-      onAuth();
+    if (password === sitePassword) {
+      onAuth(password);
+      onExpand();
     } else {
-      setError(true);
-      setInput('');
+      setCaption('Wrong password. Try again.');
+      setIsError(true);
     }
   };
 
+  const handleInputChange = (e) => {
+    setPassword(e.target.value);
+    setCaption('Press Enter');
+    setIsError(false);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        console.log('Escape pressed');
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    inputRef.current?.focus();
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.title}>Enter Password</h2>
-        <input
-          type="password"
-          placeholder="Password"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>Enter</button>
-        {error && <p style={styles.error}>Incorrect password.</p>}
+    <div className="password-gate">
+      <img
+        src="/assets/password.laugh2.gif"
+        alt="Password Laugh"
+        className="password-gate-image"
+      />
+      <form onSubmit={handleSubmit} className="password-form">
+        <div className="password-input-wrapper">
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Enter password"
+            value={password}
+            onChange={handleInputChange}
+            className={`password-input ${isError ? 'error' : ''}`}
+          />
+          <span className={`password-caption ${isError ? 'error' : ''}`}>
+            {caption}
+          </span>
+        </div>
       </form>
+      <p className="small-text">
+        Don’t have a password? <a href="mailto:hello@colt.fyi">Say hello</a>, and I can send you one.
+      </p>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'var(--primary)',
-    color: 'white',
-    border: '2px solid red', // Add this for debugging
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    maxWidth: '300px',
-    width: '100%',
-  },
-  title: {
-    marginBottom: '0.5rem',
-  },
-  input: {
-    padding: '0.75rem',
-    fontSize: '1rem',
-    borderRadius: '4px',
-    border: 'none',
-  },
-  button: {
-    padding: '0.75rem',
-    fontSize: '1rem',
-    borderRadius: '4px',
-    backgroundColor: 'var(--accent)',
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  error: {
-    color: '#ffcccc',
-    fontSize: '0.875rem',
-  },
 };
 
 export default PasswordGate;
