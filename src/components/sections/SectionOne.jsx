@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from './Section';
-import Button from '../Button';
+import Button from '../button';
 import scrollToSection from '../../scripts/scrollToSection'; // Import the scroll utility
 import ProjectViewer from '../projectViewer'; // Import the ProjectViewer component
 import PasswordGate from '../PasswordGate'; // Import PasswordGate
