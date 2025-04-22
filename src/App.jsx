@@ -74,19 +74,7 @@ const App = () => {
           <SectionFour />
         </Suspense>
         <Footer />
-        <button
-          onClick={() =>
-            openModal(
-              <FeaturedProjectViewer
-                closeModal={closeModal}
-                title="Project"
-                images={['image1.jpg', 'image2.jpg']}
-              />
-            )
-          }
-        >
-          Open Project Viewer
-        </button>
+        
         {isModalOpen && (
           <div className="modal-overlay">
             <div

@@ -24,14 +24,14 @@ const SectionOne = ({ authenticated, openModal, openPasswordGate }) => {
       folder = '/assets/yt_case_study_00';
       images = Array.from({ length: 18 }, (_, i) => {
         const num = String(i + 1).padStart(2, '0');
-        return `${folder}/featured_ytlr_${num}.png`;
+        return `${folder}/featured_ytlr_${num}.webp`;
       });
     } else if (caseStudy === 'Case Study 2') {
       title = 'YouTube Movies & Shows Case Study';
       folder = '/assets/yt_case_study_01';
       images = Array.from({ length: 23 }, (_, i) => {
         const num = String(i + 1).padStart(2, '0');
-        return `${folder}/feature_project_ytms_${num}.png`;
+        return `${folder}/feature_project_ytms_${num}.webp`;
       });
     }
 

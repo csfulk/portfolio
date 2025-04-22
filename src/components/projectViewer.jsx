@@ -77,16 +77,3 @@ const FeaturedProjectViewer = ({ title, images, closeModal }) => {
 
 export default FeaturedProjectViewer;
 
-<button
-  onClick={() =>
-    openModal(
-      <FeaturedProjectViewer
-        closeModal={closeModal}
-        title="Project"
-        images={['image1.jpg', 'image2.jpg']}
-      />
-    )
-  }
->
-  Open Project Viewer
-</button>
