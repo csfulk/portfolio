@@ -35,7 +35,7 @@ const Hero = () => {
             text="Open Resume"
             variant="secondary"
             className="button-secondary"
-            onClick={() => alert('Secondary Button Clicked')}
+            onClick={() => window.open('/public/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank')}
           />
         </div>
       </div>

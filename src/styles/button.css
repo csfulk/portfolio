@@ -5,9 +5,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-xl);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 400;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
@@ -28,10 +28,11 @@
 
 .button-icon .button-text {
   padding-top:20px;
+
 }
 
 .button-icon.leading {
-  margin-right: var(--spacing-sm); /* Space between icon and text */
+  margin-right: var(--spacing-xs); /* Space between icon and text */
 }
 
 .button-icon.trailing {
@@ -91,10 +92,16 @@
 }
 
 .case-study-button .button-text {
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 
 .case-study-button:hover {
   color: var(--textSecondary);
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm);
+
 }

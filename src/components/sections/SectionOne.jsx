@@ -58,7 +58,7 @@ const SectionOne = ({ authenticated, openModal, openPasswordGate, closeModal }) 
       <div className="button-group-vertical">
         <Button
           text="Case Study 1"
-          icon="icon-Lock"
+          icon="icon-Lock_light"
           iconPosition="leading"
           variant="text"
           className="case-study-button"
@@ -66,7 +66,7 @@ const SectionOne = ({ authenticated, openModal, openPasswordGate, closeModal }) 
         />
         <Button
           text="Case Study 2"
-          icon="icon-Lock"
+          icon="icon-Lock_light"
           iconPosition="leading"
           variant="text"
           className="case-study-button"
