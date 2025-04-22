@@ -20,6 +20,8 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radius-lg); /* Use border-radius token */
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
 }
 
 .project-image {
@@ -36,13 +38,16 @@
 
 .nav-button {
   color: var(--textNeutralPrimary);
+  font=size: var(--font-size-md); /* Use font size token */
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  outline: none;
 }
 
 .nav-button:hover {
   color: var(--textSecondary); /* Use button text color token */
+  outline: none;
 }
 
 .image-count {
@@ -65,8 +70,23 @@
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
+  outline: none; /* Remove default focus outline */
 }
 
 .close-button:hover {
   color: var(--textSecondary); /* Change color on hover */
+}
+
+.close-button:focus {
+  outline: none; /* Remove focus ring on close button */
+}
+
+.image-container.visible {
+  opacity: 1;
+}
+
+.keyboard-instructions {
+  font-size: var(--font-size-sm); /* Use font size token */
+  color: var(--textSecondary); /* Use text color token */
+  text-align: center;
 }

@@ -5,6 +5,7 @@ import '../styles/ProjectViewer.css'; // Optional: for styling
 
 const FeaturedProjectViewer = ({ title, images, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [contentVisible, setContentVisible] = useState(false);
 
   const containerRef = useRef(null);
 
@@ -67,6 +68,12 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
     return () => containerRef.current?.removeEventListener('keydown', handleTrap);
   }, []);
 
+  useEffect(() => {
+    // trigger fade-in once the viewer mounts
+    const timer = setTimeout(() => setContentVisible(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div
       className="project-viewer"
@@ -86,7 +93,7 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
       >
         ×
       </button>
-      <div className="image-container">
+      <div className={`image-container${contentVisible ? ' visible' : ''}`}>
         <img
           src={images[currentIndex]}
           alt={`Slide ${currentIndex + 1}`}
@@ -95,7 +102,7 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
       </div>
       <div className="navigation-buttons">
         <Button
-          text="Previous"
+          text="←"
           onClick={showPrevious}
           variant="text" // Use the text variant
           className="nav-button"
@@ -104,7 +111,7 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
           {currentIndex + 1} / {images.length}
         </span>
         <Button
-          text="Next"
+          text="→"
           onClick={showNext}
           variant="text" // Use the text variant
           className="nav-button"
@@ -115,4 +122,3 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
 };
 
 export default FeaturedProjectViewer;
-

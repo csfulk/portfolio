@@ -27,7 +27,7 @@ const App = () => {
     completeTransition,
   } = useModal();
 
-  const { authenticated, openPasswordGate } = useAuth({
+  const { authenticated, openPasswordGate, loadViewer } = useAuth({
     startTransition,
     completeTransition,
     setModalContent: openModal,
@@ -90,7 +90,7 @@ const App = () => {
               className={`modal-container ${
                 transitioning ? 'transitioning' : ''
               } ${isExpanded ? 'expanded' : ''}`}
-              onTransitionEnd={completeTransition}
+              onTransitionEnd={loadViewer}
               onClick={(e) => e.stopPropagation()}
             >
               {loading ? (

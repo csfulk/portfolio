@@ -5,19 +5,18 @@ import PasswordGate from '../components/PasswordGate';
 const useAuth = ({ startTransition, completeTransition, setModalContent, setExpanded }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const pendingViewerPropsRef = useRef(null);
+  const spinnerStartRef = useRef(0);
 
   const handleAuth = () => {
     console.log('Authentication successful');
     console.log('Pending Viewer Props:', pendingViewerPropsRef.current);
 
     if (pendingViewerPropsRef.current) {
+      spinnerStartRef.current = Date.now();
       setAuthenticated(true);
-      startTransition(); // show spinner & begin transition
-      setModalContent(
-        <FeaturedProjectViewer {...pendingViewerPropsRef.current} />,
-        true
-      );
-      pendingViewerPropsRef.current = null;
+      startTransition();         // show spinner & begin transition
+      setExpanded(true);         // animate the gate to full screen
+      // Viewer will be loaded on transition end in App.jsx
     } else {
       console.error('No pendingViewerProps found!');
     }
@@ -34,10 +33,29 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
     );
   };
 
+  const loadViewer = () => {
+    if (pendingViewerPropsRef.current) {
+      const elapsed = Date.now() - spinnerStartRef.current;
+      const minDuration = 2000; // minimum spinner time in ms
+      const delay = Math.max(0, minDuration - elapsed);
+      setTimeout(() => {
+        setModalContent(
+          <FeaturedProjectViewer {...pendingViewerPropsRef.current} />,
+          true
+        );
+        pendingViewerPropsRef.current = null;
+        completeTransition();
+      }, delay);
+    } else {
+      console.error('No pendingViewerProps found on loadViewer!');
+    }
+  };
+
   return {
     authenticated,
     handleAuth,
     openPasswordGate,
+    loadViewer,
   };
 };
 
