@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/modal.css';
 
-const Modal = ({ children, onClose }) => {
+const Modal = ({ children, onClose, onTransitionEnd }) => {
   const containerRef = useRef(null);
   useEffect(() => {
     // Disable scrolling on both <html> and <body>
@@ -32,6 +32,7 @@ const Modal = ({ children, onClose }) => {
         aria-modal="true"
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
+        onTransitionEnd={onTransitionEnd}
       >
         <button
           type="button"

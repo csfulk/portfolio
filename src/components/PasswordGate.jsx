@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PasswordGate.css';
 
-const PasswordGate = ({ onAuth, onExpand, onClose }) => {
+const PasswordGate = ({ onAuth, onClose }) => {
   const [password, setPassword] = useState('');
   const [caption, setCaption] = useState('');
   const [isError, setIsError] = useState(false);
@@ -13,7 +13,7 @@ const PasswordGate = ({ onAuth, onExpand, onClose }) => {
 
     if (password === sitePassword) {
       console.log('Password correct, calling onAuth...');
-      onAuth(); // Trigger authentication logic
+      onAuth(password); // Trigger authentication logic with entered password
     } else {
       setCaption('Wrong password. Try again.');
       setIsError(true);

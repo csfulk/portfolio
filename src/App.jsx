@@ -11,6 +11,7 @@ import SectionThree from './components/sections/SectionThree';
 import SectionFour from './components/sections/SectionFour';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
+import useCaseStudyViewer from './hooks/useCaseStudyViewer';
 
 const App = () => {
   const {
@@ -32,6 +33,14 @@ const App = () => {
     completeTransition,
     setModalContent: openModal,
     setExpanded, // Pass setExpanded to useAuth
+  });
+
+  const viewer = useCaseStudyViewer({
+    authenticated,
+    openModal,
+    closeModal,
+    openPasswordGate,
+    loadViewer
   });
 
   console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });
@@ -72,13 +81,8 @@ const App = () => {
         <Navigation />
         <Hero />
         <Suspense fallback={<div>Loading sections...</div>}>
-          <SectionOne
-            authenticated={authenticated}
-            openModal={openModal}
-            openPasswordGate={openPasswordGate}
-            closeModal={closeModal}
-          />
-          <SectionTwo />
+          <SectionOne handleCaseStudyClick={viewer.handleCaseStudyClick} />
+          <SectionTwo handleCaseStudyClick={viewer.handleCaseStudyClick} />
           <SectionThree />
           <SectionFour />
         </Suspense>

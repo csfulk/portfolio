@@ -10,6 +10,7 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
   const handleAuth = () => {
     console.log('Authentication successful');
     console.log('Pending Viewer Props:', pendingViewerPropsRef.current);
+    console.log("handleAuth: calling startTransition & setExpanded");
 
     if (pendingViewerPropsRef.current) {
       spinnerStartRef.current = Date.now();
@@ -23,6 +24,7 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
   };
 
   const openPasswordGate = (viewerProps) => {
+    console.log('openPasswordGate called with viewerProps:', viewerProps);
     console.log('Setting pendingViewerProps:', viewerProps);
     pendingViewerPropsRef.current = viewerProps;
     setModalContent(
@@ -34,11 +36,13 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
   };
 
   const loadViewer = () => {
+    console.log('loadViewer invoked, pending props:', pendingViewerPropsRef.current);
     if (pendingViewerPropsRef.current) {
       const elapsed = Date.now() - spinnerStartRef.current;
       const minDuration = 2000; // minimum spinner time in ms
       const delay = Math.max(0, minDuration - elapsed);
       setTimeout(() => {
+        console.log('loadViewer: setting FeaturedProjectViewer with:', pendingViewerPropsRef.current);
         setModalContent(
           <FeaturedProjectViewer {...pendingViewerPropsRef.current} />,
           true
@@ -47,7 +51,7 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
         completeTransition();
       }, delay);
     } else {
-      console.error('No pendingViewerProps found on loadViewer!');
+
     }
   };
 

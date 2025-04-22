@@ -37,6 +37,7 @@ const useModal = () => {
   return {
     isModalOpen,
     modalContent,
+    setModalContent,
     isExpanded,
     loading,
     transitioning,
