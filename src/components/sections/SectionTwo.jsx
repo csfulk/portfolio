@@ -25,7 +25,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
             iconPosition="leading"
             variant="text"
             className="case-study-button"
-            onClick={() => handleCaseStudyClick('Case Study 1')}
+            onClick={() => handleCaseStudyClick('Apple Case Study 1')}
           />
           <Button
             text="Case Study 2"

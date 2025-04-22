@@ -15,11 +15,17 @@ const caseStudyData = {
     count: 23,
     fileName: 'feature_project_ytms'
   },
+  'Apple Case Study 1': {
+    title: 'YouTube Movies & Shows Case Study',
+    folder: '/assets/apple_case_study_01',
+    count: 13,
+    fileName: 'apple_dev_doc'
+  },
   'Apple Case Study 2': {
     title: 'YouTube Movies & Shows Case Study',
     folder: '/assets/apple_case_study_02',
     count: 13,
-    fileName: 'apple_dev_doc'
+    fileName: 'apple_product'
   }
 };
 
