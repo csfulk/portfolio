@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { ThemeProvider } from './theme/ThemeProvider';
 import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
@@ -11,24 +11,13 @@ import SectionThree from './components/sections/SectionThree';
 import SectionFour from './components/sections/SectionFour';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
-import FeaturedProjectViewer from './components/projectViewer';
 
 const App = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-
-  const openModal = (content) => {
-    setModalContent(content);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    console.log('Closing modal...');
-    setIsModalOpen(false);
-    setModalContent(null);
-  };
-
   const {
+    isModalOpen,
+    modalContent,
+    openModal,
+    closeModal,
     isExpanded,
     loading,
     transitioning,
@@ -45,6 +34,8 @@ const App = () => {
     setExpanded, // Pass setExpanded to useAuth
   });
 
+  console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -58,6 +49,23 @@ const App = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [closeModal]);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    if (isModalOpen) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    }
+    // Cleanup on unmount or when modal closes
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+
   return (
     <ThemeProvider>
       <>
@@ -68,6 +76,7 @@ const App = () => {
             authenticated={authenticated}
             openModal={openModal}
             openPasswordGate={openPasswordGate}
+            closeModal={closeModal}
           />
           <SectionTwo />
           <SectionThree />
@@ -76,11 +85,13 @@ const App = () => {
         <Footer />
         
         {isModalOpen && (
-          <div className="modal-overlay">
+          <div className="modal-overlay" onClick={closeModal}>
             <div
               className={`modal-container ${
                 transitioning ? 'transitioning' : ''
               } ${isExpanded ? 'expanded' : ''}`}
+              onTransitionEnd={completeTransition}
+              onClick={(e) => e.stopPropagation()}
             >
               {loading ? (
                 <div className="loading-spinner">

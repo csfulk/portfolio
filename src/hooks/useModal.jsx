@@ -8,6 +8,8 @@ const useModal = () => {
   const [transitioning, setTransitioning] = useState(false);
 
   const openModal = (content, expanded = false) => {
+    setLoading(false);
+    setTransitioning(false);
     setModalContent(content);
     setModalOpen(true);
     setExpanded(expanded); // Set expanded state based on the argument

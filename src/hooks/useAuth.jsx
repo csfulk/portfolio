@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import ProjectViewer from '../components/projectViewer';
+import FeaturedProjectViewer from '../components/projectViewer';
 import PasswordGate from '../components/PasswordGate';
 
 const useAuth = ({ startTransition, completeTransition, setModalContent, setExpanded }) => {
@@ -12,20 +12,12 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
 
     if (pendingViewerPropsRef.current) {
       setAuthenticated(true);
-      startTransition(); // Show spinner and start transition
-
-      setTimeout(() => {
-        console.log('Expanding modal...');
-        setExpanded(true); // Expand the modal to full screen
-
-        setTimeout(() => {
-          console.log('Loading ProjectViewer...');
-          setModalContent(<ProjectViewer {...pendingViewerPropsRef.current} />);
-          pendingViewerPropsRef.current = null;
-
-          completeTransition(); // Complete the transition
-        }, 500); // Delay to allow the expansion animation to complete
-      }, 1000); // Spinner duration before expanding
+      startTransition(); // show spinner & begin transition
+      setModalContent(
+        <FeaturedProjectViewer {...pendingViewerPropsRef.current} />,
+        true
+      );
+      pendingViewerPropsRef.current = null;
     } else {
       console.error('No pendingViewerProps found!');
     }
