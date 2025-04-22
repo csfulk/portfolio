@@ -31,41 +31,6 @@ body {
   line-height: 1.6;
 }
 
-/* Navigation Styles */
-.navigation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(30, 30, 47, 0.8);
-  color: var(--surface-0);
-  padding: var(--spacing-sm) var(--spacing-md); /* 0.875rem 1rem */
-  opacity: 0;
-  transform: translateY(-1.25rem); /* 20px = --spacing-lg */
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 1000;
-}
-
-.navigation.visible {
-  animation: fadeIn 0.3s ease forwards;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.nav-list {
-  display: flex;
-  gap: var(--spacing-md); /* 1rem */
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item {
-  cursor: pointer;
-  color: var(--surface-0);
-  text-decoration: none;
-}
-
 /* Hero Section Styles */
 /* ==================== */
 .hero {

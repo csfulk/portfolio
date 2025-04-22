@@ -25,6 +25,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-dribbble:before {
+  content: "\e910";
+}
+.icon-linkedin:before {
+  content: "\e911";
+}
+
 .icon-View_hide_light:before {
   content: "\e90c";
 }

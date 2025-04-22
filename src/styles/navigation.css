@@ -1,0 +1,60 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex; /* Use flexbox to align left and right lists */
+  justify-content: space-between; /* Push left and right lists to opposite sides */
+  align-items: center; /* Vertically center the items */
+  color: var(--textNeutralPrimary);
+  padding: var(--spacing-xl) var(--spacing-lg); /* Add padding to constrain content */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+  opacity: 0;
+  transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.navigation.visible {
+  animation: fadeIn 0.3s ease forwards;
+  opacity: 1;
+  transform: translateY(0);
+  padding: var(--spacing-2xl) var(--horizontal-padding);
+}
+
+.nav-list {
+  display: flex;
+  gap: var(--spacing-lg); /* 1rem */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list.left {
+  justify-content: flex-start; /* Align items to the left */
+  
+  
+}
+
+.nav-list.right {
+  justify-content: flex-end; /* Align items to the right */
+
+}
+
+.nav-item {
+  cursor: pointer;
+  color: var(--surface-0);
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: var(--textSecondary); /* Example hover color */
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.nav-item .icon-linkedin {
+  color: var(--textNeutralPrimary); /* Set to white or any desired color */
+}

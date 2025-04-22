@@ -1,4 +1,7 @@
 import React from 'react';
+import { scrollToSection } from '../../scripts/scrollToSection'; // Import the scroll utility
+import '../../styles/icon-font.css'; // Import the icon font styles
+import '../../styles/navigation.css'; // Import navigation styles
 import { useScrollSpy } from '../../features/observer/useScrollSpy';
 
 export const Navigation = () => {
@@ -6,10 +9,22 @@ export const Navigation = () => {
 
   return (
     <nav className={`navigation ${isHeroOutOfView ? 'visible' : ''}`}>
-      <ul className="nav-list">
-        <li className="nav-item">Home</li>
-        <li className="nav-item">About</li>
-        <li className="nav-item">Contact</li>
+      <ul className="nav-list left">
+        <li className="nav-item" onClick={() => scrollToSection('.hero')}>Home</li>
+        <li className="nav-item" onClick={() => scrollToSection('.first-section')}>YouTube</li>
+        <li className="nav-item" onClick={() => scrollToSection('.second-section')}>Apple</li>
+      </ul>
+      <ul className="nav-list right">
+      <li className="nav-item">
+          <a
+            href="https://www.linkedin.com/in/coltfulk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <i className="icon icon-linkedin" aria-hidden="true"></i>
+          </a>
+        </li>
       </ul>
     </nav>
   );
