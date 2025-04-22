@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Ignore images in public/assets
-/public/assets/*
+
