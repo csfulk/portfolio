@@ -18,6 +18,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
         image="/assets/section_02_colt.fulk.apple.webp"
       >
         <div className="button-group-vertical">
+
           <Button
             text="Case Study 1"
             icon="icon-Lock_light"
