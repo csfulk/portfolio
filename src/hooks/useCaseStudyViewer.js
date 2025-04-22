@@ -18,7 +18,7 @@ const caseStudyData = {
   'Apple Case Study 2': {
     title: 'YouTube Movies & Shows Case Study',
     folder: '/assets/apple_case_study_02',
-    count: 10,
+    count: 13,
     fileName: 'apple_dev_doc'
   }
 };
