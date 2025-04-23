@@ -83,10 +83,9 @@ const App = () => {
         <Suspense fallback={<div>Loading sections...</div>}>
           <SectionOne handleCaseStudyClick={viewer.handleCaseStudyClick} />
           <SectionTwo handleCaseStudyClick={viewer.handleCaseStudyClick} />
-          <SectionThree />
-          <SectionFour />
+     
         </Suspense>
-        <Footer />
+
         
         {isModalOpen && (
           <div className="modal-overlay" onClick={closeModal}>

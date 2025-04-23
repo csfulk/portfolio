@@ -25,6 +25,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
             iconPosition="leading"
             variant="text"
             className="case-study-button"
+            detailText="Strategic Redesign of YouTube on TV" // Add detail text
             onClick={() => handleCaseStudyClick('Case Study 1')}
           />
           <Button
@@ -33,6 +34,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
             iconPosition="leading"
             variant="text"
             className="case-study-button"
+            detailText="Improving Customer Journeys for Movies & TV" // Add detail text
             onClick={() => handleCaseStudyClick('Case Study 2')}
           />
         </div>
