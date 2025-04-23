@@ -50,7 +50,7 @@ const App = () => {
   useEffect(() => {
     const imagesToPreload = [
       '/assets/section_01_colt.fulk.youtube.webp', // SectionOne image
-      '/assets/section_02_colt.fulk.example.webp', // SectionTwo image (replace with actual path)
+      '/assets/section_02_colt.fulk.apple.webp', // SectionTwo image (replace with actual path)
       '/assets/password.laugh2.gif', // PasswordGate image
       '/assets/apple_case_study_01/apple_dev_doc_01.webp', // First image from Case Study 1 folder
       '/assets/apple_case_study_02/apple_production_01.webp', // First image from Case Study 2 folder
