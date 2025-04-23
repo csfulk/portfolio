@@ -1,6 +1,7 @@
 import React from 'react';
 import Section from './Section';
 import Button from '../button';
+import { scrollToSection } from '../../scripts/scrollToSection'; // Import the scrollToSection function
 
 const SectionOne = ({ handleCaseStudyClick }) => {
   const description = `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
@@ -11,6 +12,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
     <>
       <Section
         className="first-section"
+        id="youtube-case-study" // Add a unique id for this section
         logo="assets/youtube_google_colt.fulk.webp"
         title="User Experience, Design Systems, Management"
         subtitle="Full-time, 9.5 years spanning 2014 to 2023"
@@ -25,8 +27,10 @@ In 2018, I also led the design system for YouTube on TV. That system still power
             iconPosition="leading"
             variant="text"
             className="case-study-button"
-            detailText="Strategic Redesign of YouTube on TV" // Add detail text
-            onClick={() => handleCaseStudyClick('Case Study 1')}
+            onClick={() => {
+              scrollToSection('.first-section'); // Scroll to this section
+              handleCaseStudyClick('Case Study 1'); // Trigger the existing click handler
+            }}
           />
           <Button
             text="Case Study 2"
@@ -34,8 +38,10 @@ In 2018, I also led the design system for YouTube on TV. That system still power
             iconPosition="leading"
             variant="text"
             className="case-study-button"
-            detailText="Improving Customer Journeys for Movies & TV" // Add detail text
-            onClick={() => handleCaseStudyClick('Case Study 2')}
+            onClick={() => {
+              scrollToSection('.first-section'); // Scroll to this section
+              handleCaseStudyClick('Case Study 2'); // Trigger the existing click handler
+            }}
           />
         </div>
       </Section>
