@@ -18,7 +18,7 @@
   border-radius: 2rem;
   padding: var(--spacing-2xl);
   max-width: 500px;
-  width: 24rem;
+  width: 28rem;
   aspect-ratio: 16 / 9; /* Horizontal aspect ratio */
   display: flex;
   flex-direction: column;
