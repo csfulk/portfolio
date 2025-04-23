@@ -12,7 +12,7 @@ const caseStudyData = {
   'Case Study 2': {
     title: 'YouTube Movies & Shows Case Study',
     folder: '/assets/yt_case_study_01',
-    count: 23,
+    count: 24,
     fileName: 'feature_project_ytms'
   },
   'Apple Case Study 1': {
