@@ -52,8 +52,10 @@ const App = () => {
       '/assets/section_01_colt.fulk.youtube.webp', // SectionOne image
       '/assets/section_02_colt.fulk.example.webp', // SectionTwo image (replace with actual path)
       '/assets/password.laugh2.gif', // PasswordGate image
-      '/assets/case_study_01_image.webp', // First image from Case Study 1 folder
-      '/assets/case_study_02_image.webp', // First image from Case Study 2 folder
+      '/assets/apple_case_study_01/apple_dev_doc_01.webp', // First image from Case Study 1 folder
+      '/assets/apple_case_study_02/apple_production_01.webp', // First image from Case Study 2 folder
+      '/assets/yt_case_study_00/featured_ytlr_01.webp', // First image from Case Study 1 folder
+      '/assets/yt_case_study_01/feature_project_ytms_01.webp', // First image from Case Study 2 folder
     ];
     preloadImages(imagesToPreload);
   }, []);
