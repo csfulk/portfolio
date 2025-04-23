@@ -12,6 +12,7 @@ import SectionFour from './components/sections/SectionFour';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
 import useCaseStudyViewer from './hooks/useCaseStudyViewer';
+import { preloadImages } from './utils/preloadImages'; // Import the preload function
 
 const App = () => {
   const {
@@ -40,10 +41,22 @@ const App = () => {
     openModal,
     closeModal,
     openPasswordGate,
-    loadViewer
+    loadViewer,
   });
 
   console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });
+
+  // Preload images
+  useEffect(() => {
+    const imagesToPreload = [
+      '/assets/section_01_colt.fulk.youtube.webp', // SectionOne image
+      '/assets/section_02_colt.fulk.example.webp', // SectionTwo image (replace with actual path)
+      '/assets/password.laugh2.gif', // PasswordGate image
+      '/assets/case_study_01_image.webp', // First image from Case Study 1 folder
+      '/assets/case_study_02_image.webp', // First image from Case Study 2 folder
+    ];
+    preloadImages(imagesToPreload);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -83,10 +96,8 @@ const App = () => {
         <Suspense fallback={<div>Loading sections...</div>}>
           <SectionOne handleCaseStudyClick={viewer.handleCaseStudyClick} />
           <SectionTwo handleCaseStudyClick={viewer.handleCaseStudyClick} />
-     
         </Suspense>
 
-        
         {isModalOpen && (
           <div className="modal-overlay" onClick={closeModal}>
             <div
