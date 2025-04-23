@@ -98,6 +98,7 @@ const App = () => {
         <Suspense fallback={<div>Loading sections...</div>}>
           <SectionOne handleCaseStudyClick={viewer.handleCaseStudyClick} />
           <SectionTwo handleCaseStudyClick={viewer.handleCaseStudyClick} />
+          <SectionThree handleCaseStudyClick={viewer.handleCaseStudyClick} />
         </Suspense>
 
         {isModalOpen && (
