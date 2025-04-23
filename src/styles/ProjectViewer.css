@@ -90,3 +90,15 @@
   color: var(--textSecondary); /* Use text color token */
   text-align: center;
 }
+
+/* Adjust styles for smaller viewport heights */
+@media (max-height: 800px) {
+  .image-container {
+    max-height: 80vh; /* Limit height to 60% of the viewport height */
+    margin-top: var(--spacing-lg); /* Add space from the top */
+  }
+
+  .project-image {
+    object-fit: contain; /* Ensure the image scales properly */
+  }
+}

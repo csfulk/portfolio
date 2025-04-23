@@ -28,7 +28,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
             className="case-study-button"
             onClick={() => {
               scrollToSection('.second-section'); // Scroll to this section
-              handleCaseStudyClick('Case Study 1'); // Trigger the existing click handler
+              handleCaseStudyClick('Apple Case Study 1'); // Trigger the existing click handler
             }}
           />
           <Button
@@ -39,7 +39,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
             className="case-study-button"
             onClick={() => {
               scrollToSection('.second-section'); // Scroll to this section
-              handleCaseStudyClick('Case Study 2'); // Trigger the existing click handler
+              handleCaseStudyClick('Apple Case Study 2'); // Trigger the existing click handler
             }}
           />
         </div>
