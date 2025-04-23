@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/section.css'; // Import styles for the section
+import { toggleDescription } from '../../scripts/toggleDescription'; // Import the toggleDescription function
 
 const Section = ({
   className = '', // Default to an empty string
@@ -13,10 +14,6 @@ const Section = ({
   children = null, // Default to no custom content
 }) => {
   const [isExpanded, setIsExpanded] = useState(false); // State to toggle description
-
-  const toggleDescription = () => {
-    setIsExpanded(!isExpanded); // Toggle between expanded and truncated
-  };
 
   return (
     <section className={`section ${className}`}>
@@ -41,7 +38,10 @@ const Section = ({
                 </li>
               ))}
             </ul>
-            <button className="toggle-button" onClick={toggleDescription}>
+            <button
+              className="toggle-button"
+              onClick={() => toggleDescription(isExpanded, setIsExpanded)}
+            >
               {isExpanded ? 'Less' : 'Read more'}
             </button>
           </div>
