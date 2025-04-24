@@ -32,7 +32,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
             }}
           />
           <Button
-            text="Case Study 2"
+            text="Design Systems Case Study"
             icon="icon-Lock_light"
             iconPosition="leading"
             variant="text"
