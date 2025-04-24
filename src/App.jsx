@@ -56,6 +56,7 @@ const App = () => {
       '/assets/apple_case_study_02/apple_production_01.webp', // First image from Case Study 2 folder
       '/assets/yt_case_study_00/featured_ytlr_01.webp', // First image from Case Study 1 folder
       '/assets/yt_case_study_01/feature_project_ytms_01.webp', // First image from Case Study 2 folder
+      '/assets/yt_case_study_03/yt_ds_01.webp', 
     ];
     preloadImages(imagesToPreload);
   }, []);
