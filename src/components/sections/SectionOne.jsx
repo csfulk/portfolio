@@ -43,6 +43,17 @@ In 2018, I also led the design system for YouTube on TV. That system still power
               handleCaseStudyClick('Case Study 2'); // Trigger the existing click handler
             }}
           />
+            <Button
+            text="Design Systems Case Study"
+            icon="icon-Lock_light"
+            iconPosition="leading"
+            variant="text"
+            className="case-study-button"
+            onClick={() => {
+              scrollToSection('.first-section'); // Scroll to this section
+              handleCaseStudyClick('Case Study 3'); // Trigger the existing click handler
+            }}
+          />
         </div>
       </Section>
     </>

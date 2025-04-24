@@ -15,14 +15,20 @@ const caseStudyData = {
     count: 24,
     fileName: 'feature_project_ytms'
   },
+  'Case Study 3': {
+    title: 'Design Systems Case Study',
+    folder: '/assets/yt_case_study_03',
+    count: 11,
+    fileName: 'yt_ds'
+  },
   'Apple Case Study 1': {
-    title: 'YouTube Movies & Shows Case Study',
+    title: 'Apple Developer Documentation Case Study',
     folder: '/assets/apple_case_study_01',
     count: 13,
     fileName: 'apple_dev_doc'
   },
   'Apple Case Study 2': {
-    title: 'YouTube Movies & Shows Case Study',
+    title: 'Apple Production Artist Case Study',
     folder: '/assets/apple_case_study_02',
     count: 10,
     fileName: 'apple_production'
