@@ -21,7 +21,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
       >
         <div className="button-group-vertical">
           <Button
-            text="Case Study 1"
+            text="Design Systems Case Study"
             icon="icon-Lock_light"
             iconPosition="leading"
             variant="text"
@@ -32,7 +32,7 @@ const SectionTwo = ({ handleCaseStudyClick }) => {
             }}
           />
           <Button
-            text="Design Systems Case Study"
+            text="Production Artist Case Study"
             icon="icon-Lock_light"
             iconPosition="leading"
             variant="text"
