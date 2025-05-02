@@ -32,6 +32,12 @@ const caseStudyData = {
     folder: '/assets/apple_case_study_02',
     count: 10,
     fileName: 'apple_production'
+  },
+  'Fetch Figma Data': {
+    title: 'Fetch Figma Data App',
+    folder: '/assets/fetch_figma',
+    count: 12,
+    fileName: 'fetch_figma'
   }
 };
 

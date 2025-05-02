@@ -1,8 +1,9 @@
 import React from 'react';
 import Section from './Section';
+import Button from '../button'; // Ensure Button is imported
+import { scrollToSection } from '../../scripts/scrollToSection'; // Import the scrollToSection function
 
-
-const SectionOne = ({ handleCaseStudyClick }) => {
+const SectionThree = ({ handleCaseStudyClick }) => {
   const description = `Before Figma became the industry standard, Sketch was the go-to tool at companies like Google and YouTube. In 2020, as Figma gained traction, I spearheaded Google Europe’s transition to the platform—driving adoption from the ground up while based in Zurich. I worked directly with Figma’s team and partnered with senior leadership to craft a scalable rollout strategy. I led hands-on training across disciplines, aligning designers and engineers, and took point on migrating YouTube’s design libraries from Sketch to Figma—laying the foundation for a new era of collaborative design at scale.`;
 
   return (
@@ -17,10 +18,22 @@ const SectionOne = ({ handleCaseStudyClick }) => {
         bulletPoints={[]}
         image="/assets/section_04_colt.fulk.figma.webp"
       >
-        
+        <div className="button-group-vertical">
+          <Button
+            text="RestAPI: Fetch Figma Data App"
+            icon="icon-Lock_light"
+            iconPosition="leading"
+            variant="text"
+            className="case-study-button"
+            onClick={() => {
+              scrollToSection('.third-section'); // Scroll to this section
+              handleCaseStudyClick('Fetch Figma Data'); // Trigger the existing click handler
+            }}
+          />
+        </div>
       </Section>
     </>
   );
 };
 
-export default SectionOne;
+export default SectionThree;
