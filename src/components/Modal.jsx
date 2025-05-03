@@ -3,23 +3,41 @@ import '../styles/modal.css';
 
 const Modal = ({ children, onClose, onTransitionEnd }) => {
   const containerRef = useRef(null);
+
   useEffect(() => {
-    // Disable scrolling on both <html> and <body>
     const html = document.documentElement;
     const body = document.body;
-
     const originalHtmlOverflow = html.style.overflow;
     const originalBodyOverflow = body.style.overflow;
 
     html.style.overflow = 'hidden';
     body.style.overflow = 'hidden';
 
+    const focusableElements = containerRef.current?.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements?.[0];
+    const lastElement = focusableElements?.[focusableElements.length - 1];
+
+    const trapFocus = (e) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
     containerRef.current?.focus();
+    document.addEventListener('keydown', trapFocus);
 
     return () => {
-      // Restore original overflow styles when the modal is closed
       html.style.overflow = originalHtmlOverflow;
       body.style.overflow = originalBodyOverflow;
+      document.removeEventListener('keydown', trapFocus);
     };
   }, []);
 
@@ -42,7 +60,6 @@ const Modal = ({ children, onClose, onTransitionEnd }) => {
         >
           ×
         </button>
-        {console.log('Modal Children:', children)}
         {children}
       </div>
     </div>

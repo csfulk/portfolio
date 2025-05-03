@@ -59,6 +59,7 @@ export function useCaseStudyViewer({
   loadViewer
 }) {
   const handleCaseStudyClick = React.useCallback((key) => {
+    console.log(`handleCaseStudyClick invoked with key: ${key}`);
     // Scroll to the section
     const sectionEl = document.querySelector(`[data-section-key="${key}"]`);
     sectionEl?.scrollIntoView({ behavior: 'smooth' });
@@ -86,5 +87,7 @@ export function useCaseStudyViewer({
     loadViewer
   };
 }
+
+export { caseStudyData };
 
 export default useCaseStudyViewer;

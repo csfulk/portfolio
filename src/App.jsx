@@ -5,14 +5,12 @@ import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
 import Hero from './components/Hero';
 import Modal from './components/Modal';
-import SectionOne from './components/sections/SectionOne';
-import SectionTwo from './components/sections/SectionTwo';
-import SectionThree from './components/sections/SectionThree';
-import SectionFour from './components/sections/SectionFour';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
-import useCaseStudyViewer from './hooks/useCaseStudyViewer';
+import useCaseStudyViewer, { caseStudyData } from './hooks/useCaseStudyViewer'; // Import caseStudyData
 import { preloadImages } from './utils/preloadImages'; // Import the preload function
+import { sectionsData } from './sectionsData';
+import SectionWrapper from './components/sections/SectionWrapper';
 
 const App = () => {
   const {
@@ -97,9 +95,14 @@ const App = () => {
         <Navigation />
         <Hero />
         <Suspense fallback={<div>Loading sections...</div>}>
-          <SectionOne handleCaseStudyClick={viewer.handleCaseStudyClick} />
-          <SectionTwo handleCaseStudyClick={viewer.handleCaseStudyClick} />
-          <SectionThree handleCaseStudyClick={viewer.handleCaseStudyClick} />
+          {sectionsData.map((section) => (
+            <SectionWrapper
+              key={section.id}
+              section={section}
+              handleCaseStudyClick={viewer.handleCaseStudyClick}
+              caseStudyData={caseStudyData} // Pass caseStudyData as a prop
+            />
+          ))}
         </Suspense>
 
         {isModalOpen && (

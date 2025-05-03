@@ -1,0 +1,102 @@
+import React, { useState, useEffect, useRef } from 'react';
+import Button from '../button';
+import { toggleDescription } from '../../scripts/toggleDescription';
+import '../../styles/section.css';
+
+const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
+  if (!section) {
+    console.error('Section data is undefined');
+    return null;
+  }
+
+  const { id, className, logo, title, subtitle, description, bulletPoints = [], image, buttons = [] } = section;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const descriptionRef = useRef(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const { scrollHeight, clientHeight } = descriptionRef.current;
+      setIsTruncated(scrollHeight > clientHeight);
+    }
+  }, [description]);
+
+  const toggleDescriptionHandler = () => {
+    toggleDescription(isExpanded, setIsExpanded);
+  };
+
+  return (
+    <section id={id} className={`section ${className || ''}`}>
+      <div className="section-content">
+        {/* Left Column */}
+        <div className="section-left">
+          {logo && (
+            <div className="logo-title-wrapper">
+              <img src={logo} alt="Logo" className="section-logo" />
+            </div>
+          )}
+          {title && <h1 className="section-title">{title}</h1>}
+          {subtitle && <h2 className="section-subtitle">{subtitle}</h2>}
+          {description && (
+            <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
+              <div
+                className={`section-description-container ${isExpanded ? 'expanded' : 'truncated'}`}
+                ref={descriptionRef}
+                style={{ maxHeight: isExpanded ? 'none' : '5.4em' }} // 3 lines * 1.8em line height
+              >
+                {description.split('\n').map((paragraph, index) => (
+                  <p key={index} className="section-description">{paragraph.trim()}</p>
+                ))}
+                {bulletPoints.length > 0 && (
+                  <ul className="section-bullets">
+                    {bulletPoints.map((point, index) => (
+                      <li key={index} className="section-bullet">{point}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              {isTruncated && (
+                <button
+                  className="toggle-button"
+                  onClick={toggleDescriptionHandler}
+                >
+                  {isExpanded ? 'Read less' : 'Read more'}
+                </button>
+              )}
+            </div>
+          )}
+          {buttons.length > 0 && (
+            <div className="button-group-vertical">
+              {buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  text={button.text}
+                  icon={button.icon}
+                  iconPosition="leading"
+                  variant="text"
+                  className="case-study-button"
+                  onClick={() => {
+                    if (caseStudyData[button.action]) {
+                      handleCaseStudyClick(button.action);
+                    } else {
+                      window.open(button.action, '_blank');
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right Column */}
+        {image && (
+          <div className="section-right">
+            <img src={image} alt={title} className="section-image" />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default SectionWrapper;

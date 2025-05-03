@@ -118,6 +118,24 @@
   -webkit-box-orient: vertical;
 }
 
+/* Ensure truncation applies to section-description elements */
+.section-description-container.truncated .section-description {
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important; /* Limit to 3 lines */
+  -webkit-box-orient: vertical !important;
+  max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */
+}
+
+/* Ensure truncation applies directly to section-description elements */
+.section-description-container.truncated .section-description {
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important; /* Limit to 3 lines */
+  -webkit-box-orient: vertical !important;
+  max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */
+}
+
 /* Description text */
 .section-description p {
   margin-bottom: var(--spacing-sm);
@@ -156,7 +174,7 @@
 
 /* Toggle button */
 .toggle-button {
-  position: relative; /* Change to relative positioning */
+  text-align: left; /* Align the button to the left */
   margin-top: var(--spacing-sm); /* Add spacing above the button */
   background: none;
   border: none;
@@ -166,7 +184,6 @@
   cursor: pointer;
   padding: 0;
   z-index: 1; /* Ensure the button is above other elements */
-  text-align: right;
 }
 
 /* Adjust toggle button for expanded state */
