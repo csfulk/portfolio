@@ -5,9 +5,11 @@ export const sectionsData = [
     logo: 'assets/youtube_google_colt.fulk.webp',
     title: 'User Experience, Design Systems, Management',
     subtitle: 'Full-time, 9.5 years spanning 2014 to 2023',
-    description: `At YouTube, I grew from an independent contributor to a design lead, shaping product experiences used by billions. I led design across TV, web, mobile, tablet, and voice—bringing clarity and cohesion to a complex, fast-moving ecosystem.
-One standout chapter was leading the Movies & Shows team, where I scaled design from a single storefront to five globally, helping grow subscriptions from 68 million to over 180 million. It was a mix of strategic thinking and hands-on design—aligning business goals with what people actually enjoy using.
-In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make it the #1 rated streaming app on Nielsen.`,
+    description: `At YouTube, I went from an IC to a design lead—driving product across TV, mobile, web, tablet, and voice. I helped unify a fast-evolving, multi-surface ecosystem into something clear and consistent.
+
+One of the most impactful chapters was leading design for the Movies & Shows team. I scaled design from one storefront to five globally, helping grow subscriptions from 68M to 180M+. I balanced strategy with hands-on design—aligning business goals with what people actually enjoy using.
+
+In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make YouTube the #1 rated streaming app on Nielsen.`,
     bulletPoints: [],
     image: '/assets/section_01_colt.fulk.youtube.webp',
     buttons: [
@@ -55,9 +57,11 @@ In 2018, I also led the design system for YouTube on TV. That system still power
     id: 'figma-case-study',
     className: 'third-section',
     logo: 'assets/figma-google.colt.fulk.webp',
-    title: 'Figma Evangelist & Partnership Specialist',
-    subtitle: '2020—2022',
-    description: `Before Figma became the industry standard, Sketch was the go-to tool at companies like Google and YouTube. In 2020, as Figma gained traction, I spearheaded Google Europe’s transition to the platform—driving adoption from the ground up while based in Zurich. I worked directly with Figma’s team and partnered with senior leadership to craft a scalable rollout strategy. I led hands-on training across disciplines, aligning designers and engineers, and took point on migrating YouTube’s design libraries from Sketch to Figma—laying the foundation for a new era of collaborative design at scale.`,
+    title: 'Figma Specialist — Strategy, Systems, Plugins',
+    subtitle: '2020—Present',
+    description: `Before Figma became the industry standard, Sketch was still the default at companies like Google and YouTube. In 2020, as momentum shifted, I led the transition to Figma across Google Europe—spearheading adoption from the ground up while based in Zurich.
+
+I partnered closely with Figma’s team and senior leadership to develop a scalable rollout strategy. I led hands-on training sessions across disciplines, aligned designers and engineers around shared workflows, and oversaw the migration of YouTube’s design libraries—laying the groundwork for a more collaborative, systematized approach to design at scale.`,
     bulletPoints: [],
     image: '/assets/section_04_colt.fulk.figma.webp',
     buttons: [

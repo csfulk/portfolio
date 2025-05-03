@@ -109,13 +109,19 @@
   text-overflow: ellipsis;
   white-space: normal;
   transition: all 0.3s ease;
+  
 }
 
-.section-description:not(.expanded) {
+.section-description-container.collapsed .section-description {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical;
+}
+
+.section-description-container.expanded .section-description {
+  overflow: visible;
+  display: block; /* Remove truncation styles */
 }
 
 /* Ensure truncation applies to section-description elements */
@@ -138,18 +144,29 @@
 
 /* Description text */
 .section-description p {
-  margin-bottom: var(--spacing-sm);
   line-height: 1.8; /* Improve line spacing */
   word-wrap: break-word; /* Ensure long words break to the next line */
   color: var(--textPrimarySection); /* Ensure consistent text color */
 }
 
+.section-description-container .section-description p {
+  margin-bottom: var(--spacing-md) !important; /* Force spacing between paragraphs */
+  line-height: 1.8; /* Improve line spacing */
+  word-wrap: break-word; /* Ensure long words break to the next line */
+}
+
 /* Description container */
 .section-description-container {
-  position: relative;
-  max-height: none; /* Let React control this with inline styles */
-  overflow: hidden; /* Hide overflowing text and bullet points */
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and natural easing */
+  overflow: hidden;
+  transition: height 0.3s ease; /* Use height for transitions */
+}
+
+.section-description-container.collapsed {
+  height: 5.4em; /* 3 lines * 1.8em line height */
+}
+
+.section-description-container.expanded {
+  height: auto; /* Allow full expansion */
 }
 
 /* Gradient effect for truncated description */
@@ -169,7 +186,13 @@
 .section-description-container.expanded {
   max-height: none; /* Allow JS to dynamically assign the height using scrollHeight */
   overflow: visible; /* Allow full content to be visible */
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and natural easing */
+  transition: max-height 0.3s ease; /* Smooth and natural easing */
+}
+
+.section-description-container.expanded-height {
+  height: auto; /* Allow full expansion */
+  max-height: none; /* Remove any max-height restrictions */
+  transition: height 0.3s ease; /* Smooth transition for height */
 }
 
 /* Toggle button */
@@ -244,6 +267,13 @@
   align-items: flex-start; /* Center buttons vertically */
   flex-direction: column; /* Stack buttons vertically */
   gap: var(--spacing-md); /* Add spacing between buttons */
+}
 
+.section:last-of-type {
+  position: relative;
+  padding-bottom: 0; /* Default padding */
+  transition: padding-bottom 0.3s ease;
+  margin-bottom: 0; /* Remove any default margin */
+  padding-bottom: var(--spacing-xl); /* Add consistent spacing to the footer */
 }
 

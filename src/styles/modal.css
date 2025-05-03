@@ -14,7 +14,7 @@
 
 /* Modal container */
 .modal-container {
-  background: var(--surface-modal, #fff);
+  background: var(--surfaceModal, #1d1d1d); /* Use CSS variable for background color */
   border-radius: var(--border-radius-lg, 2rem);
   padding: var(--spacing-2xl, 2rem);
   max-width: var(--modal-max-width, 500px);

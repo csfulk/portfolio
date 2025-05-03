@@ -124,6 +124,7 @@ const App = () => {
             </div>
           </div>
         )}
+        <Footer />
       </>
     </ThemeProvider>
   );

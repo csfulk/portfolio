@@ -12,6 +12,7 @@
   
   --textPrimary: #1D1D1D;
   --textSecondary: #757575;
+  --textTertiary: #5a5a5a;
   --textNeutralPrimary: #ffffff;
   --textPrimarySection:#f5f5f5;
   --textSecdonarySection:#a1a1a1;
@@ -136,6 +137,6 @@ caption {
 h1, h2, h3, h4, h5, h6, p, small, caption {
   margin: 0;
   font-family: var(--font-family-primary);
-  color: var(--textPrimary);
   font-weight: 400;
+  margin-bottom: var(--spacing-sm); /* Increase spacing between paragraphs to spacing/sm size */
 }

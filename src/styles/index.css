@@ -107,3 +107,12 @@ body {
   grid-template-columns: repeat(3, 1fr);
 }
 
+/* Footer Styles */
+/* ============= */
+.footer {
+  background-color: var(--surfaceSection);
+  color: var(--textTertiary);
+  text-align: left;
+  padding: var(--spacing-4xl) var(--horizontal-padding); /* Use the shared padding variable */
+}
+
