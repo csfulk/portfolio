@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '../button';
 import { toggleDescription } from '../../scripts/toggleDescription';
+import { scrollToSection } from '../../scripts/scrollToSection';
 import '../../styles/section.css';
 
 const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
@@ -129,10 +130,14 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   variant="text"
                   className="case-study-button"
                   onClick={() => {
+                    const sectionElement = document.querySelector(`#${id}`);
+                    if (sectionElement) {
+                      scrollToSection(`#${id}`); // Scroll the section into view
+                    }
                     if (caseStudyData[button.action]) {
-                      handleCaseStudyClick(button.action);
+                      handleCaseStudyClick(button.action); // Open the modal for PasswordGate
                     } else {
-                      window.open(button.action, '_blank');
+                      window.open(button.action, '_blank'); // Open external link if no matching case study
                     }
                   }}
                 />
