@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import '../styles/modal.css';
+import FeaturedProjectViewer from './projectViewer';
 
 const Modal = ({
   isModalOpen,
@@ -51,29 +52,50 @@ const Modal = ({
     }
   }, [transitioning, loadViewer]);
 
+  useEffect(() => {
+    console.log('Modal visibility updated:', { isModalOpen });
+  }, [isModalOpen]);
+
+  if (!isModalOpen) {
+    console.log('Modal is unmounted because isModalOpen is false.');
+    return null; // Force unmounting of the modal
+  }
+
+  if (!modalContent) {
+    console.error('Modal content is null or undefined.');
+    return null;
+  }
+
   return (
-    isModalOpen && (
-      <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
-        <div
-          className={`modal-container ${
-            isModalOpen ? 'visible' : ''
-          } ${transitioning ? 'transitioning' : ''} ${isExpanded ? 'expanded' : ''}`}
-          onTransitionEnd={() => {
-            console.log('onTransitionEnd event fired. Invoking loadViewer.');
-            loadViewer();
+    <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
+      <div
+        className={`modal-container ${
+          isModalOpen ? 'visible' : ''
+        } ${transitioning ? 'transitioning' : ''} ${isExpanded ? 'expanded' : ''}`}
+        onTransitionEnd={() => {
+          console.log('onTransitionEnd event fired. Invoking loadViewer.');
+          loadViewer();
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {loading ? (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          modalContent
+        )}
+        {/* Pass closeModal to FeaturedProjectViewer */}
+        <FeaturedProjectViewer 
+          key={modalContent.key} // Explicitly pass the key prop
+          {...modalContent} 
+          onClose={() => {
+            console.log('Closing modal from FeaturedProjectViewer.');
+            closeModal();
           }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {loading ? (
-            <div className="loading-spinner">
-              <div className="spinner"></div>
-            </div>
-          ) : (
-            modalContent
-          )}
-        </div>
+        />
       </div>
-    )
+    </div>
   );
 };
 

@@ -9,6 +9,11 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
 
   const containerRef = useRef(null);
 
+  if (!images || images.length === 0) {
+    console.error('No images provided to FeaturedProjectViewer.');
+    return <div>No images available.</div>;
+  }
+
   const showPrevious = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
@@ -88,7 +93,8 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
         aria-label="Close dialog"
         onClick={(e) => {
           e.stopPropagation();
-          onClose();
+          console.log('Close button clicked in FeaturedProjectViewer. Triggering onClose.');
+          onClose(); // Call the closeModal function passed as a prop
         }}
       >
         ×
