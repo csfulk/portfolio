@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import FeaturedProjectViewer from '../components/projectViewer';
-import PasswordGate from '../components/passwordGate';
+import PasswordGate from '../components/PasswordGate';
 
 const useAuth = ({ startTransition, completeTransition, setModalContent, setExpanded }) => {
   const [authenticated, setAuthenticated] = useState(false);
