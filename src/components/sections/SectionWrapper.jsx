@@ -28,7 +28,6 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
       if (descriptionRef.current) {
         const { scrollHeight, clientHeight } = descriptionRef.current;
         const truncated = scrollHeight > clientHeight;
-        console.log(`Section ID: ${id}, Description: ${description}, scrollHeight: ${scrollHeight}, clientHeight: ${clientHeight}, isTruncated: ${truncated}`);
         setIsTruncated(truncated);
       }
     }, 100); // Add a slight delay to ensure layout is rendered
@@ -40,7 +39,6 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
     if (!isExpanded && descriptionRef.current) {
       const { scrollHeight, clientHeight } = descriptionRef.current;
       const truncated = scrollHeight >= clientHeight; // Adjusted logic to include exact fits
-      console.log(`Section ID: ${id}, scrollHeight: ${scrollHeight}, clientHeight: ${clientHeight}, isInitiallyTruncated: ${truncated}`);
       setIsInitiallyTruncated(truncated);
     }
   }, [description]); // Only recalculate when the description changes
@@ -56,7 +54,6 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
   const toggleDescriptionHandler = () => {
     if (descriptionRef.current) {
       const container = descriptionRef.current;
-      console.log(`Before toggle: isExpanded=${isExpanded}, container styles:`, container.style);
       if (isExpanded) {
         container.classList.remove('expanded');
         container.classList.add('collapsed');
@@ -73,7 +70,6 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
         container.style.webkitBoxOrient = 'unset';
       }
       setIsExpanded(!isExpanded); // Toggle the expanded state
-      console.log(`After toggle: isExpanded=${!isExpanded}, container styles:`, container.style);
     } else {
       console.error('Description container ref is null');
     }
@@ -130,10 +126,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   variant="text"
                   className="case-study-button"
                   onClick={() => {
-                    console.log('Button clicked:', button.action);
-                    console.log('Case study data:', caseStudyData[button.action]);
                     if (caseStudyData[button.action]) {
-                      console.log('Opening PasswordGate with viewerProps:', caseStudyData[button.action]);
                       const sectionElement = document.querySelector(`#${id}`);
                       if (sectionElement) {
                         scrollToSection(`#${id}`); // Scroll the section into view
