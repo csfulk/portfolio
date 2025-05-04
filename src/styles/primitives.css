@@ -65,6 +65,8 @@
   --radius-md: 4px;
   --radius-lg: 8px;
   --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
   --radius-full: 1000px;
 
   --font-family-primary: 'Inter Tight', sans-serif;

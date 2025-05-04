@@ -126,17 +126,8 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   variant="text"
                   className="case-study-button"
                   onClick={() => {
-                    if (caseStudyData[button.action]) {
-                      const sectionElement = document.querySelector(`#${id}`);
-                      if (sectionElement) {
-                        scrollToSection(`#${id}`); // Scroll the section into view
-                      }
-                      if (caseStudyData[button.action]) {
-                        handleCaseStudyClick(button.action); // Open the modal for PasswordGate
-                      } else {
-                        window.open(button.action, '_blank'); // Open external link if no matching case study
-                      }
-                    }
+                    console.log('Button clicked with action:', button.action);
+                    handleCaseStudyClick(button.action);
                   }}
                 />
               ))}

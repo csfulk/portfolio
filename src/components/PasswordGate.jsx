@@ -19,6 +19,10 @@ const PasswordGate = ({ onAuth }) => {
 
     if (password === sitePassword) {
       onAuth(password); // Trigger authentication logic with entered password
+      setCaption('Authentication successful! Redirecting...'); // Add success message
+      setTimeout(() => {
+        setCaption(''); // Clear caption after a delay
+      }, 2000);
     } else {
       setCaption('Incorrect password. Please try again.');
       setIsError(true);

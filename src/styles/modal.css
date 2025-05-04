@@ -3,8 +3,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100vw !important;
+  height: 100vh !important;
   background: var(--surfaceOverlay); /* Use CSS variable for opacity */
   display: flex;
   justify-content: center;
@@ -14,22 +14,23 @@
 
 /* Modal container */
 .modal-container {
-  background: var(--surfaceModal, #1d1d1d); /* Use CSS variable for background color */
-  border-radius: var(--border-radius-lg, 2rem);
-  padding: var(--spacing-2xl, 2rem);
-  max-width: var(--modal-max-width, 500px);
-  width: var(--modal-width, 28rem);
-  aspect-ratio: var(--modal-aspect-ratio, 16 / 9);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-2xl); /* Adjusted for more balanced corners */
+  background-color: var(--surfaceModal);
+  box-shadow: var(--box-shadow-modal);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-xl, 1.5rem);
-  box-shadow: var(--box-shadow-modal, 0 4px 10px rgba(0, 0, 0, 0.2));
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: var(--z-index-modal-content, 1001);
-  opacity: 0;
-  transform: translateY(-1.25rem);
+}
+
+.modal-container.password-gate-modal {
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-xl);
+  background-color: var(--surfaceModal);
+  box-shadow: var(--box-shadow-modal);
 }
 
 /* Transitioning state */
@@ -41,14 +42,12 @@
 .modal-container.expanded {
   width: 100vw;
   height: 100vh;
-  max-width: none;
-  max-height: none;
   border-radius: 0;
   padding: 0;
-  box-shadow: none;
-  opacity: 1;
-  aspect-ratio: auto;
-  transform: scale(1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
 }
 
 /* Close button */

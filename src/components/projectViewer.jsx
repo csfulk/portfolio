@@ -10,7 +10,7 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
   const containerRef = useRef(null);
 
   if (!images || images.length === 0) {
-    console.error('No images provided to FeaturedProjectViewer.');
+    console.error('No images provided to FeaturedProjectViewer. Ensure the `images` array is passed correctly.');
     return <div>No images available.</div>;
   }
 

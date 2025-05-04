@@ -8,11 +8,12 @@ const useModal = () => {
   const [transitioning, setTransitioning] = useState(false);
 
   const openModal = (content, expanded = false) => {
+    console.log('openModal called with content:', content);
     setLoading(false);
     setTransitioning(false);
     setModalContent(content);
     setModalOpen(true);
-    setExpanded(expanded); // Set expanded state based on the argument
+    setExpanded(expanded);
   };
 
   const closeModal = () => {
@@ -32,21 +33,26 @@ const useModal = () => {
     setLoading(false);
     setTransitioning(false);
     setExpanded(true);
+    console.log('Transition complete. Modal is now expanded.');
+  };
+
+  const loadViewer = () => {
+    console.log('Viewer content is being loaded.');
+    // Add any additional logic for loading the viewer content here
   };
 
   return {
     isModalOpen,
     modalContent,
-    setModalContent,
     isExpanded,
     loading,
     transitioning,
     openModal,
     closeModal,
-    setExpanded,
-    setLoading,
     startTransition,
     completeTransition,
+    loadViewer, // Add loadViewer to the returned object
+    setExpanded,
   };
 };
 

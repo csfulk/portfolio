@@ -25,9 +25,10 @@ const App = () => {
     setLoading,
     startTransition,
     completeTransition,
+    loadViewer, // Extract loadViewer from useModal
   } = useModal();
 
-  const { authenticated, openPasswordGate, loadViewer } = useAuth({
+  const { authenticated, authenticateAndOpenViewer } = useAuth({
     startTransition,
     completeTransition,
     setModalContent: openModal,
@@ -35,11 +36,7 @@ const App = () => {
   });
 
   const viewer = useCaseStudyViewer({
-    authenticated,
-    openModal,
-    closeModal,
-    openPasswordGate,
-    loadViewer,
+    authenticateAndOpenViewer,
   });
 
   console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });

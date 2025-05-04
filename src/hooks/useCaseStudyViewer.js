@@ -41,53 +41,36 @@ const caseStudyData = {
   }
 };
 
-/**
- * Creates a handler for case study logic.
- * @param {Object} api - An object containing modal and auth methods and flags.
- * @param {boolean} api.authenticated - Whether the user has already been authenticated.
- * @param {function} api.openModal - Function to open the modal: openModal(content, expanded).
- * @param {function} api.closeModal - Function to close the modal.
- * @param {function} api.openPasswordGate - Function to open the password gate: openPasswordGate(viewerProps).
- * @param {function} api.loadViewer - Function to load the project viewer after transition.
- * @returns {{ handleCaseStudyClick: function, loadViewer: function }}
- */
-export function useCaseStudyViewer({
-  authenticated,
-  openModal,
-  closeModal,
-  openPasswordGate,
-  loadViewer
-}) {
+export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
   const handleCaseStudyClick = React.useCallback((key) => {
-    console.log(`handleCaseStudyClick invoked with key: ${key}`);
-    // Scroll to the section
-    const sectionEl = document.querySelector(`[data-section-key="${key}"]`);
-    sectionEl?.scrollIntoView({ behavior: 'smooth' });
-
-    // Prepare viewerProps
+    console.log('handleCaseStudyClick called with key:', key);
     const cs = caseStudyData[key];
-    if (!cs) return;
+    if (!cs) {
+      console.error(`Invalid key passed to handleCaseStudyClick: ${key}. No matching case study found.`);
+      return;
+    }
+
     const { title, folder, count, fileName } = cs;
     const images = Array.from({ length: count }, (_, i) =>
       `${folder}/${fileName}_${String(i + 1).padStart(2, '0')}.webp`
     );
-    const viewerProps = { title, images, onClose: closeModal };
 
-    if (authenticated) {
-      // Show viewer directly in expanded modal
-      openModal(React.createElement(ProjectViewer, viewerProps), true);
-    } else {
-      // Trigger password gate flow
-      openPasswordGate(viewerProps);
+    if (!images || images.length === 0) {
+      console.error(`No images generated for key: ${key}. Check caseStudyData or image generation logic.`);
+      return;
     }
-  }, [authenticated, openModal, openPasswordGate, closeModal]);
+
+    const viewerProps = { title, images };
+
+    console.log('Generated viewerProps:', { title, images });
+
+    authenticateAndOpenViewer(viewerProps);
+  }, [authenticateAndOpenViewer]);
 
   return {
     handleCaseStudyClick,
-    loadViewer
   };
 }
 
 export { caseStudyData };
-
 export default useCaseStudyViewer;
