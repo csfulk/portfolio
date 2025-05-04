@@ -8,7 +8,7 @@
     padding: var(--spacing-md); /* Adjust padding for tablets */
   }
 
-  .hero .overlay {
+  .hero .content-wrapper {
     padding-left: var(--spacing-4xl); /* Adjust padding for tablets */
   }
 }
@@ -27,7 +27,7 @@
     grid-template-columns: 1fr; /* Single column for smaller screens */
   }
 
-  .hero .overlay {
+  .hero .content-wrapper {
     padding-left: var(--spacing-3xl); /* Adjust padding for mobile */
   }
 }
@@ -42,7 +42,7 @@
     padding: var(--spacing-sm); /* Adjust padding for small screens */
   }
 
-  .hero .overlay {
+  .hero .content-wrapper {
     padding-left: var(--spacing-md); /* Adjust padding for small screens */
   }
 }

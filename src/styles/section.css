@@ -62,9 +62,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--spacing-2xl); /* Space between items */
+  gap: var(--spacing-lg); /* Space between items */
   padding-left: var(--horizontal-padding); /* Use the shared padding variable */
-  padding-top: 200px;
   box-sizing: border-box; /* Ensure padding is included in the width */
   overflow-y: visible; /* Allow the left column to grow dynamically */
 }

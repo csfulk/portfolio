@@ -52,7 +52,7 @@ body {
   overflow: hidden; /* Prevent overflow */
 }
 
-.hero .overlay {
+.hero .content-wrapper {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   justify-content: center; /* Center elements vertically */

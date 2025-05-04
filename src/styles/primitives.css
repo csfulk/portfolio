@@ -9,6 +9,7 @@
   --surface-2: #e0e0e0;
   --surfaceSection:#000000;
   --surfaceModal:#1D1D1D;
+  --surfaceOverlay: rgba(0, 0, 0, 0.84);
   
   --textPrimary: #1D1D1D;
   --textSecondary: #757575;
@@ -139,4 +140,12 @@ h1, h2, h3, h4, h5, h6, p, small, caption {
   font-family: var(--font-family-primary);
   font-weight: 400;
   margin-bottom: var(--spacing-sm); /* Increase spacing between paragraphs to spacing/sm size */
+}
+
+/* Ensure elements using --surfaceOverlay have blur effect */
+.overlay {
+  background-color: var(--surfaceOverlay);
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  position: relative; /* Ensure proper stacking context */
 }

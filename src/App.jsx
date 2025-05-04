@@ -105,25 +105,15 @@ const App = () => {
           ))}
         </Suspense>
 
-        {isModalOpen && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div
-              className={`modal-container ${
-                transitioning ? 'transitioning' : ''
-              } ${isExpanded ? 'expanded' : ''}`}
-              onTransitionEnd={loadViewer}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {loading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                </div>
-              ) : (
-                modalContent
-              )}
-            </div>
-          </div>
-        )}
+        <Modal
+          isModalOpen={isModalOpen}
+          modalContent={modalContent}
+          closeModal={closeModal}
+          transitioning={transitioning}
+          isExpanded={isExpanded}
+          loadViewer={loadViewer}
+          loading={loading}
+        />
         <Footer />
       </>
     </ThemeProvider>

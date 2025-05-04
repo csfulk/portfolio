@@ -5,7 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, var(--overlay-opacity, 0.8)); /* Use CSS variable for opacity */
+  background: var(--surfaceOverlay); /* Use CSS variable for opacity */
   display: flex;
   justify-content: center;
   align-items: center;

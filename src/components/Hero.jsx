@@ -5,9 +5,9 @@ import { scrollToSection } from '../scripts/scrollToSection'; // Import the scro
 const Hero = () => {
   return (
     <section className="hero">
-      <div className="overlay">
+      <div className="content-wrapper">
         <h1 className="title">
-          Colt uses design thinking to craft robust UI systems for world-class interfaces
+          Colt uses design thinking to craft world-class UI systems
         </h1>
         
         <div className='detail-wrapper'>

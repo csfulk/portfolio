@@ -57,7 +57,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
     id: 'figma-case-study',
     className: 'third-section',
     logo: 'assets/figma-google.colt.fulk.webp',
-    title: 'Figma Specialist — Strategy, Systems, Plugins',
+    title: 'Figma Evangelist — Systems, Development, Plugins',
     subtitle: '2020—Present',
     description: `Before Figma became the industry standard, Sketch was still the default at companies like Google and YouTube. In 2020, as momentum shifted, I led the transition to Figma across Google Europe—spearheading adoption from the ground up while based in Zurich.
 
