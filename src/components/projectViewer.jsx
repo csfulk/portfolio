@@ -69,8 +69,8 @@ const FeaturedProjectViewer = ({ title, images, onClose }) => {
   }, []);
 
   useEffect(() => {
-    // trigger fade-in once the viewer mounts
-    const timer = setTimeout(() => setContentVisible(true), 0);
+    // Trigger fade-in once the viewer mounts
+    const timer = setTimeout(() => setContentVisible(true), 100); // Add slight delay for smoother transition
     return () => clearTimeout(timer);
   }, []);
 

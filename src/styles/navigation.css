@@ -1,3 +1,14 @@
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .navigation {
   position: fixed;
   top: 0;
@@ -17,7 +28,7 @@
 }
 
 .navigation.visible {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fade 0.3s ease forwards;
   opacity: 1;
   pointer-events: auto; /* Allow interaction when visible */
   transform: translateY(0);

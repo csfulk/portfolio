@@ -37,22 +37,24 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
 
   const loadViewer = () => {
     console.log('loadViewer invoked, pending props:', pendingViewerPropsRef.current);
-    if (pendingViewerPropsRef.current) {
-      const elapsed = Date.now() - spinnerStartRef.current;
-      const minDuration = 2000; // minimum spinner time in ms
-      const delay = Math.max(0, minDuration - elapsed);
-      setTimeout(() => {
-        console.log('loadViewer: setting FeaturedProjectViewer with:', pendingViewerPropsRef.current);
-        setModalContent(
-          <FeaturedProjectViewer {...pendingViewerPropsRef.current} />,
-          true
-        );
-        pendingViewerPropsRef.current = null;
-        completeTransition();
-      }, delay);
-    } else {
-
+    if (!pendingViewerPropsRef.current) {
+      console.error('loadViewer: No pendingViewerProps found!');
+      return;
     }
+
+    console.log('loadViewer: Setting FeaturedProjectViewer as modal content with props:', pendingViewerPropsRef.current);
+    setModalContent(
+      <FeaturedProjectViewer
+        title={pendingViewerPropsRef.current.title}
+        images={pendingViewerPropsRef.current.images}
+        onClose={() => {
+          console.log('Viewer closed');
+          setModalContent(null);
+        }}
+      />
+    );
+    pendingViewerPropsRef.current = null;
+    completeTransition();
   };
 
   return {

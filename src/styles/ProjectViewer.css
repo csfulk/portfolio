@@ -21,7 +21,8 @@
   overflow: hidden;
   border-radius: var(--radius-lg); /* Use border-radius token */
   opacity: 0;
-  transition: opacity 0.4s ease-in;
+  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+  transform: scale(0.95); /* Add scale for smoother transition */
 }
 
 .project-image {
@@ -83,6 +84,7 @@
 
 .image-container.visible {
   opacity: 1;
+  transform: scale(1); /* Reset scale when visible */
 }
 
 .keyboard-instructions {

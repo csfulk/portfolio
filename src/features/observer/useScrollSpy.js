@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 
-export const useScrollSpy = (threshold = 0.05) => {
-  const [isHeroOutOfView, setIsHeroOutOfView] = useState(false);
+export const useScrollSpy = () => {
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const hero = document.querySelector('.hero');
-      if (!hero) return;
+    const hero = document.querySelector('.hero');
+    const navigation = document.querySelector('.navigation');
 
-      const heroRect = hero.getBoundingClientRect();
-      const heroBottom = heroRect.bottom;
+    if (!hero || !navigation) return;
 
-      // Check if the hero is nearly out of view (5% or less visible)
-      const isOutOfView = heroBottom <= window.innerHeight * threshold;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(false); // Hero is in view, hide navigation
+        } else {
+          setIsVisible(true); // Hero is out of view, show navigation
+        }
+      },
+      { threshold: 0.01 } // Trigger when 10% of the hero is visible
+    );
 
-      setIsHeroOutOfView(isOutOfView);
-    };
+    observer.observe(hero);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [threshold]);
+    return () => observer.disconnect();
+  }, []);
 
-  return isHeroOutOfView;
+  return isVisible;
 };

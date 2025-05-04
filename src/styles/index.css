@@ -19,6 +19,17 @@
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  }
+}
+
 body, html {
   margin: 0;
   padding: 0;

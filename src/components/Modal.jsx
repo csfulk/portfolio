@@ -39,14 +39,29 @@ const Modal = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [closeModal]);
 
+  useEffect(() => {
+    if (transitioning) {
+      console.log('Modal is transitioning. Adding fallback for loadViewer.');
+      const fallbackTimeout = setTimeout(() => {
+        console.log('Fallback: Invoking loadViewer after timeout.');
+        loadViewer();
+      }, 1000); // Fallback after 1 second
+
+      return () => clearTimeout(fallbackTimeout);
+    }
+  }, [transitioning, loadViewer]);
+
   return (
     isModalOpen && (
-      <div className="modal-overlay" onClick={closeModal}>
+      <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
         <div
           className={`modal-container ${
-            transitioning ? 'transitioning' : ''
-          } ${isExpanded ? 'expanded' : ''}`}
-          onTransitionEnd={loadViewer}
+            isModalOpen ? 'visible' : ''
+          } ${transitioning ? 'transitioning' : ''} ${isExpanded ? 'expanded' : ''}`}
+          onTransitionEnd={() => {
+            console.log('onTransitionEnd event fired. Invoking loadViewer.');
+            loadViewer();
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           {loading ? (

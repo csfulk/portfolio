@@ -26,10 +26,10 @@
   align-items: center;
   gap: var(--spacing-xl, 1.5rem);
   box-shadow: var(--box-shadow-modal, 0 4px 10px rgba(0, 0, 0, 0.2));
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   z-index: var(--z-index-modal-content, 1001);
-  opacity: 1;
-  transform: scale(0.8);
+  opacity: 0;
+  transform: translateY(-1.25rem);
 }
 
 /* Transitioning state */
@@ -105,4 +105,25 @@
     width: 90%;
     padding: var(--spacing-lg, 1.5rem);
   }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* Match navigation animation */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-container.visible {
+  animation: fade 0.3s ease forwards;
+}
+
+/* Ensure transitions are applied in all states */
+.modal-container.visible,
+.modal-container.expanded {
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
