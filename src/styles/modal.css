@@ -27,7 +27,7 @@
 .modal-container.password-gate-modal {
   width: auto;
   height: auto;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-3xl);
   padding: var(--spacing-xl);
   background-color: var(--surfaceModal);
   box-shadow: var(--box-shadow-modal);

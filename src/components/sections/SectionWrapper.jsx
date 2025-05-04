@@ -126,8 +126,8 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   variant="text"
                   className="case-study-button"
                   onClick={() => {
-                    console.log('Button clicked with action:', button.action);
                     handleCaseStudyClick(button.action);
+                    scrollToSection(`#${id}`);
                   }}
                 />
               ))}
