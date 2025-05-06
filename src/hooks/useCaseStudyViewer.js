@@ -55,6 +55,9 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
       `${folder}/${fileName}_${String(i + 1).padStart(2, '0')}.webp`
     );
 
+    console.log('Preloading images for case study:', { title, folder, count, fileName });
+    console.log('Generated image paths:', images);
+
     if (!images || images.length === 0) {
       console.error(`No images generated for key: ${key}. Check caseStudyData or image generation logic.`);
       return;
