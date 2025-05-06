@@ -67,6 +67,7 @@ const App = () => {
   usePreloadImages([
     '/assets/section_01_colt.fulk.youtube.webp',
     '/assets/section_02_colt.fulk.apple.webp',
+    '/assets/section_04_colt.fulk.figma.webp',
     '/assets/password.laugh2.gif',
     ...preloadCriticalCaseStudyImages(),
   ]);

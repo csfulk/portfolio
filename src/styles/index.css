@@ -52,7 +52,7 @@ body {
   align-items: center; /* Center child elements vertically */
   justify-content: flex-start; /* Align child elements horizontally */
   height: 100vh; /* Full viewport height */
-  background-image: url('/assets/hero_bg@2x.png');
+  background-image: url('/assets/hero_bg@2x.webp');
   background-color: var(--surface-0);
   background-size: cover;
   background-position: 220px center; /* 2.5rem = 220px */
