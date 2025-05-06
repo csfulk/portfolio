@@ -27,7 +27,7 @@ const preloadCaseStudyImages = () => {
 const preloadCriticalCaseStudyImages = () => {
   const images = [];
   Object.values(caseStudyData).forEach(({ folder, fileName }) => {
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       images.push(`${folder}/${fileName}_${String(i).padStart(2, '0')}.webp`);
     }
   });
@@ -73,16 +73,6 @@ const App = () => {
 
   // Lazy load case study images
   usePreloadImages(preloadCaseStudyImages(), { lazy: true });
-
-  // Preload all case study images in the background
-  useEffect(() => {
-    const images = preloadCaseStudyImages();
-    images.forEach((image) => {
-      const img = new Image();
-      img.src = image;
-      img.onload = () => console.log(`Background preloaded image: ${image}`);
-    });
-  }, []);
 
   // Apply modal styles using the custom hook
   useModalStyles(isModalOpen);

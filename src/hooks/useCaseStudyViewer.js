@@ -73,6 +73,17 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
 
     preloadImages();
 
+    const preloadRemainingImages = () => {
+      const remainingImages = images.slice(3); // Skip the first three images
+      remainingImages.forEach((image) => {
+        const img = new Image();
+        img.src = image;
+        img.onload = () => console.log(`Preloaded remaining image: ${image}`);
+      });
+    };
+
+    preloadRemainingImages();
+
     const viewerProps = { title, images };
 
     console.log('Generated viewerProps:', { title, images });
