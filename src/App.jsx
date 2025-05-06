@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { ThemeProvider } from './theme/ThemeProvider';
 import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
@@ -18,6 +18,16 @@ const preloadCaseStudyImages = () => {
   const images = [];
   Object.values(caseStudyData).forEach(({ folder, count, fileName }) => {
     for (let i = 1; i <= count; i++) {
+      images.push(`${folder}/${fileName}_${String(i).padStart(2, '0')}.webp`);
+    }
+  });
+  return images;
+};
+
+const preloadCriticalCaseStudyImages = () => {
+  const images = [];
+  Object.values(caseStudyData).forEach(({ folder, fileName }) => {
+    for (let i = 1; i <= 2; i++) {
       images.push(`${folder}/${fileName}_${String(i).padStart(2, '0')}.webp`);
     }
   });
@@ -53,15 +63,26 @@ const App = () => {
 
   console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });
 
-  // Preload critical images immediately
+  // Preload critical images immediately, including the first two images of each case study
   usePreloadImages([
     '/assets/section_01_colt.fulk.youtube.webp',
     '/assets/section_02_colt.fulk.apple.webp',
     '/assets/password.laugh2.gif',
+    ...preloadCriticalCaseStudyImages(),
   ]);
 
   // Lazy load case study images
   usePreloadImages(preloadCaseStudyImages(), { lazy: true });
+
+  // Preload all case study images in the background
+  useEffect(() => {
+    const images = preloadCaseStudyImages();
+    images.forEach((image) => {
+      const img = new Image();
+      img.src = image;
+      img.onload = () => console.log(`Background preloaded image: ${image}`);
+    });
+  }, []);
 
   // Apply modal styles using the custom hook
   useModalStyles(isModalOpen);

@@ -63,6 +63,16 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
       return;
     }
 
+    const preloadImages = () => {
+      images.forEach((image) => {
+        const img = new Image();
+        img.src = image;
+        img.onload = () => console.log(`Preloaded image: ${image}`);
+      });
+    };
+
+    preloadImages();
+
     const viewerProps = { title, images };
 
     console.log('Generated viewerProps:', { title, images });
