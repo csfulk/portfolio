@@ -114,6 +114,7 @@
 .section-description-container.collapsed .section-description {
   overflow: hidden;
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical;
 }
@@ -127,6 +128,7 @@
 .section-description-container.truncated .section-description {
   overflow: hidden !important;
   display: -webkit-box !important;
+  line-clamp: 3 !important;
   -webkit-line-clamp: 3 !important; /* Limit to 3 lines */
   -webkit-box-orient: vertical !important;
   max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */
@@ -136,6 +138,7 @@
 .section-description-container.truncated .section-description {
   overflow: hidden !important;
   display: -webkit-box !important;
+  line-clamp: 3 !important;
   -webkit-line-clamp: 3 !important; /* Limit to 3 lines */
   -webkit-box-orient: vertical !important;
   max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */

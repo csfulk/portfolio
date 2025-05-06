@@ -11,6 +11,7 @@ import useCaseStudyViewer, { caseStudyData } from './hooks/useCaseStudyViewer'; 
 import { preloadImages } from './utils/preloadImages'; // Import the preload function
 import { sectionsData } from './sectionsData';
 import SectionWrapper from './components/sections/SectionWrapper';
+import useKeyboardInteractions from './hooks/useKeyboardInteractions';
 
 const App = () => {
   const {
@@ -56,18 +57,19 @@ const App = () => {
     preloadImages(imagesToPreload);
   }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        document.activeElement?.blur();
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [closeModal]);
+  useKeyboardInteractions({
+    onEscape: () => {
+      document.activeElement?.blur();
+      closeModal();
+    },
+    onArrowLeft: () => {
+      // Add logic to navigate to the previous item if applicable
+    },
+    onArrowRight: () => {
+      // Add logic to navigate to the next item if applicable
+    },
+    allowEnterInInputs: true, // Allow Enter key in input fields
+  });
 
   useEffect(() => {
     const html = document.documentElement;
