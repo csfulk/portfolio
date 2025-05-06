@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import Button from '../button';
-import { toggleDescription } from '../../scripts/toggleDescription';
 import { scrollToSection } from '../../scripts/scrollToSection';
+import useExpandable from '../../hooks/useExpandable';
 import '../../styles/section.css';
 
 const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
@@ -11,69 +11,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
   }
 
   const { id, className, logo, title, subtitle, description, bulletPoints = [], image, buttons = [] } = section;
-  const [isExpanded, setIsExpanded] = useState(false);
-  const descriptionRef = useRef(null);
-  const [isTruncated, setIsTruncated] = useState(false);
-  const [isInitiallyTruncated, setIsInitiallyTruncated] = useState(false);
-
-  useEffect(() => {
-    if (descriptionRef.current) {
-      const { scrollHeight, clientHeight } = descriptionRef.current;
-      setIsTruncated(scrollHeight > clientHeight);
-    }
-  }, [description]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (descriptionRef.current) {
-        const { scrollHeight, clientHeight } = descriptionRef.current;
-        const truncated = scrollHeight > clientHeight;
-        setIsTruncated(truncated);
-      }
-    }, 100); // Add a slight delay to ensure layout is rendered
-
-    return () => clearTimeout(timeout);
-  }, [description, isExpanded]);
-
-  useEffect(() => {
-    if (!isExpanded && descriptionRef.current) {
-      const { scrollHeight, clientHeight } = descriptionRef.current;
-      const truncated = scrollHeight >= clientHeight; // Adjusted logic to include exact fits
-      setIsInitiallyTruncated(truncated);
-    }
-  }, [description]); // Only recalculate when the description changes
-
-  useEffect(() => {
-    if (descriptionRef.current) {
-      const { scrollHeight, clientHeight } = descriptionRef.current;
-      const truncated = scrollHeight > clientHeight || scrollHeight === clientHeight; // Adjusted logic to include exact fits
-      setIsInitiallyTruncated(truncated);
-    }
-  }, []); // Run only once when the component mounts
-
-  const toggleDescriptionHandler = () => {
-    if (descriptionRef.current) {
-      const container = descriptionRef.current;
-      if (isExpanded) {
-        container.classList.remove('expanded');
-        container.classList.add('collapsed');
-        container.style.overflow = 'hidden';
-        container.style.display = '-webkit-box';
-        container.style.webkitLineClamp = '3'; // Reapply truncation
-        container.style.webkitBoxOrient = 'vertical';
-      } else {
-        container.classList.remove('collapsed');
-        container.classList.add('expanded');
-        container.style.overflow = 'visible';
-        container.style.display = 'block'; // Remove truncation styles
-        container.style.webkitLineClamp = 'unset';
-        container.style.webkitBoxOrient = 'unset';
-      }
-      setIsExpanded(!isExpanded); // Toggle the expanded state
-    } else {
-      console.error('Description container ref is null');
-    }
-  };
+  const { isExpanded, isTruncated, isInitiallyTruncated, toggleExpand, descriptionRef } = useExpandable(description);
 
   return (
     <section id={id} className={`section ${className || ''}`}>
@@ -92,7 +30,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
               <div
                 className={`section-description-container ${isExpanded ? 'expanded' : 'truncated'}`}
                 ref={descriptionRef}
-                style={{ maxHeight: isExpanded ? 'none' : '5.4em' }} // 3 lines * 1.8em line height
+                style={{ maxHeight: isExpanded ? 'none' : '5.4em' }}
               >
                 {description.split('\n').map((paragraph, index) => (
                   <p key={index} className="section-description">{paragraph.trim()}</p>
@@ -108,7 +46,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
               {(isInitiallyTruncated || isExpanded) && (
                 <button
                   className="toggle-button"
-                  onClick={toggleDescriptionHandler}
+                  onClick={toggleExpand}
                 >
                   {isExpanded ? 'Read less' : 'Read more'}
                 </button>
