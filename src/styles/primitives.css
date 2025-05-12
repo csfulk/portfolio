@@ -3,88 +3,89 @@
 
 /* Root Variables */
 :root {
-  /* Surface + Color tokens (unchanged) */
-  --surface-0: #ffffff;
-  --surface-1: #f5f5f5;
-  --surface-2: #e0e0e0;
-  --surfaceSection:#000000;
-  --surfaceModal:#1D1D1D;
-  --surfaceOverlay: rgba(0, 0, 0, 0.84);
-  
-  --textPrimary: #1D1D1D;
-  --textSecondary: #757575;
-  --textTertiary: #5a5a5a;
-  --textNeutralPrimary: #ffffff;
-  --textPrimarySection:#f5f5f5;
-  --textSecdonarySection:#a1a1a1;
-  
-  --buttonPrimary: #1D1D1D;
-  --buttonSecondary: #f5f5f5;
-  --buttonAccent: #F09;
-  --buttonOutline: #e0e0e0;
-  --buttonDestructive: #ff0000;
+  /* Surface Colors */
+  --surface-0: #ffffff; /* Lightest surface (e.g., background) */
+  --surface-1: #f5f5f5; /* Slightly darker surface */
+  --surface-2: #e0e0e0; /* Even darker surface */
+  --surfaceSection: #000000; /* Section background color */
+  --surfaceModal: #1D1D1D; /* Modal background color */
+  --surfaceOverlay: rgba(0, 0, 0, 0.84); /* Overlay background color */
 
-  --buttonHover: #0077ff;
-  --buttonTextHover: var(--textPrimary);
+  /* Text Colors */
+  --textPrimary: #1D1D1D; /* Primary text color */
+  --textSecondary: #757575; /* Secondary text color */
+  --textTertiary: #5a5a5a; /* Tertiary text color */
+  --textNeutralPrimary: #ffffff; /* Neutral primary text color */
+  --textPrimarySection: #f5f5f5; /* Section primary text color */
+  --textSecondarySection: #a1a1a1; /* Section secondary text color */
 
-  --primary: #0000FF;
-  --accent: #F09;
+  /* Button Colors */
+  --buttonPrimary: #1D1D1D; /* Primary button color */
+  --buttonSecondary: #f5f5f5; /* Secondary button color */
+  --buttonOutline: #e0e0e0; /* Outline button color */
+  --buttonDestructive: #ff0000; /* Destructive button color */
+  --buttonHover: #0077ff; /* Hover state for buttons */
+  --buttonTextHover: var(--textPrimary); /* Hover text color for buttons */
 
-  --success: #0aba62;
+  /* General Colors */
+  --primary: #0000FF; /* Primary color */
+  --success: #0aba62; /* Success color */
 
-  /* Updated Font Scale - Major Third (1.25x) */
-  --font-size-display-1: 5.96rem;
-  --font-size-display-2: 4.768rem;
-  --font-size-4xl: 3.815rem;
-  --font-size-3xl: 3.052rem;
-  --font-size-2xl: 2.441rem;
-  --font-size-xl: 1.953rem;
-  --font-size-lg: 1.563rem;
-  --font-size-md: 1.25rem;
-  --font-size-sm: 1rem;
-  --font-size-xs: 0.8rem;
-  --font-size-xxs: 0.64rem;
+  /* Font Sizes (Major Third Scale) */
+  --font-size-display-1: 5.96rem; /* ~95px */
+  --font-size-display-2: 4.768rem; /* ~76px */
+  --font-size-4xl: 3.815rem; /* ~61px */
+  --font-size-3xl: 3.052rem; /* ~49px */
+  --font-size-2xl: 2.441rem; /* ~39px */
+  --font-size-xl: 1.953rem; /* ~31px */
+  --font-size-lg: 1.563rem; /* ~25px */
+  --font-size-md: 1.25rem; /* ~20px */
+  --font-size-sm: 1rem; /* ~14px */
+  --font-size-xs: 0.8rem; /* ~11px */
+  --font-size-xxs: 0.64rem; /* ~9px */
 
-  /* Updated Spacing Scale (1.25x steps) */
-  --spacing-xxxs: 0.25rem;
-  --spacing-xxs: 0.3125rem;
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 0.75rem;
+  /* Spacing (1.25x Steps) */
+  --spacing-xxxs: 0.25rem; /* 4px */
+  --spacing-xxs: 0.3125rem; /* 5px */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 0.75rem; /* 12px */
   --spacing-md: 1rem; /* 14px */
-  --spacing-lg: 1.25rem;
-  --spacing-xl: 1.563rem;
-  --spacing-2xl: 1.953rem;
-  --spacing-3xl: 2.441rem;
-  --spacing-4xl: 3.052rem;
-  --spacing-5xl: 3.815rem;
-  --spacing-6xl: 4.768rem;
-  --spacing-7xl: 5.96rem;
+  --spacing-lg: 1.25rem; /* 20px */
+  --spacing-xl: 1.563rem; /* 25px */
+  --spacing-2xl: 1.953rem; /* 31px */
+  --spacing-3xl: 2.441rem; /* 39px */
+  --spacing-4xl: 3.052rem; /* 49px */
+  --spacing-5xl: 3.815rem; /* 61px */
+  --spacing-6xl: 4.768rem; /* 76px */
+  --spacing-7xl: 5.96rem; /* 95px */
 
-  /* Radius + Fonts (unchanged) */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
-  --radius-3xl: 32px;
-  --radius-full: 1000px;
+  /* Radius */
+  --radius-sm: 2px; /* Small radius */
+  --radius-md: 4px; /* Medium radius */
+  --radius-lg: 8px; /* Large radius */
+  --radius-xl: 16px; /* Extra large radius */
+  --radius-2xl: 24px; /* 2x large radius */
+  --radius-3xl: 32px; /* 3x large radius */
+  --radius-full: 1000px; /* Full radius */
 
-  --font-family-primary: 'Inter Tight', sans-serif;
+  /* Font Family */
+  --font-family-primary: 'Inter Tight', sans-serif; /* Primary font family */
 
-  font-size: 14px;
-  --horizontal-padding: var(--spacing-7xl);
+  /* Z-Index */
+  --z-index-modal: 1000; /* Modal z-index */
+  --z-index-overlay: 900; /* Overlay z-index */
+  --z-index-dropdown: 800; /* Dropdown z-index */
+  --z-index-tooltip: 1100; /* Tooltip z-index */
 
-  /* Z-Index Tokens */
-  --z-index-modal: 1000;
-  --z-index-overlay: 900;
-  --z-index-dropdown: 800;
-  --z-index-tooltip: 1100;
+  /* Box Shadows */
+  --box-shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.05); /* Small shadow */
+  --box-shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Medium shadow */
+  --box-shadow-lg: 0px 10px 15px rgba(0, 0, 0, 0.15); /* Large shadow */
+  --box-shadow-xl: 0px 20px 25px rgba(0, 0, 0, 0.2); /* Extra large shadow */
 
-  /* Box Shadow Tokens */
-  --box-shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.05);
-  --box-shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  --box-shadow-lg: 0px 10px 15px rgba(0, 0, 0, 0.15);
-  --box-shadow-xl: 0px 20px 25px rgba(0, 0, 0, 0.2);
+  /* Global Settings */
+  font-size: 14px; /* Base font size */
+  --horizontal-padding: var(--spacing-7xl); /* Horizontal padding */
 }
 
 @media (max-width: 1024px) { /* Tablet */

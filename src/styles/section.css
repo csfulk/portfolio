@@ -279,3 +279,20 @@
   padding-bottom: var(--spacing-xl); /* Add consistent spacing to the footer */
 }
 
+/* Removed inline styles and added class names */
+.description-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.section-description-container {
+  max-height: 5.4em;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.section-description-container.expanded {
+  max-height: none;
+}
+

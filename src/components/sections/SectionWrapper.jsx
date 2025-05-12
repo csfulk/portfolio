@@ -26,11 +26,10 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
           {title && <h1 className="section-title">{title}</h1>}
           {subtitle && <h2 className="section-subtitle">{subtitle}</h2>}
           {description && (
-            <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
+            <div className="description-wrapper">
               <div
                 className={`section-description-container ${isExpanded ? 'expanded' : 'truncated'}`}
                 ref={descriptionRef}
-                style={{ maxHeight: isExpanded ? 'none' : '5.4em' }}
               >
                 {description.split('\n').map((paragraph, index) => (
                   <p key={index} className="section-description">{paragraph.trim()}</p>
@@ -62,6 +61,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   icon={button.icon}
                   iconPosition="leading"
                   variant="text"
+                  size="md"
                   className="case-study-button"
                   onClick={() => {
                     handleCaseStudyClick(button.action);

@@ -2,6 +2,7 @@ import React from 'react';
 import Button from './button'; // Import the reusable Button component
 import { scrollToSection } from '../scripts/scrollToSection'; // Import the scroll utility
 
+// Updated Hero component to ensure alignment with index.css and token-based design system
 const Hero = () => {
   return (
     <section className="hero">
@@ -10,7 +11,7 @@ const Hero = () => {
           Colt uses design thinking to craft world-class UI systems
         </h1>
         
-        <div className='detail-wrapper'>
+        <div className="detail-wrapper">
           <h5 className="role subtitle">
             Sr. Product & UX Design Systems Lead
           </h5>
@@ -28,12 +29,14 @@ const Hero = () => {
           <Button
             text="Case Studies"
             variant="primary"
+            size="md"
             className="button-primary"
             onClick={() => scrollToSection('.first-section')} // Use the utility function
           />
           <Button
             text="Open Resume"
             variant="secondary"
+            size="md"
             className="button-secondary"
             onClick={() => window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank')}
           />
