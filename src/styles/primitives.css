@@ -73,6 +73,18 @@
 
   font-size: 14px;
   --horizontal-padding: var(--spacing-7xl);
+
+  /* Z-Index Tokens */
+  --z-index-modal: 1000;
+  --z-index-overlay: 900;
+  --z-index-dropdown: 800;
+  --z-index-tooltip: 1100;
+
+  /* Box Shadow Tokens */
+  --box-shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --box-shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0px 10px 15px rgba(0, 0, 0, 0.15);
+  --box-shadow-xl: 0px 20px 25px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1024px) { /* Tablet */

@@ -62,4 +62,16 @@ export const tokens = {
   fontFamily: {
     primary: "'Inter Tight', sans-serif",
   },
+  zIndex: {
+    modal: 1000,
+    overlay: 900,
+    dropdown: 800,
+    tooltip: 1100,
+  },
+  boxShadow: {
+    sm: '0px 1px 2px rgba(0, 0, 0, 0.05)',
+    md: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    lg: '0px 10px 15px rgba(0, 0, 0, 0.15)',
+    xl: '0px 20px 25px rgba(0, 0, 0, 0.2)',
+  },
 };

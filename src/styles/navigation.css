@@ -18,7 +18,7 @@
   justify-content: space-between; /* Push left and right lists to opposite sides */
   align-items: center; /* Vertically center the items */
   color: var(--textNeutralPrimary);
-  padding: var(--spacing-xl) var(--spacing-lg); /* Add padding to constrain content */
+  padding: var(--spacing-xl) var(--horizontal-padding); /* Add padding to constrain content */
   box-sizing: border-box; /* Ensure padding is included in the width */
   opacity: 0;
   pointer-events: none; /* Prevent interaction when hidden */

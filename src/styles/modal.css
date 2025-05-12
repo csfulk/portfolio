@@ -47,7 +47,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000;
+  background-color: var(--surfaceModal);
 }
 
 /* Close button */
@@ -58,7 +58,7 @@
   background: none;
   border: none;
   font-size: var(--font-size-lg, 1.5rem);
-  color: var(--text-neutral-primary, #000);
+  color: var(--textNeutralPrimary);
   cursor: pointer;
   z-index: var(--z-index-modal-close, 10);
 }
@@ -81,7 +81,7 @@
 /* Spinner animation */
 .spinner {
   border: var(--spinner-border-width, 4px) solid rgba(255, 255, 255, 0.2);
-  border-top: var(--spinner-border-width, 4px) solid var(--spinner-color, #fff);
+  border-top: var(--spinner-border-width, 4px) solid var(--spinner-color);
   border-radius: 50%;
   width: var(--spinner-size, 40px);
   height: var(--spinner-size, 40px);

@@ -239,7 +239,7 @@
 /* Highlight the role in the bullet points */
 .role-highlight {
   font-weight: 600;
-  color: #ffffff; /* White color for the role */
+  color: var(--textNeutralPrimary); /* White color for the role */
 }
 
 /* Right Column */

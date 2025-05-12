@@ -3,15 +3,15 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--spacing-lg); /* Use spacing token */
-  padding: var(--spacing-xl); /* Use spacing token */
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
   max-width: 100%;
 }
 
 .project-title {
-  font-size: var(--font-size-xl); /* Use font size token */
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  color: var(--textPrimarySection); /* Use text color token */
+  color: var(--textPrimarySection);
 }
 
 .image-container {
@@ -19,10 +19,10 @@
   max-width: 1280px;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: var(--radius-lg); /* Use border-radius token */
+  border-radius: var(--radius-lg);
   opacity: 0;
   transition: opacity 0.4s ease-in, transform 0.4s ease-in;
-  transform: scale(0.95); /* Add scale for smoother transition */
+  transform: scale(0.95);
 }
 
 .project-image {
@@ -34,12 +34,12 @@
 .navigation-buttons {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md); /* Use spacing token */
+  gap: var(--spacing-md);
 }
 
 .nav-button {
   color: var(--textNeutralPrimary);
-  font=size: var(--font-size-md); /* Use font size token */
+  font-size: var(--font-size-md);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -47,60 +47,58 @@
 }
 
 .nav-button:hover {
-  color: var(--textSecondary); /* Use button text color token */
+  color: var(--textSecondary);
   outline: none;
 }
 
 .image-count {
-  font-size: var(--font-size-sm); /* Use font size token */
-  color: var(--textSecondary); /* Use text color token */
-  width: 4rem; /* Set a fixed width */
-  text-align: center; /* Center the text within the span */
-  display: inline-block; /* Ensure the width is respected */
+  font-size: var(--font-size-sm);
+  color: var(--textSecondary);
+  width: 4rem;
+  text-align: center;
+  display: inline-block;
 }
 
-/* Close Button */
 .close-button {
   position: absolute;
-  top: var(--spacing-xl); /* Adjust spacing as needed */
-  right: var(--spacing-4xl); /* Adjust spacing as needed */
-  font-size: var(--font-size-lg); /* Use a larger font size for the "X" */
-  color: var(--textNeutralPrimary); /* Use primary text color */
+  top: var(--spacing-xl);
+  right: var(--spacing-4xl);
+  font-size: var(--font-size-lg);
+  color: var(--textNeutralPrimary);
   background: none;
   font-weight: 300;
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
-  outline: none; /* Remove default focus outline */
+  outline: none;
 }
 
 .close-button:hover {
-  color: var(--textSecondary); /* Change color on hover */
+  color: var(--textSecondary);
 }
 
 .close-button:focus {
-  outline: none; /* Remove focus ring on close button */
+  outline: none;
 }
 
 .image-container.visible {
   opacity: 1;
-  transform: scale(1); /* Reset scale when visible */
+  transform: scale(1);
 }
 
 .keyboard-instructions {
-  font-size: var(--font-size-sm); /* Use font size token */
-  color: var(--textSecondary); /* Use text color token */
+  font-size: var(--font-size-sm);
+  color: var(--textSecondary);
   text-align: center;
 }
 
-/* Adjust styles for smaller viewport heights */
 @media (max-height: 800px) {
   .image-container {
-    max-height: 80vh; /* Limit height to 60% of the viewport height */
-    margin-top: var(--spacing-lg); /* Add space from the top */
+    max-height: 80vh;
+    margin-top: var(--spacing-lg);
   }
 
   .project-image {
-    object-fit: contain; /* Ensure the image scales properly */
+    object-fit: contain;
   }
 }
