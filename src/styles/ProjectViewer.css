@@ -1,3 +1,5 @@
+@import './primitives.css';
+
 .project-viewer {
   display: flex;
   flex-direction: column;
@@ -6,12 +8,6 @@
   gap: var(--spacing-lg);
   padding: var(--spacing-xl);
   max-width: 100%;
-}
-
-.project-title {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--textPrimarySection);
 }
 
 .image-container {
@@ -84,12 +80,6 @@
 .image-container.visible {
   opacity: 1;
   transform: scale(1);
-}
-
-.keyboard-instructions {
-  font-size: var(--font-size-sm);
-  color: var(--textSecondary);
-  text-align: center;
 }
 
 @media (max-height: 800px) {

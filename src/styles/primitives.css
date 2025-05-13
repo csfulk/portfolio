@@ -45,6 +45,7 @@
   --font-size-xxs: 0.64rem; /* ~9px */
 
   /* Spacing (1.25x Steps) */
+  --spacing-0: 0rem; /* 4px */
   --spacing-xxxs: 0.25rem; /* 4px */
   --spacing-xxs: 0.3125rem; /* 5px */
   --spacing-xs: 0.5rem; /* 8px */
@@ -88,58 +89,46 @@
   --horizontal-padding: var(--spacing-7xl); /* Horizontal padding */
 }
 
-@media (max-width: 1024px) { /* Tablet */
-  :root {
-    font-size: 15px; /* Slightly smaller font size for tablets */
-  }
+/* Removed media queries from primitives.css */
+
+/* Global Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) { /* Mobile */
-  :root {
-    font-size: 14px; /* Smaller font size for mobile devices */
-  }
+body {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: var(--surface-0);
+  color: var(--textPrimary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
 }
 
-@media (max-width: 480px) { /* Small Mobile */
-  :root {
-    font-size: 13px; /* Even smaller font size for small screens */
-  }
+/* Shared styles for all headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: 400;
+
 }
 
-/* Typography Styles */
-h1 {
-  font-size: var(--font-size-4xl);
-  line-height: 1.2;
-}
+/* Individual styles for each heading */
+h1 { font-size: var(--font-size-4xl); line-height: 1.2; }
+h2 { font-size: var(--font-size-3xl); line-height: 1.25; }
+h3 { font-size: var(--font-size-2xl); line-height: 1.3; }
+h4 { font-size: var(--font-size-xl); line-height: 1.4; }
+h5 { font-size: var(--font-size-lg); line-height: 1.5; }
+h6 { font-size: var(--font-size-md); line-height: 1.5; }
 
-h2 {
-  font-size: var(--font-size-3xl);
-  line-height: 1.25;
-}
-
-h3 {
-  font-size: var(--font-size-2xl);
-  line-height: 1.3;
-}
-
-h4 {
-  font-size: var(--font-size-xl);
-  line-height: 1.4;
-}
-
-h5 {
-  font-size: var(--font-size-lg);
-  line-height: 1.5;
-}
-
-h6 {
-  font-size: var(--font-size-md);
-  line-height: 1.5;
-}
-
+/* Paragraph styles */
 p {
   font-size: var(--font-size-sm);
   line-height: 1.6;
+  margin-bottom: var(--spacing-sm);
+  color: var(--textPrimary);
 }
 
 small {
@@ -150,17 +139,55 @@ caption {
   font-size: var(--font-size-xxs);
 }
 
-h1, h2, h3, h4, h5, h6, p, small, caption {
-  margin: 0;
-  font-family: var(--font-family-primary);
-  font-weight: 400;
-  margin-bottom: var(--spacing-sm); /* Increase spacing between paragraphs to spacing/sm size */
-}
-
 /* Ensure elements using --surfaceOverlay have blur effect */
 .overlay {
   background-color: var(--surfaceOverlay);
   backdrop-filter: blur(10px); /* Apply blur effect */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   position: relative; /* Ensure proper stacking context */
+}
+
+/* Moved animations like fadeIn and fadeOut from index.css to primitives.css */
+/* Consolidated duplicate animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem); /* Match navigation animation */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Retained unique animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

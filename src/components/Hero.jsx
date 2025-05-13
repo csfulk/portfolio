@@ -1,9 +1,23 @@
 import React from 'react';
-import Button from './button'; // Import the reusable Button component
+import ButtonGroup from './ButtonGroup'; // Import the reusable ButtonGroup component
 import { scrollToSection } from '../scripts/scrollToSection'; // Import the scroll utility
 
-// Updated Hero component to ensure alignment with index.css and token-based design system
 const Hero = () => {
+  const buttons = [
+    {
+      text: 'Case Studies',
+      variant: 'primary',
+      size: 'sm',
+      onClick: () => scrollToSection('.first-section'),
+    },
+    {
+      text: 'Open Resume',
+      variant: 'secondary',
+      size: 'sm',
+      onClick: () => window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank'),
+    },
+  ];
+
   return (
     <section className="hero">
       <div className="content-wrapper">
@@ -25,22 +39,7 @@ const Hero = () => {
           </p>
         </div>
 
-        <div className="button-group">
-          <Button
-            text="Case Studies"
-            variant="primary"
-            size="md"
-            className="button-primary"
-            onClick={() => scrollToSection('.first-section')} // Use the utility function
-          />
-          <Button
-            text="Open Resume"
-            variant="secondary"
-            size="md"
-            className="button-secondary"
-            onClick={() => window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank')}
-          />
-        </div>
+        <ButtonGroup buttons={buttons} />
       </div>
     </section>
   );

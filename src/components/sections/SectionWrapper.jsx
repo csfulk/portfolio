@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../button';
+import ButtonGroup from '../ButtonGroup'; // Import the reusable ButtonGroup component
 import { scrollToSection } from '../../scripts/scrollToSection';
 import useExpandable from '../../hooks/useExpandable';
 import '../../styles/section.css';
@@ -53,23 +53,25 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
             </div>
           )}
           {buttons.length > 0 && (
-            <div className="button-group-vertical">
-              {buttons.map((button, index) => (
-                <Button
-                  key={index}
-                  text={button.text}
-                  icon={button.icon}
-                  iconPosition="leading"
-                  variant="text"
-                  size="md"
-                  className="case-study-button"
-                  onClick={() => {
-                    handleCaseStudyClick(button.action);
-                    scrollToSection(`#${id}`);
-                  }}
-                />
-              ))}
-            </div>
+            <ButtonGroup
+              buttons={buttons.map(button => ({
+                text: button.text,
+                variant: button.variant || 'text-only', // Default to primary if not specified
+                size: button.size || 'sm', // Default to small size
+                icon: button.icon || 'icon-Lock_light', // Add lock icon by default
+                className: 'case-study-button', // Add the case-study-button class
+                onClick: () => {
+                  if (button.onClick) {
+                    button.onClick(); // Execute the button's onClick handler
+                  }
+                  if (button.action) {
+                    handleCaseStudyClick(button.action); // Open the modal
+                  }
+                  scrollToSection(`#${id}`); // Scroll to the section
+                },
+              }))}
+              direction="vertical"
+            />
           )}
         </div>
 

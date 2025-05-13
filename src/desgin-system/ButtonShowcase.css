@@ -1,0 +1,25 @@
+/* ButtonShowcase.css */
+
+.button-showcase {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.button-table {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-row-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+

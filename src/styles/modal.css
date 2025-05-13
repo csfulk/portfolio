@@ -1,3 +1,5 @@
+@import './primitives.css';
+
 /* Full-screen modal overlay */
 .modal-overlay {
   position: fixed;
@@ -88,32 +90,11 @@
   animation: spin 1s linear infinite;
 }
 
-/* Keyframes for spinner animation */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .modal-container {
     width: 90%;
     padding: var(--spacing-lg, 1.5rem);
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-    transform: translateY(-1.25rem); /* Match navigation animation */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 

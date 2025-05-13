@@ -1,18 +1,35 @@
 @import './primitives.css';
 
+/* Reset button styles to override user agent styles */
+button {
+  all: unset; /* Reset all styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: left;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 /* Base Button Styles */
+/* Ensure the base button class does not define padding */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-xl);
-  font-size: var(--font-size-sm);
   font-weight: 500;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
   border-radius: var(--radius-full);
-  line-height: normal;
+  box-sizing: border-box; /* Include padding and border in dimensions */
 }
 
 /* Icon Styles */
@@ -20,15 +37,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1em;
-  height: 1em;
-  font-size: var(--font-size-lg); /* Adjust icon size */
   fill: currentColor; /* Inherit color from the button */
-}
-
-.button-icon .button-text {
-  padding-top:20px;
-
 }
 
 .button-icon.leading {
@@ -68,10 +77,16 @@
   color: var(--textSecondary);
 }
 
-.button-text {
+/* Updated button-text to button-text-only for consistency */
+
+.button-text-only {
   background-color: transparent;
-  padding: var(--spacing-xs) 0;
   border: none;
+  padding: 0;
+}
+
+.button-text-only:hover {
+  color: var(--textSecondary);
 }
 
 /* Refactored Button Styles */
@@ -81,28 +96,63 @@
 }
 
 .button-destructive:hover {
-  background-color: var(--buttonDestructiveHover);
+  background-color: #cc0000; /* Darker red for hover state */
 }
 
-.button-rounded {
-  border-radius: var(--spacing-5xl);
-}
-
-/* Removed hardcoded color values */
+/* Updated Button Styles for Case Study Buttons */
 .case-study-button {
+  display: flex; /* Use flexbox for robust alignment */
+  align-items: center; /* Vertically center both text and icon */
+  gap: var(--spacing-xxs); /* Control spacing between icon and text */
+  background-color: transparent;
   color: var(--textNeutralPrimary);
-}
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
 
-.case-study-button .button-text {
-  padding-top: var(--spacing-xs);
 }
 
 .case-study-button:hover {
+  background-color: transparent;
   color: var(--textSecondary);
+}
+
+.case-study-button .button-icon {
+  display: flex; /* Ensure icon is aligned properly */
+  align-items: center; /* Vertically center the icon */
 }
 
 .button-group {
   display: flex;
   gap: var(--spacing-sm);
 
+}
+
+/* Updated size-specific classes to define distinct line-height */
+.button-xs {
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-xs);
+  line-height: var(--font-size-xs); /* Match line-height to font size */
+  box-sizing: border-box;
+}
+
+.button-sm {
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  line-height: var(--font-size-sm);
+  box-sizing: border-box;
+}
+
+.button-md {
+  font-size: var(--font-size-md);
+  padding: var(--spacing-md) var(--spacing-md);
+  line-height: var(--font-size-md);
+  box-sizing: border-box;
+}
+
+.button-lg {
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-lg) var(--spacing-lg);
+  line-height: var(--font-size-lg);
+  box-sizing: border-box;
 }

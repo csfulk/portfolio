@@ -7,34 +7,20 @@
 /* Import Section Styles */
 @import './section.css';
 
-/* Responsive Design */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
-  }
-}
+/* Removed redundant global styles for body and html */
+/* Removed duplicate styles already defined in primitives.css */
 
 body, html {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+/* Removed redundant `p` styles as they are now centralized in `primitives.css` */
+/* body, h1, h2, h3, h4, h5, h6, p {
+  margin: 0; 
+} */
 
 body {
   margin: 0;
@@ -121,8 +107,7 @@ body {
 /* Footer Styles */
 /* ============= */
 .footer {
-  background-color: var(--surfaceSection);
-  color: var(--textTertiary);
+  color: var(--textSecondary);
   text-align: left;
   padding: var(--spacing-4xl) var(--horizontal-padding); /* Use the shared padding variable */
 }
