@@ -10,5 +10,66 @@ These days, I’m focused on building a portfolio that reflects my approach: mod
 
 ---
 
+
+---
+
+## 📁 Case Study Viewer Architecture
+
+### 🖼️ FigmaEmbedViewer.jsx
+`src/components/FigmaEmbedViewer.jsx` is a modular React component for displaying a Figma embed in a modal overlay. It supports:
+- Fade-in animation on open
+- Cropping of the Figma bottom bar for a clean look
+- Always-visible close button (top right)
+- Keyboard accessibility (Escape closes modal if iframe is not focused)
+
+**Props:**
+- `embedUrl` (string): The Figma embed URL to display
+- `onClose` (function): Callback to close the modal
+
+### 🖼️ projectViewer.jsx (FeaturedProjectViewer)
+`src/components/projectViewer.jsx` exports `FeaturedProjectViewer`, a React component for image gallery case studies. It supports:
+- Image carousel with left/right navigation
+- Keyboard navigation (←/→ arrows, R to reset)
+- Fade-in animation
+- Always-visible close button
+- Focus trap for accessibility
+
+**Props:**
+- `title` (string): Optional title for the gallery
+- `images` (array): Array of image URLs to display
+- `onClose` (function): Callback to close the modal
+
+---
+
+## ➕ Adding Case Study Buttons
+
+All case study buttons are defined in `src/caseStudyButtons.js`.
+
+**To add a new button:**
+1. Find the section key (`youtube`, `apple`, `figma`, etc.) in `caseStudyButtons`.
+2. Add a new object to the array with the following fields:
+   - `text`: Button label
+   - `icon`: Icon class (e.g., 'icon-Lock_light')
+   - `action`: Viewer config object:
+     - For Figma embeds: `{ type: 'FigmaEmbedViewer', embedUrl: 'YOUR_FIGMA_EMBED_URL' }`
+     - For image galleries: `{ type: 'FeaturedProjectViewer', caseStudyKey: 'YOUR_CASE_STUDY_KEY' }`
+
+**Example:**
+```js
+// In src/caseStudyButtons.js
+caseStudyButtons.youtube.push({
+  text: 'Case Study 4',
+  icon: 'icon-Lock_light',
+  action: {
+    type: 'FigmaEmbedViewer',
+    embedUrl: 'https://embed.figma.com/deck/your-new-url'
+  }
+});
+```
+
+**No need to update multiple files!** The UI will automatically use the new button.
+
+---
+
 Check the case studies for serious work.  
 Or reach out for design therapy, war stories, and font pairing advice.
