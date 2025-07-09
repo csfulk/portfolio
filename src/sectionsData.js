@@ -1,3 +1,5 @@
+import { caseStudyButtons } from './caseStudyButtons';
+
 export const sectionsData = [
   {
     id: 'youtube-case-study',
@@ -12,26 +14,7 @@ One of the most impactful chapters was leading design for the Movies & Shows tea
 In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make YouTube the #1 rated streaming app on Nielsen.`,
     bulletPoints: [],
     image: '/assets/section_01_colt.fulk.youtube.webp',
-    buttons: [
-      {
-        text: 'Case Study 1',
-        icon: 'icon-Lock_light',
-        action: {
-          type: 'FigmaEmbedViewer',
-          embedUrl: 'https://embed.figma.com/deck/xMLIEH8e4KGIyxoTUUCFO6/Strategic-Redesign-of-YouTube-on-TV?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
-        },
-      },
-      {
-        text: 'Case Study 2',
-        icon: 'icon-Lock_light',
-        action: { type: 'FeaturedProjectViewer', caseStudyKey: 'Case Study 2' },
-      },
-      {
-        text: 'Design Systems Case Study',
-        icon: 'icon-Lock_light',
-        action: { type: 'FeaturedProjectViewer', caseStudyKey: 'Case Study 3' },
-      },
-    ],
+    buttons: caseStudyButtons.youtube,
   },
   {
     id: 'apple-case-study',
@@ -43,18 +26,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
   In addition to documentation, I brought deep technical expertise in the Adobe Creative Suite to produce more than 1,500 pixel-perfect UI assets for Apple’s core software products—including iTunes, GarageBand, Keynote, Pages, and Safari. Each asset adhered to Apple’s exacting brand standards, supporting both internal development workflows and polished public-facing experiences at global scale.`,
     bulletPoints: [],
     image: '/assets/section_02_colt.fulk.apple.webp',
-    buttons: [
-      {
-        text: 'Design Systems Case Study',
-        icon: 'icon-Lock_light',
-        action: { type: 'FeaturedProjectViewer', caseStudyKey: 'Apple Case Study 1' },
-      },
-      {
-        text: 'Production Artist Case Study',
-        icon: 'icon-Lock_light',
-        action: { type: 'FeaturedProjectViewer', caseStudyKey: 'Apple Case Study 2' },
-      },
-    ],
+    buttons: caseStudyButtons.apple,
   },
   {
     id: 'figma-case-study',
@@ -67,18 +39,6 @@ In 2018, I also led the design system for YouTube on TV. That system still power
 I partnered closely with Figma’s team and senior leadership to develop a scalable rollout strategy. I led hands-on training sessions across disciplines, aligned designers and engineers around shared workflows, and oversaw the migration of YouTube’s design libraries—laying the groundwork for a more collaborative, systematized approach to design at scale.`,
     bulletPoints: [],
     image: '/assets/section_04_colt.fulk.figma.webp',
-    buttons: [
-      {
-        text: 'RestAPI: Fetch Figma Data App',
-        icon: 'icon-Lock_light',
-        action: { type: 'FeaturedProjectViewer', caseStudyKey: 'Fetch Figma Data' },
-      },
-      // Example Figma embed button (uncomment and edit as needed)
-      // {
-      //   text: 'View Figma Deck',
-      //   icon: 'icon-Lock_light',
-      //   action: { type: 'FigmaEmbedViewer', embedUrl: 'https://embed.figma.com/deck/opRN3K7G95Ht4334vOIeQ1/Netflix-Interview?...' },
-      // },
-    ],
+    buttons: caseStudyButtons.figma,
   },
 ];
