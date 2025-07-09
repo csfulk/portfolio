@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import '../styles/modal.css';
 import FeaturedProjectViewer from './projectViewer';
+import FigmaEmbedViewer from './FigmaEmbedViewer';
 
 const Modal = ({
   isModalOpen,
@@ -52,6 +53,16 @@ const Modal = ({
 
   if (!isModalOpen) {
     return null; // Force unmounting of the modal
+  }
+
+
+  // Handle FigmaEmbedViewer
+  if (modalContent && modalContent.type === 'FigmaEmbedViewer') {
+    return (
+      <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
+        <FigmaEmbedViewer embedUrl={modalContent.embedUrl} onClose={closeModal} />
+      </div>
+    );
   }
 
   if (!modalContent || (modalContent.type !== 'PasswordGate' && !modalContent.images)) {

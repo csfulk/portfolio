@@ -41,54 +41,55 @@ const caseStudyData = {
   }
 };
 
+
 export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
-  const handleCaseStudyClick = React.useCallback((key) => {
-    console.log('handleCaseStudyClick called with key:', key);
-    const cs = caseStudyData[key];
-    if (!cs) {
-      console.error(`Invalid key passed to handleCaseStudyClick: ${key}. No matching case study found.`);
+  const handleCaseStudyClick = React.useCallback((action) => {
+    if (!action || typeof action !== 'object' || !action.type) {
+      console.error('Invalid action passed to handleCaseStudyClick:', action);
       return;
     }
 
-    const { title, folder, count, fileName } = cs;
-    const images = Array.from({ length: count }, (_, i) =>
-      `${folder}/${fileName}_${String(i + 1).padStart(2, '0')}.webp`
-    );
-
-    console.log('Preloading images for case study:', { title, folder, count, fileName });
-    console.log('Generated image paths:', images);
-
-    if (!images || images.length === 0) {
-      console.error(`No images generated for key: ${key}. Check caseStudyData or image generation logic.`);
-      return;
+    switch (action.type) {
+      case 'FeaturedProjectViewer': {
+        const key = action.caseStudyKey;
+        const cs = caseStudyData[key];
+        if (!cs) {
+          console.error(`Invalid caseStudyKey: ${key}. No matching case study found.`);
+          return;
+        }
+        const { title, folder, count, fileName } = cs;
+        const images = Array.from({ length: count }, (_, i) =>
+          `${folder}/${fileName}_${String(i + 1).padStart(2, '0')}.webp`
+        );
+        if (!images || images.length === 0) {
+          console.error(`No images generated for key: ${key}. Check caseStudyData or image generation logic.`);
+          return;
+        }
+        // Preload images
+        images.forEach((image) => {
+          const img = new window.Image();
+          img.src = image;
+        });
+        // Preload remaining images (after first 3)
+        images.slice(3).forEach((image) => {
+          const img = new window.Image();
+          img.src = image;
+        });
+        const viewerProps = { title, images };
+        authenticateAndOpenViewer(viewerProps);
+        break;
+      }
+      case 'FigmaEmbedViewer': {
+        // Directly open the Figma embed modal (no authentication assumed needed, but you can add it if you want)
+        authenticateAndOpenViewer({
+          type: 'FigmaEmbedViewer',
+          embedUrl: action.embedUrl,
+        });
+        break;
+      }
+      default:
+        console.error('Unknown action type in handleCaseStudyClick:', action.type);
     }
-
-    const preloadImages = () => {
-      images.forEach((image) => {
-        const img = new Image();
-        img.src = image;
-        img.onload = () => console.log(`Preloaded image: ${image}`);
-      });
-    };
-
-    preloadImages();
-
-    const preloadRemainingImages = () => {
-      const remainingImages = images.slice(3); // Skip the first three images
-      remainingImages.forEach((image) => {
-        const img = new Image();
-        img.src = image;
-        img.onload = () => console.log(`Preloaded remaining image: ${image}`);
-      });
-    };
-
-    preloadRemainingImages();
-
-    const viewerProps = { title, images };
-
-    console.log('Generated viewerProps:', { title, images });
-
-    authenticateAndOpenViewer(viewerProps);
   }, [authenticateAndOpenViewer]);
 
   return {

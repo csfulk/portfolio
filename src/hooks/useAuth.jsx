@@ -6,13 +6,21 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
   const pendingViewerPropsRef = useRef(null);
 
   const authenticateAndOpenViewer = (viewerProps) => {
-     console.log('Setting modalContent in authenticateAndOpenViewer:', viewerProps);
+    console.log('Setting modalContent in authenticateAndOpenViewer:', viewerProps);
+    // Always require authentication for all viewer types, but only once per session
     if (authenticated) {
-      setModalContent({
-        type: 'FeaturedProjectViewer',
-        title: viewerProps.title,
-        images: viewerProps.images,
-      });
+      if (viewerProps.type === 'FigmaEmbedViewer') {
+        setModalContent({
+          type: 'FigmaEmbedViewer',
+          embedUrl: viewerProps.embedUrl,
+        });
+      } else {
+        setModalContent({
+          type: 'FeaturedProjectViewer',
+          title: viewerProps.title,
+          images: viewerProps.images,
+        });
+      }
     } else {
       pendingViewerPropsRef.current = viewerProps;
       setModalContent({
@@ -27,11 +35,19 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
               } else {
                 console.error('setExpanded is not a function. Ensure it is passed correctly from useModal.');
               }
-              setModalContent({
-                type: 'FeaturedProjectViewer',
-                title: viewerProps.title,
-                images: viewerProps.images,
-              });
+              // After authentication, open the correct viewer type
+              if (pendingViewerPropsRef.current.type === 'FigmaEmbedViewer') {
+                setModalContent({
+                  type: 'FigmaEmbedViewer',
+                  embedUrl: pendingViewerPropsRef.current.embedUrl,
+                });
+              } else {
+                setModalContent({
+                  type: 'FeaturedProjectViewer',
+                  title: pendingViewerPropsRef.current.title,
+                  images: pendingViewerPropsRef.current.images,
+                });
+              }
             }}
             onClose={() => setModalContent(null)}
           />
