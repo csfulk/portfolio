@@ -33,8 +33,8 @@ export const caseStudyButtons = {
       text: 'Design Systems Case Study',
       icon: 'icon-Lock_light',
       action: {
-        type: 'FeaturedProjectViewer',
-        caseStudyKey: 'Apple Case Study 1'
+        type: 'FigmaEmbedViewer',
+        embedUrl: 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
       }
     },
     {
