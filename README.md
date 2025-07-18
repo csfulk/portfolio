@@ -1,3 +1,15 @@
+# Password Gate Configuration
+
+This site uses a password gate for case study/project access. You can enable or disable the password gate using an environment variable:
+
+```
+VITE_PASSWORD_GATE_ENABLED=true  # Password required (default)
+VITE_PASSWORD_GATE_ENABLED=false # No password required, all content is public
+```
+
+Set this variable in your `.env` file (for local development) and in your Netlify site environment variables (for production). When disabled, the password prompt is skipped and all users are considered authenticated.
+
+**Note:** The password itself (`VITE_SITE_PASSWORD`) is also set via environment variable. For portfolio use, this is sufficient, but do not use this method for highly sensitive authentication.
 # 👋 Hi, I’m Colt — Design Systems Architect, Interface Optimist, and Recovering Pixel Addict
 
 I once rebuilt the engine of a 1985 Toyota pickup with a borrowed wrench set and a lot of misplaced confidence. These days, I channel that same stubborn optimism into building scalable design systems with Figma, React, and just enough CSS variables to keep things interesting.
