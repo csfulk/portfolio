@@ -1,4 +1,4 @@
-import { caseStudyButtons } from './components/caseStudyButtons';
+import { caseStudyButtons } from './caseStudyButtons';
 
 export const sectionsData = [
   {

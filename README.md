@@ -7,12 +7,14 @@ At YouTube, I led the design of the TV app interface — work that helped make i
 
 Later, in Zurich, I helped Google Europe break up with Sketch and transition to Figma. It was a clean break. I partnered with Figma directly, ran trainings across disciplines, and migrated libraries with enough care to make a Swiss train conductor proud.
 
-These days, I’m focused on building a portfolio that reflects my approach: modular, expressive, slightly over-engineered (but in a good way). It features animated transitions, password-gated case studies, and a carefully managed sense of humor.
+
+These days, I’m focused on building a portfolio that reflects my approach: modular, expressive, slightly over-engineered (but in a good way). It features animated transitions, modular case study viewers, and a carefully managed sense of humor.
 
 ---
 
 
 ---
+
 
 ## 📁 Case Study Viewer Architecture
 
@@ -27,7 +29,7 @@ These days, I’m focused on building a portfolio that reflects my approach: mod
 - `embedUrl` (string): The Figma embed URL to display
 - `onClose` (function): Callback to close the modal
 
-### 🖼️ projectViewer.jsx (FeaturedProjectViewer)
+### 🖼️ FeaturedProjectViewer (projectViewer.jsx)
 `src/components/projectViewer.jsx` exports `FeaturedProjectViewer`, a React component for image gallery case studies. It supports:
 - Image carousel with left/right navigation
 - Keyboard navigation (←/→ arrows, R to reset)
@@ -42,9 +44,10 @@ These days, I’m focused on building a portfolio that reflects my approach: mod
 
 ---
 
+
 ## ➕ Adding Case Study Buttons
 
-All case study buttons are defined in `src/caseStudyButtons.js`.
+All case study buttons are defined in `src/components/caseStudyButtons.js`.
 
 **To add a new button:**
 1. Find the section key (`youtube`, `apple`, `figma`, etc.) in `caseStudyButtons`.
@@ -57,7 +60,7 @@ All case study buttons are defined in `src/caseStudyButtons.js`.
 
 **Example:**
 ```js
-// In src/caseStudyButtons.js
+// In src/components/caseStudyButtons.js
 caseStudyButtons.youtube.push({
   text: 'Case Study 4',
   icon: 'icon-Lock_light',

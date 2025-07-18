@@ -8,7 +8,7 @@ import Modal from './components/Modal';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
 import useCaseStudyViewer, { caseStudyData } from './hooks/useCaseStudyViewer';
-import { sectionsData } from './sectionsData';
+import { sectionsData } from './components/sectionsData';
 import SectionWrapper from './components/sections/SectionWrapper';
 import useKeyboardInteractions from './hooks/useKeyboardInteractions';
 import usePreloadImages from './hooks/usePreloadImages';
