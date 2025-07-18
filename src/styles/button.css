@@ -93,8 +93,23 @@
   color: var(--textNeutralPrimary);
 }
 
+
 .case-study-button .button-text {
   padding-top: var(--spacing-xs);
+}
+
+/* Show unlock icon on hover for lock icon buttons */
+.case-study-button .icon-Lock_light {
+  display: inline-block;
+}
+.case-study-button:hover .icon-Lock_light {
+  display: none;
+}
+.case-study-button .icon-Unlock_light {
+  display: none;
+}
+.case-study-button:hover .icon-Unlock_light {
+  display: inline-block;
 }
 
 .case-study-button:hover {

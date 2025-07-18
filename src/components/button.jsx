@@ -17,12 +17,27 @@ const Button = ({
       onClick={onClick}
       aria-label={text}
     >
+      {/* Render both lock and unlock icons for lock buttons, otherwise render the icon as usual */}
       {icon && iconPosition === 'leading' && (
-        <i className={`icon ${icon} button-icon leading`} aria-hidden="true"></i>
+        icon === 'icon-Lock_light' ? (
+          <>
+            <i className="icon icon-Lock_light button-icon leading" aria-hidden="true"></i>
+            <i className="icon icon-Unlock_light button-icon leading" aria-hidden="true"></i>
+          </>
+        ) : (
+          <i className={`icon ${icon} button-icon leading`} aria-hidden="true"></i>
+        )
       )}
       <span className="button-text">{text}</span>
       {icon && iconPosition === 'trailing' && (
-        <i className={`icon ${icon} button-icon trailing`} aria-hidden="true"></i>
+        icon === 'icon-Lock_light' ? (
+          <>
+            <i className="icon icon-Lock_light button-icon trailing" aria-hidden="true"></i>
+            <i className="icon icon-Unlock_light button-icon trailing" aria-hidden="true"></i>
+          </>
+        ) : (
+          <i className={`icon ${icon} button-icon trailing`} aria-hidden="true"></i>
+        )
       )}
     </button>
   );
