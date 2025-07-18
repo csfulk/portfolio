@@ -19,6 +19,8 @@ export const caseStudyButtons = {
         caseStudyKey: 'Case Study 2'
       }
     },
+    //
+    /*
     {
       text: 'Design Systems Case Study',
       icon: 'icon-Lock_light',
@@ -27,6 +29,7 @@ export const caseStudyButtons = {
         caseStudyKey: 'Case Study 3'
       }
     }
+    */
   ],
   apple: [
     {
