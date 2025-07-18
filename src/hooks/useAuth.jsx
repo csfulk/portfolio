@@ -1,14 +1,17 @@
 import { useState, useRef } from 'react';
 import PasswordGate from '../components/PasswordGate';
 
+// Read the password gate toggle from environment variables
+const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';
+
 const useAuth = ({ startTransition, completeTransition, setModalContent, setExpanded }) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  // If the password gate is disabled, always start authenticated
+  const [authenticated, setAuthenticated] = useState(!PASSWORD_GATE_ENABLED ? true : false);
   const pendingViewerPropsRef = useRef(null);
 
   const authenticateAndOpenViewer = (viewerProps) => {
-    console.log('Setting modalContent in authenticateAndOpenViewer:', viewerProps);
-    // Always require authentication for all viewer types, but only once per session
-    if (authenticated) {
+    // If password gate is disabled, always allow access
+    if (!PASSWORD_GATE_ENABLED || authenticated) {
       if (viewerProps.type === 'FigmaEmbedViewer') {
         setModalContent({
           type: 'FigmaEmbedViewer',
@@ -31,7 +34,7 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
               setAuthenticated(true);
               startTransition();
               if (typeof setExpanded === 'function') {
-                setExpanded(true); // Ensure setExpanded is called correctly
+                setExpanded(true);
               } else {
                 console.error('setExpanded is not a function. Ensure it is passed correctly from useModal.');
               }

@@ -1,7 +1,15 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import '../styles/PasswordGate.css';
 
+// Read the password gate toggle from environment variables
+const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';
+
+
 const PasswordGate = ({ onAuth }) => {
+  // If password gate is disabled, render nothing (should never be shown)
+  if (!PASSWORD_GATE_ENABLED) return null;
+
   const [password, setPassword] = useState('');
   const [caption, setCaption] = useState('');
   const [isError, setIsError] = useState(false);
