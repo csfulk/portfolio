@@ -7,7 +7,7 @@ const Hero = () => {
     <section className="hero">
       <div className="content-wrapper">
         <h1 className="title">
-          Colt uses design thinking to craft world-class UI systems
+          Colt uses design thinking to craft robust, world-class UI systems
         </h1>
         
         <div className='detail-wrapper'>
