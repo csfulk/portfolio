@@ -104,6 +104,7 @@ const App = () => {
               section={section}
               handleCaseStudyClick={viewer.handleCaseStudyClick}
               caseStudyData={caseStudyData}
+              authenticated={authenticated}
             />
           ))}
         </Suspense>

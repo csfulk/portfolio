@@ -4,7 +4,7 @@ import { scrollToSection } from '../../scripts/scrollToSection';
 import useExpandable from '../../hooks/useExpandable';
 import '../../styles/section.css';
 
-const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
+const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenticated }) => {
   if (!section) {
     console.error('Section data is undefined');
     return null;
@@ -63,6 +63,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData }) => {
                   iconPosition="leading"
                   variant="text"
                   className="case-study-button"
+                  authenticated={authenticated}
                   onClick={() => {
                     handleCaseStudyClick(button.action);
                     scrollToSection(`#${id}`);
