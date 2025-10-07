@@ -2,9 +2,27 @@
 // Each key is a section, value is an array of button configs
 
 export const caseStudyButtons = {
+  snapchat: [
+    {
+      text: 'Fostering Design Systems Alignment',
+      icon: 'icon-Lock_light',
+      action: {
+        type: 'FigmaEmbedViewer',
+        embedUrl: 'https://embed.figma.com/deck/7bhyglnKVQY3YoEjzvviyp/Snapchat-Design-Systems?node-id=247-2576&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+      }
+    },
+    {
+      text: 'Elevating Design Through History & Perception',
+      icon: 'icon-Lock_light',
+      action: {
+        type: 'FigmaEmbedViewer',
+        embedUrl: 'https://embed.figma.com/deck/wADARTo2BiOXWSqNBf0mJQ/Elevating-Design-Through-History---Perception?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+      }
+    },
+  ],
   youtube: [
     {
-      text: 'Case Study 1',
+      text: 'Strategic Redesign of YouTube on TV',
       icon: 'icon-Lock_light',
       action: {
         type: 'FigmaEmbedViewer',
@@ -12,28 +30,17 @@ export const caseStudyButtons = {
       }
     },
     {
-      text: 'Case Study 2',
+      text: 'Simplifing Movies & TV Customer Journeys',
       icon: 'icon-Lock_light',
       action: {
         type: 'FeaturedProjectViewer',
         caseStudyKey: 'Case Study 2'
       }
     },
-    //
-    /*
-    {
-      text: 'Design Systems Case Study',
-      icon: 'icon-Lock_light',
-      action: {
-        type: 'FeaturedProjectViewer',
-        caseStudyKey: 'Case Study 3'
-      }
-    }
-    */
   ],
   apple: [
     {
-      text: 'Design Systems Case Study',
+      text: 'Apple Developer Documentation Design System',
       icon: 'icon-Lock_light',
       action: {
         type: 'FigmaEmbedViewer',
@@ -41,7 +48,7 @@ export const caseStudyButtons = {
       }
     },
     {
-      text: 'Production Artist Case Study',
+      text: 'iOS & MacOSX Advanced Prodction Art',
       icon: 'icon-Lock_light',
       action: {
         type: 'FeaturedProjectViewer',

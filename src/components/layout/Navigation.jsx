@@ -11,9 +11,10 @@ export const Navigation = () => {
     <nav className={`navigation ${isHeroOutOfView ? 'visible' : ''}`}>
       <ul className="nav-list left overlay">
         <li className="nav-item" onClick={() => scrollToSection('.hero')}>Home</li>
-        <li className="nav-item" onClick={() => scrollToSection('.first-section')}>YouTube</li>
-        <li className="nav-item" onClick={() => scrollToSection('.second-section')}>Apple</li>
-        <li className="nav-item" onClick={() => scrollToSection('.third-section')}>Figma</li>
+        <li className="nav-item" onClick={() => scrollToSection('.first-section')}>Snapchat</li>
+        <li className="nav-item" onClick={() => scrollToSection('.second-section')}>YouTube</li>
+        <li className="nav-item" onClick={() => scrollToSection('.thid-section')}>Apple</li>
+        <li className="nav-item" onClick={() => scrollToSection('.fourth-section')}>Figma</li>
       </ul>
       <ul className="nav-list right">
       <li className="nav-item">

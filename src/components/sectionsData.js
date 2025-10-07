@@ -2,8 +2,23 @@ import { caseStudyButtons } from './caseStudyButtons';
 
 export const sectionsData = [
   {
-    id: 'youtube-case-study',
+    id: 'snapchat-case-study',
     className: 'first-section',
+    logo: 'assets/snapchat_logo_colt.fulk.webp',
+    title: 'Product and Design Systems',
+    subtitle: 'Fulltime, Feb 2024 to Present',
+    description: `At Snapchat, I’ve led the evolution of our design systems—introducing a unified color primitive and token framework that brought light and dark mode parity, improved accessibility, and reinforced brand consistency across platforms.
+
+I also led end-to-end design for Snapchat’s first iPad launch, adapting key experiences for tablet while maintaining the playful familiarity of mobile. The launch drove notable growth and received coverage from The Verge, TechCrunch, and Vanity Fair.
+
+Beyond product, I facilitated cross-functional workshops to align teams around scalable interaction patterns for Chat, Friends Feed, and onboarding—helping strengthen the foundation of Snapchat’s core experience.`,
+    bulletPoints: [],
+    image: '/assets/section_00_snapchat.webp',
+    buttons: caseStudyButtons.snapchat,
+  },
+  {
+    id: 'youtube-case-study',
+    className: 'second-section',
     logo: 'assets/youtube_google_colt.fulk.webp',
     title: 'User Experience, Design Systems, Management',
     subtitle: 'Full-time, 9.5 years spanning 2014 to 2023',
@@ -18,7 +33,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
   },
   {
     id: 'apple-case-study',
-    className: 'second-section',
+    className: 'third-section',
     logo: 'assets/apple_colt.fulk.webp',
     title: 'UI Production, Technical Design Systems & Team Lead',
     subtitle: 'Full-time, 1.5 years from 2011 through end of 2012',
@@ -30,7 +45,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
   },
   {
     id: 'figma-case-study',
-    className: 'third-section',
+    className: 'fourth-section',
     logo: 'assets/figma-google.colt.fulk.webp',
     title: 'Figma Evangelist — Systems, Development, Plugins',
     subtitle: '2020—Present',

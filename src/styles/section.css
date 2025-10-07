@@ -71,7 +71,7 @@
 .section-logo {
   display: block; /* Ensure the image doesn't have extra inline spacing */
   width: auto; /* Allow the width to adjust based on the image's aspect ratio */
-  height: 24px; /* Set a fixed height to maintain consistency */
+  height: 30px; /* Set a fixed height to maintain consistency */
   object-fit: contain; /* Ensure the image scales while preserving its aspect ratio */
   margin: 0; /* Remove centering */
   padding: 0; /* Ensure no unintended padding */
