@@ -5,15 +5,15 @@ export const sectionsData = [
     id: 'snapchat-case-study',
     className: 'first-section',
     logo: 'assets/snapchat_logo_colt.fulk.webp',
-    title: 'Product and Design Systems',
+    title: 'Design Systems & Platform Cohesion at Snapchat',
     subtitle: 'Fulltime, Feb 2024 to Present',
-    description: `At Snapchat, I’ve led the evolution of our design systems—introducing a unified color primitive and token framework that brought light and dark mode parity, improved accessibility, and reinforced brand consistency across platforms.
+    description: `At Snapchat, I’ve led the evolution of our design system—introducing a unified color primitive and token framework that established light and dark mode parity, elevated accessibility, and reinforced visual consistency across platforms.
 
-I also led end-to-end design for Snapchat’s first iPad launch, adapting key experiences for tablet while maintaining the playful familiarity of mobile. The launch drove notable growth and received coverage from The Verge, TechCrunch, and Vanity Fair.
+I also led end-to-end design for Snapchat’s first iPad launch, reimagining key experiences for larger screens while maintaining the playful familiarity of mobile. The launch drove measurable growth and received coverage from The Verge, TechCrunch, and Vanity Fair.
 
-Beyond product, I facilitated cross-functional workshops to align teams around scalable interaction patterns for Chat, Friends Feed, and onboarding—helping strengthen the foundation of Snapchat’s core experience.`,
+Beyond product work, I facilitated a series of cross-functional workshops to align design, engineering, and accessibility teams around scalable interaction patterns for Chat, Friends Feed, and onboarding—helping strengthen the foundation of Snapchat’s core experience.`,
     bulletPoints: [],
-    image: '/assets/section_00_snapchat.webp',
+    image: '/assets/section_00_snapchat_2.webp',
     buttons: caseStudyButtons.snapchat,
   },
   {
