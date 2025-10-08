@@ -284,9 +284,9 @@
 
 .section:last-of-type {
   position: relative;
-  padding-bottom: 0; /* Default padding */
-  transition: padding-bottom 0.3s ease;
+  min-height: auto; /* Override the default min-height: 100vh for the last section */
+  padding-bottom: var(--spacing-4xl); /* Add more spacing before the footer */
   margin-bottom: 0; /* Remove any default margin */
-  padding-bottom: var(--spacing-xl); /* Add consistent spacing to the footer */
+  transition: padding-bottom 0.3s ease;
 }
 

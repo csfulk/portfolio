@@ -1,10 +1,8 @@
-@keyframes fade {
+@keyframes slideIn {
   from {
-    opacity: 0;
     transform: translateY(-1.25rem); /* 20px = --spacing-lg */
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -23,16 +21,26 @@
   opacity: 0;
   pointer-events: none; /* Prevent interaction when hidden */
   transform: translateY(-1.25rem); /* 20px = --spacing-lg */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Remove visibility transition */
+  transition: transform 0.3s ease, padding 0.3s ease; /* Only animate transform and padding for section transitions */
   z-index: 1000;
 }
 
 .navigation.visible {
-  animation: fade 0.3s ease forwards;
   opacity: 1;
   pointer-events: auto; /* Allow interaction when visible */
   transform: translateY(0);
   padding: var(--spacing-sm) var(--horizontal-padding);
+  animation: slideIn 0.3s ease forwards;
+}
+
+/* Scroll-based fade transitions - separate from transform animations */
+.navigation.scrolling {
+  opacity: 0 !important;
+  transition: opacity 0.15s ease !important;
+}
+
+.navigation:not(.scrolling) {
+  transition: opacity 0.3s ease;
 }
 
 .nav-list {

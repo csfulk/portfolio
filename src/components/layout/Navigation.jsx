@@ -3,12 +3,16 @@ import { scrollToSection } from '../../scripts/scrollToSection'; // Import the s
 import '../../styles/icon-font.css'; // Import the icon font styles
 import '../../styles/navigation.css'; // Import navigation styles
 import { useScrollSpy } from '../../features/observer/useScrollSpy';
+import { useScrollFade } from '../../hooks/useScrollFade';
 
 export const Navigation = () => {
   const isHeroOutOfView = useScrollSpy(0.05); // Trigger fade-in when 95% of the hero is out of view
+  const isScrolling = useScrollFade(150); // Fade out when scrolling, fade in 150ms after scroll stops
+
+  const navClasses = `navigation ${isHeroOutOfView ? 'visible' : ''} ${isScrolling ? 'scrolling' : ''}`.trim();
 
   return (
-    <nav className={`navigation ${isHeroOutOfView ? 'visible' : ''}`}>
+    <nav className={navClasses}>
       <ul className="nav-list left overlay">
         <li className="nav-item" onClick={() => scrollToSection('.hero')}>Home</li>
         <li className="nav-item" onClick={() => scrollToSection('.first-section')}>Snapchat</li>
