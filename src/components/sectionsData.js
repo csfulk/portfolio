@@ -6,7 +6,7 @@ export const sectionsData = [
     className: 'first-section',
     logo: 'assets/snapchat_logo_colt.fulk.webp',
     title: 'Design Systems & Platform Cohesion at Snapchat',
-    subtitle: 'Fulltime, Feb 2024 to Present',
+    subtitle: 'Full-time, February 2024 to Present',
     description: `At Snapchat, I’ve led the evolution of our design system—introducing a unified color primitive and token framework that established light and dark mode parity, elevated accessibility, and reinforced visual consistency across platforms.
 
 I also led end-to-end design for Snapchat’s first iPad launch, reimagining key experiences for larger screens while maintaining the playful familiarity of mobile. The launch drove measurable growth and received coverage from The Verge, TechCrunch, and Vanity Fair.
@@ -20,7 +20,7 @@ Beyond product work, I facilitated a series of cross-functional workshops to ali
     id: 'youtube-case-study',
     className: 'second-section',
     logo: 'assets/youtube_google_colt.fulk.webp',
-    title: 'User Experience, Design Systems, Management',
+    title: 'Product Design and User Experience at YouTube',
     subtitle: 'Full-time, 9.5 years spanning 2014 to 2023',
     description: `At YouTube, I went from an IC to a design lead—driving product across TV, mobile, web, tablet, and voice. I helped unify a fast-evolving, multi-surface ecosystem into something clear and consistent.
 

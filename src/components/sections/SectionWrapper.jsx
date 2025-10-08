@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../button';
 import { scrollToSection } from '../../scripts/scrollToSection';
 import useExpandable from '../../hooks/useExpandable';
+import useLazyImage from '../../hooks/useLazyImage';
 import '../../styles/section.css';
 
 const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenticated }) => {
@@ -12,6 +13,9 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenti
 
   const { id, className, logo, title, subtitle, description, bulletPoints = [], image, buttons = [] } = section;
   const { isExpanded, isTruncated, isInitiallyTruncated, toggleExpand, descriptionRef } = useExpandable(description);
+  
+  // Use lazy loading for the section image with 85% visibility threshold
+  const { imgRef, isLoaded, isVisible, imageSrc } = useLazyImage(image, 0.9);
 
   return (
     <section id={id} className={`section ${className || ''}`}>
@@ -77,7 +81,15 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenti
         {/* Right Column */}
         {image && (
           <div className="section-right">
-            <img src={image} alt={title} className="section-image" />
+            <img 
+              ref={imgRef}
+              src={imageSrc || ''} 
+              alt={title} 
+              className={`section-image ${isLoaded ? 'loaded' : 'loading'}`}
+              style={{ 
+                visibility: imageSrc ? 'visible' : 'hidden' 
+              }}
+            />
           </div>
         )}
       </div>

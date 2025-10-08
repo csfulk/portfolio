@@ -5,6 +5,7 @@
 @import './responsive.css';
 
 /* Section Layout */
+
 .section {
   display: flex;
   justify-content: flex-start;
@@ -46,14 +47,6 @@
   overflow: hidden; /* Prevent content overflow */
   position: sticky; /* Keep the right column fixed in place */
   top: 0; /* Stick to the top of the viewport */
-}
-
-/* Image */
-.section-image {
-  width: 100%; /* Image fills the full width of the column */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 100%; /* Prevent the image from growing beyond the right column */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
 }
 
 /* Left Column */
@@ -254,12 +247,25 @@
   top: 0; /* Stick to the top of the viewport */
 }
 
-/* Image */
+/* Image - Lazy loading with fade-in effect */
 .section-image {
   width: 100%; /* Image fills the full width of the column */
   height: auto; /* Maintain aspect ratio */
   max-height: 100%; /* Prevent the image from growing beyond the right column */
   object-fit: cover; /* Maintain aspect ratio and cover the container */
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transform: translateY(20px);
+}
+
+.section-image.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-image.loading {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 /* Vertical Button Group */
@@ -269,6 +275,11 @@
   align-items: flex-start; /* Center buttons vertically */
   flex-direction: column; /* Stack buttons vertically */
   gap: var(--spacing-md); /* Add spacing between buttons */
+}
+
+/* Add space between hero and first section */
+.first-section {
+  padding-top: var(--spacing-4xl); /* 4.768rem - substantial spacing */
 }
 
 .section:last-of-type {
