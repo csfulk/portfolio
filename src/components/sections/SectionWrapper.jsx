@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@components';
+import { Button, Typography } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
 import '@styles/section.css';
@@ -26,8 +26,22 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
               <img src={logo} alt="Logo" className="section-logo" />
             </div>
           )}
-          {title && <h1 className="section-title text-heading-3">{title}</h1>}
-          {subtitle && <h2 className="section-subtitle text-body-sm">{subtitle}</h2>}
+          {title && (
+            <Typography 
+              variant="h1" 
+              className="section-title text-heading-3"
+            >
+              {title}
+            </Typography>
+          )}
+          {subtitle && (
+            <Typography 
+              variant="h2" 
+              className="section-subtitle text-body-sm"
+            >
+              {subtitle}
+            </Typography>
+          )}
           {description && (
             <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
               <div
@@ -36,7 +50,13 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                 style={{ maxHeight: isExpanded ? 'none' : '5.4em' }}
               >
                 {description.split('\n').map((paragraph, index) => (
-                  <p key={index} className="section-description text-section-description">{paragraph.trim()}</p>
+                  <Typography 
+                    key={index} 
+                    variant="body2" 
+                    className="section-description text-section-description"
+                  >
+                    {paragraph.trim()}
+                  </Typography>
                 ))}
                 {bulletPoints.length > 0 && (
                   <ul className="section-bullets">
