@@ -3,6 +3,8 @@
  * Comprehensive performance monitoring and optimization system
  */
 
+import { privacyManager } from './PrivacyManager.js';
+
 class PerformanceMonitor {
   constructor() {
     this.metrics = new Map();
@@ -13,12 +15,34 @@ class PerformanceMonitor {
     this.resourceTimings = [];
     this.vitals = new Map();
     
-    this.isEnabled = true;
+    this.isEnabled = false; // Start disabled until consent
+    this.consentInitialized = false;
     this.maxMeasurements = 1000;
     this.reportingInterval = 30000; // 30 seconds
     
-    this._initializeObservers();
-    this._startReporting();
+    // Don't initialize observers immediately - wait for consent
+  }
+
+  /**
+   * Initialize with privacy consent check
+   */
+  async initializeWithConsent() {
+    if (this.consentInitialized) return this.isEnabled;
+    
+    const hasConsent = await privacyManager.initializeConsent();
+    
+    if (hasConsent) {
+      this.isEnabled = true;
+      this._initializeObservers();
+      this._startReporting();
+      console.log('Performance monitoring initialized with consent');
+    } else {
+      this.isEnabled = false;
+      console.log('Performance monitoring disabled - no consent');
+    }
+    
+    this.consentInitialized = true;
+    return this.isEnabled;
   }
 
   /**
@@ -27,7 +51,7 @@ class PerformanceMonitor {
    * @param {Object} metadata - Additional metadata
    */
   startMeasurement(name, metadata = {}) {
-    if (!this.isEnabled) return null;
+    if (!this.isEnabled || !this._hasConsent()) return null;
 
     const id = `${name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
@@ -125,7 +149,7 @@ class PerformanceMonitor {
    * Track Core Web Vitals
    */
   trackWebVitals() {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !this._hasConsent()) return;
 
     // Largest Contentful Paint (LCP)
     this._observeLCP();
@@ -147,7 +171,7 @@ class PerformanceMonitor {
    * Monitor resource loading performance
    */
   monitorResources() {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !this._hasConsent()) return;
 
     const observer = new PerformanceObserver((list) => {
       list.getEntries().forEach((entry) => {
@@ -169,7 +193,7 @@ class PerformanceMonitor {
    * Monitor memory usage
    */
   monitorMemory() {
-    if (typeof window === 'undefined' || !window.performance.memory) {
+    if (typeof window === 'undefined' || !window.performance.memory || !this._hasConsent()) {
       return;
     }
 
@@ -281,8 +305,22 @@ class PerformanceMonitor {
    * @param {boolean} enabled - Enable flag
    */
   setEnabled(enabled) {
+    // Only allow enabling if we have consent
+    if (enabled && !this._hasConsent()) {
+      console.warn('Cannot enable performance monitoring without consent');
+      return;
+    }
+    
     this.isEnabled = enabled;
     console.log(`Performance monitoring ${enabled ? 'enabled' : 'disabled'}`);
+  }
+
+  /**
+   * Check if user has given consent
+   * @private
+   */
+  _hasConsent() {
+    return privacyManager.hasPerformanceConsent();
   }
 
   /**

@@ -3,13 +3,26 @@
  * Central export point for all service layer components
  */
 
-// Core Services
+// Import services for internal use
+import { configManager } from './core/ConfigManager.js';
+import { performanceMonitor } from './core/PerformanceMonitor.js';
+import { serviceManager } from './core/ServiceManager.js';
+import { privacyManager } from './core/PrivacyManager.js';
+import { pluginManager } from './plugins/PluginManager.js';
+import { imageService } from './core/ImageService.js';
+import { navigationService } from './core/NavigationService.js';
+import { analyticsService } from './core/AnalyticsService.js';
+import { locationService } from './core/LocationService.js';
+
+// Re-export services for external use
 export { imageService } from './core/ImageService.js';
 export { navigationService } from './core/NavigationService.js';
 export { analyticsService } from './core/AnalyticsService.js';
 export { configManager } from './core/ConfigManager.js';
 export { performanceMonitor } from './core/PerformanceMonitor.js';
 export { serviceManager } from './core/ServiceManager.js';
+export { privacyManager } from './core/PrivacyManager.js';
+export { locationService } from './core/LocationService.js';
 
 // Plugin System
 export { pluginManager, PluginManager } from './plugins/PluginManager.js';
@@ -35,10 +48,11 @@ export async function initializeServices(options = {}) {
     enableAnalytics = true,
     enablePerformanceMonitoring = true,
     enableImageOptimization = true,
-    enableNavigation = true
+    enableNavigation = true,
+    enableLocationTracking = true
   } = options;
 
-  console.log('Initializing service layer...');
+  console.log('Initializing service layer with privacy compliance...');
 
   try {
     // Initialize configuration first
@@ -49,10 +63,25 @@ export async function initializeServices(options = {}) {
       runtime: config.runtime || {}
     });
 
+    // Initialize performance monitoring with privacy consent
+    const monitoringEnabled = await performanceMonitor.initializeWithConsent();
+    
+    if (monitoringEnabled && enablePerformanceMonitoring) {
+      // Enable all performance monitoring features
+      performanceMonitor.trackWebVitals();
+      performanceMonitor.monitorResources();
+      performanceMonitor.monitorMemory();
+      
+      console.log('✅ Performance monitoring active (user consent granted)');
+    } else {
+      console.log('ℹ️ Performance monitoring disabled (no consent or disabled)');
+    }
+
     // Register core services with service manager
     serviceManager
       .register('config', configManager, { singleton: true, lazy: false })
-      .register('performance', performanceMonitor, { singleton: true, lazy: false });
+      .register('performance', performanceMonitor, { singleton: true, lazy: false })
+      .register('privacy', privacyManager, { singleton: true, lazy: false });
 
     if (enableImageOptimization) {
       serviceManager.register('images', imageService, { 
@@ -75,6 +104,23 @@ export async function initializeServices(options = {}) {
       });
     }
 
+    if (enableLocationTracking) {
+      serviceManager.register('location', locationService, { 
+        singleton: true, 
+        dependencies: ['privacy'] 
+      });
+      
+      // Initialize location tracking
+      await locationService.initialize();
+      
+      // Track initial page visit
+      locationService.trackVisit({
+        page: window.location.pathname,
+        title: document.title,
+        type: 'initial_load'
+      });
+    }
+
     // Initialize plugins
     for (const plugin of plugins) {
       if (typeof plugin === 'object' && plugin.name) {
@@ -83,16 +129,10 @@ export async function initializeServices(options = {}) {
       }
     }
 
-    // Start performance monitoring
-    if (enablePerformanceMonitoring) {
-      performanceMonitor.trackWebVitals();
-      performanceMonitor.monitorResources();
-      performanceMonitor.monitorMemory();
-    }
-
     const services = {
       config: configManager,
       performance: performanceMonitor,
+      privacy: privacyManager,
       plugins: pluginManager,
       serviceManager
     };
@@ -100,8 +140,14 @@ export async function initializeServices(options = {}) {
     if (enableImageOptimization) services.images = imageService;
     if (enableNavigation) services.navigation = navigationService;
     if (enableAnalytics) services.analytics = analyticsService;
+    if (enableLocationTracking) services.location = locationService;
 
-    console.log('Service layer initialized successfully');
+    // Make services globally available for development/debugging
+    if (typeof window !== 'undefined') {
+      window.services = services;
+    }
+
+    console.log('✅ Service layer initialized successfully');
     
     return services;
 
