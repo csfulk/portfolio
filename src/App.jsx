@@ -1,19 +1,23 @@
 // src/App.jsx
 import React, { Suspense, useEffect } from 'react';
-import { ThemeProvider } from './theme/ThemeProvider';
-import Navigation from './components/layout/Navigation';
-import Footer from './components/layout/Footer';
-import Hero from './components/Hero';
-import Modal from './components/Modal';
-import useModal from './hooks/useModal';
-import useAuth from './hooks/useAuth';
-import useCaseStudyViewer from './hooks/useCaseStudyViewer';
-import { sectionsData } from './components/sectionsData';
-import SectionWrapper from './components/sections/SectionWrapper';
-import useKeyboardInteractions from './hooks/useKeyboardInteractions';
-import { useImageHandling } from './hooks/useImageHandling';
-import { getCaseStudyImages } from './data/caseStudyRegistry';
-import useModalStyles from './hooks/useModalStyles';
+import { ThemeProvider } from '@theme';
+import { 
+  Navigation, 
+  Footer, 
+  Hero, 
+  Modal, 
+  SectionWrapper, 
+  sectionsData 
+} from '@components';
+import { 
+  useModal, 
+  useAuth, 
+  useCaseStudyViewer, 
+  useKeyboardInteractions, 
+  useImageHandling, 
+  useModalStyles 
+} from '@hooks';
+import { getCaseStudyImages } from '@data';
 
 const App = () => {
   const {

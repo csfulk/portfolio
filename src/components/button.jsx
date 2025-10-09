@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/button.css'; // Import button styles
-import '../styles/icon-font.css'; // Import icon font styles
+import '@styles/button.css';
+import '@styles/icon-font.css';
 
 const Button = ({
   text,

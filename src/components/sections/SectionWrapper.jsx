@@ -1,9 +1,8 @@
 import React from 'react';
-import Button from '../button';
-import { scrollToSection } from '../../scripts/scrollToSection';
-import useExpandable from '../../hooks/useExpandable';
-import useLazyImage from '../../hooks/useLazyImage';
-import '../../styles/section.css';
+import { Button } from '@components';
+import { scrollToSection } from '@scripts';
+import { useExpandable, useLazyImage } from '@hooks';
+import '@styles/section.css';
 
 const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
   if (!section) {

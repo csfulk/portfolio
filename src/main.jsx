@@ -2,8 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './styles/index.css';
-import { applyTokens } from './theme/applyTokens';
+import '@styles/index.css';
+import { applyTokens } from '@theme';
 
 
 applyTokens(); // Apply tokens to :root

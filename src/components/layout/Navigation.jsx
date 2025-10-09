@@ -1,9 +1,9 @@
 import React from 'react';
-import { scrollToSection } from '../../scripts/scrollToSection'; // Import the scroll utility
-import '../../styles/icon-font.css'; // Import the icon font styles
-import '../../styles/navigation.css'; // Import navigation styles
-import { useScrollSpy } from '../../features/observer/useScrollSpy';
-import { useScrollFade } from '../../hooks/useScrollFade';
+import { scrollToSection } from '@scripts';
+import '@styles/icon-font.css';
+import '@styles/navigation.css';
+import { useScrollSpy } from '@features';
+import { useScrollFade } from '@hooks';
 
 export const Navigation = () => {
   const isHeroOutOfView = useScrollSpy(0.05); // Trigger fade-in when 95% of the hero is out of view

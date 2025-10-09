@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from './button'; // Import the reusable Button component
-import { scrollToSection } from '../scripts/scrollToSection'; // Import the scroll utility
+import { Button } from '@components';
+import { scrollToSection } from '@scripts';
 
 const Hero = () => {
   return (

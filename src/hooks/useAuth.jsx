@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import PasswordGate from '../components/PasswordGate';
+import { PasswordGate } from '@components';
 
 // Read the password gate toggle from environment variables
 const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';

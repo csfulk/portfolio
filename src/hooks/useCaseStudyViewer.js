@@ -1,7 +1,7 @@
 import React from 'react';
-import ProjectViewer from '../components/projectViewer';
-import { useImageHandling, generateImageUrls } from './useImageHandling';
-import { getCaseStudyByKey } from '../data/caseStudyRegistry';
+import { ProjectViewer } from '@components';
+import { useImageHandling, generateImageUrls } from '@hooks';
+import { getCaseStudyByKey } from '@data';
 
 
 export function useCaseStudyViewer({ authenticateAndOpenViewer }) {

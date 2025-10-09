@@ -1,4 +1,4 @@
-import { getCaseStudiesBySection } from '../data/caseStudyRegistry';
+import { getCaseStudiesBySection } from '@data';
 
 export const sectionsData = [
   {

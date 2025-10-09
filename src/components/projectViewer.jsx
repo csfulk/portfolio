@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Button from './button';
-import '../styles/ProjectViewer.css'; //  Optional: for styling
+import { Button } from '@components';
+import '@styles/ProjectViewer.css';
 
 
 const FeaturedProjectViewer = ({ title, images, onClose }) => {
