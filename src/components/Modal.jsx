@@ -137,37 +137,9 @@ const Modal = ({
     );
   }
 
-  const containerClass = `modal-container ${isModalOpen ? 'visible' : ''} ${transitioning ? 'transitioning' : ''} ${modalContent.type === 'FeaturedProjectViewer' ? 'expanded' : ''} ${modalContent.type === 'PasswordGate' ? 'password-gate-modal' : ''}`;
-  return (
-    <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
-      <div
-        className={containerClass}
-        onTransitionEnd={() => {
-          if (!transitioning) {
-            loadViewer();
-          }
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {loading ? (
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-          </div>
-        ) : (
-          modalContent
-        )}
-        {/* Pass closeModal to FeaturedProjectViewer */}
-        <FeaturedProjectViewer 
-          key={modalContent.key} 
-          title={modalContent.title} 
-          images={modalContent.images} 
-          onClose={() => {
-            closeModal();
-          }}
-        />
-      </div>
-    </div>
-  );
+  // Fallback for other modal types (shouldn't reach here with current logic)
+  console.warn('Unexpected modal content type:', modalContent);
+  return null;
 };
 
 export default Modal;

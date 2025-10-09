@@ -1,4 +1,4 @@
-import { caseStudyButtons } from './caseStudyButtons';
+import { getCaseStudiesBySection } from '../data/caseStudyRegistry';
 
 export const sectionsData = [
   {
@@ -14,7 +14,7 @@ I also led end-to-end design for Snapchat’s first iPad launch, reimagining key
 Beyond product work, I facilitated a series of cross-functional workshops to align design, engineering, and accessibility teams around scalable interaction patterns for Chat, Friends Feed, and onboarding—helping strengthen the foundation of Snapchat’s core experience.`,
     bulletPoints: [],
     image: '/assets/section_00_snapchat_2.webp',
-    buttons: caseStudyButtons.snapchat,
+    caseStudies: getCaseStudiesBySection('snapchat'),
   },
   {
     id: 'youtube-case-study',
@@ -29,7 +29,7 @@ One of the most impactful chapters was leading design for the Movies & Shows tea
 In 2018, I also led the design system for YouTube on TV. That system still powers the experience today and helped make YouTube the #1 rated streaming app on Nielsen.`,
     bulletPoints: [],
     image: '/assets/section_01_colt.fulk.youtube.webp',
-    buttons: caseStudyButtons.youtube,
+    caseStudies: getCaseStudiesBySection('youtube'),
   },
   {
     id: 'apple-case-study',
@@ -41,7 +41,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
   In addition to documentation, I brought deep technical expertise in the Adobe Creative Suite to produce more than 1,500 pixel-perfect UI assets for Apple’s core software products—including iTunes, GarageBand, Keynote, Pages, and Safari. Each asset adhered to Apple’s exacting brand standards, supporting both internal development workflows and polished public-facing experiences at global scale.`,
     bulletPoints: [],
     image: '/assets/section_02_colt.fulk.apple.webp',
-    buttons: caseStudyButtons.apple,
+    caseStudies: getCaseStudiesBySection('apple'),
   },
   {
     id: 'figma-case-study',
@@ -54,6 +54,6 @@ In 2018, I also led the design system for YouTube on TV. That system still power
 I partnered closely with Figma’s team and senior leadership to develop a scalable rollout strategy. I led hands-on training sessions across disciplines, aligned designers and engineers around shared workflows, and oversaw the migration of YouTube’s design libraries—laying the groundwork for a more collaborative, systematized approach to design at scale.`,
     bulletPoints: [],
     image: '/assets/section_04_colt.fulk.figma.webp',
-    buttons: caseStudyButtons.figma,
+    caseStudies: getCaseStudiesBySection('figma'),
   },
 ];

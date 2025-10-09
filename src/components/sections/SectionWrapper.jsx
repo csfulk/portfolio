@@ -5,13 +5,13 @@ import useExpandable from '../../hooks/useExpandable';
 import useLazyImage from '../../hooks/useLazyImage';
 import '../../styles/section.css';
 
-const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenticated }) => {
+const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
   if (!section) {
     console.error('Section data is undefined');
     return null;
   }
 
-  const { id, className, logo, title, subtitle, description, bulletPoints = [], image, buttons = [] } = section;
+  const { id, className, logo, title, subtitle, description, bulletPoints = [], image, caseStudies = [] } = section;
   const { isExpanded, isTruncated, isInitiallyTruncated, toggleExpand, descriptionRef } = useExpandable(description);
   
   // Use lazy loading for the section image with 85% visibility threshold
@@ -57,19 +57,23 @@ const SectionWrapper = ({ section, handleCaseStudyClick, caseStudyData, authenti
               )}
             </div>
           )}
-          {buttons.length > 0 && (
+          {caseStudies.length > 0 && (
             <div className="button-group-vertical">
-              {buttons.map((button, index) => (
+              {caseStudies.map((caseStudy) => (
                 <Button
-                  key={index}
-                  text={button.text}
-                  icon={button.icon}
+                  key={caseStudy.key}
+                  text={caseStudy.button.text}
+                  icon={caseStudy.button.icon}
                   iconPosition="leading"
                   variant="text"
                   className="case-study-button"
                   authenticated={authenticated}
                   onClick={() => {
-                    handleCaseStudyClick(button.action);
+                    handleCaseStudyClick({
+                      type: caseStudy.viewer.type,
+                      caseStudyKey: caseStudy.key,
+                      ...caseStudy.viewer
+                    });
                     scrollToSection(`#${id}`);
                   }}
                 />

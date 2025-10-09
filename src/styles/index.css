@@ -7,6 +7,9 @@
 /* Import Section Styles */
 @import './section.css';
 
+/* Import Image Handling Styles */
+@import './image-handling.css';
+
 /* Responsive Design */
 @keyframes fadeIn {
   from {

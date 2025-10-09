@@ -1,48 +1,12 @@
 import React from 'react';
 import ProjectViewer from '../components/projectViewer';
-
-// Mapping of case study data
-const caseStudyData = {
-  'Case Study 1': {
-    title: 'YouTube Living Room Case Study',
-    folder: '/assets/yt_case_study_00',
-    count: 18,
-    fileName: 'featured_ytlr'
-  },
-  'Case Study 2': {
-    title: 'YouTube Movies & Shows Case Study',
-    folder: '/assets/yt_case_study_01',
-    count: 24,
-    fileName: 'feature_project_ytms'
-  },
-  'Case Study 3': {
-    title: 'Design Systems Case Study',
-    folder: '/assets/yt_case_study_03',
-    count: 11,
-    fileName: 'yt_ds'
-  },
-  'Apple Case Study 1': {
-    title: 'Apple Developer Documentation Case Study',
-    folder: '/assets/apple_case_study_01',
-    count: 13,
-    fileName: 'apple_dev_doc'
-  },
-  'Apple Case Study 2': {
-    title: 'Apple Production Artist Case Study',
-    folder: '/assets/apple_case_study_02',
-    count: 10,
-    fileName: 'apple_production'
-  },
-  'Fetch Figma Data': {
-    title: 'Fetch Figma Data App',
-    folder: '/assets/fetch_figma',
-    count: 12,
-    fileName: 'fetch_figma'
-  }
-};
+import { useImageHandling, generateImageUrls } from './useImageHandling';
+import { getCaseStudyByKey } from '../data/caseStudyRegistry';
 
 
 export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
+  const { preloadImages } = useImageHandling();
+  
   const handleCaseStudyClick = React.useCallback((action) => {
     if (!action || typeof action !== 'object' || !action.type) {
       console.error('Invalid action passed to handleCaseStudyClick:', action);
@@ -52,29 +16,23 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
     switch (action.type) {
       case 'FeaturedProjectViewer': {
         const key = action.caseStudyKey;
-        const cs = caseStudyData[key];
-        if (!cs) {
-          console.error(`Invalid caseStudyKey: ${key}. No matching case study found.`);
+        const caseStudy = getCaseStudyByKey(key);
+        
+        if (!caseStudy) {
+          console.warn(`Case study ${key} is not found or disabled.`);
           return;
         }
-        const { title, folder, count, fileName } = cs;
-        const images = Array.from({ length: count }, (_, i) =>
-          `${folder}/${fileName}_${String(i + 1).padStart(2, '0')}.webp`
-        );
+        
+        const { title, folder, count, fileName } = caseStudy.viewer;
+        const images = generateImageUrls(folder, count, fileName);
         if (!images || images.length === 0) {
           console.error(`No images generated for key: ${key}. Check caseStudyData or image generation logic.`);
           return;
         }
-        // Preload images
-        images.forEach((image) => {
-          const img = new window.Image();
-          img.src = image;
-        });
-        // Preload remaining images (after first 3)
-        images.slice(3).forEach((image) => {
-          const img = new window.Image();
-          img.src = image;
-        });
+        
+        // Use unified image handling for preloading
+        preloadImages(images);
+        
         const viewerProps = { title, images };
         authenticateAndOpenViewer(viewerProps);
         break;
@@ -90,12 +48,11 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
       default:
         console.error('Unknown action type in handleCaseStudyClick:', action.type);
     }
-  }, [authenticateAndOpenViewer]);
+  }, [authenticateAndOpenViewer, preloadImages]);
 
   return {
     handleCaseStudyClick,
   };
 }
 
-export { caseStudyData };
 export default useCaseStudyViewer;

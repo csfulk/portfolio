@@ -7,32 +7,13 @@ import Hero from './components/Hero';
 import Modal from './components/Modal';
 import useModal from './hooks/useModal';
 import useAuth from './hooks/useAuth';
-import useCaseStudyViewer, { caseStudyData } from './hooks/useCaseStudyViewer';
+import useCaseStudyViewer from './hooks/useCaseStudyViewer';
 import { sectionsData } from './components/sectionsData';
 import SectionWrapper from './components/sections/SectionWrapper';
 import useKeyboardInteractions from './hooks/useKeyboardInteractions';
-import usePreloadImages from './hooks/usePreloadImages';
+import { useImageHandling } from './hooks/useImageHandling';
+import { getCaseStudyImages } from './data/caseStudyRegistry';
 import useModalStyles from './hooks/useModalStyles';
-
-const preloadCaseStudyImages = () => {
-  const images = [];
-  Object.values(caseStudyData).forEach(({ folder, count, fileName }) => {
-    for (let i = 1; i <= count; i++) {
-      images.push(`${folder}/${fileName}_${String(i).padStart(2, '0')}.webp`);
-    }
-  });
-  return images;
-};
-
-const preloadCriticalCaseStudyImages = () => {
-  const images = [];
-  Object.values(caseStudyData).forEach(({ folder, fileName }) => {
-    for (let i = 1; i <= 3; i++) {
-      images.push(`${folder}/${fileName}_${String(i).padStart(2, '0')}.webp`);
-    }
-  });
-  return images;
-};
 
 const App = () => {
   const {
@@ -63,17 +44,21 @@ const App = () => {
 
   console.log('Modal flags →', { isModalOpen, transitioning, isExpanded, loading });
 
-  // Preload critical images immediately, including the first two images of each case study
-  usePreloadImages([
+  // Get images from enabled case studies
+  const { criticalImages: caseStudyCriticalImages, allImages: caseStudyAllImages } = getCaseStudyImages(3);
+  
+  // Preload critical images immediately (only from enabled case studies)
+  const criticalImages = [
     '/assets/section_01_colt.fulk.youtube.webp',
     '/assets/section_02_colt.fulk.apple.webp',
     '/assets/section_04_colt.fulk.figma.webp',
     '/assets/password.laugh2.gif',
-    ...preloadCriticalCaseStudyImages(),
-  ]);
-
-  // Lazy load case study images
-  usePreloadImages(preloadCaseStudyImages(), { lazy: true });
+    ...caseStudyCriticalImages
+  ];
+  
+  // Use unified image handling (only for enabled case studies)
+  useImageHandling(criticalImages, { preload: true });
+  useImageHandling(caseStudyAllImages, { lazy: true });
 
   // Apply modal styles using the custom hook
   useModalStyles(isModalOpen);
@@ -103,7 +88,6 @@ const App = () => {
               key={section.id}
               section={section}
               handleCaseStudyClick={viewer.handleCaseStudyClick}
-              caseStudyData={caseStudyData}
               authenticated={authenticated}
             />
           ))}
