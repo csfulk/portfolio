@@ -1,0 +1,98 @@
+/**
+ * Button Styles
+ * Hover states and animations for the UI primitive Button component
+ */
+
+.button {
+  transition: all var(--transitions-hover);
+  border: none;
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--buttonPrimary);
+  outline-offset: 2px;
+}
+
+/* Universal Button Hover - uses custom properties set by each variant */
+.button:hover:not(.button--disabled):not(.button--loading) {
+  background-color: var(--button-hover-bg) !important;
+  color: var(--button-hover-color) !important;
+  text-decoration: var(--button-hover-decoration, inherit) !important;
+}
+
+/* Variant-specific additional hover effects */
+.button--primary:hover {
+  box-shadow: 0 4px 12px rgba(29, 29, 29, 0.15);
+}
+
+.button--secondary:hover {
+  border: 1px solid var(--buttonOutline);
+}
+
+.button--outline:hover {
+  border-color: var(--button-hover-bg) !important;
+  box-shadow: 0 2px 8px rgba(29, 29, 29, 0.1);
+}
+
+/* Destructive variant hover */
+.button--destructive:hover {
+  background-color: var(--buttonDestructiveHover, #cc0000) !important;
+  color: var(--textNeutralPrimary) !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+/* Loading State */
+.button--loading {
+  pointer-events: none;
+}
+
+/* Disabled State */
+.button--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Full Width */
+.button--full-width {
+  width: 100%;
+}
+
+/* Size variations already handled by inline styles */
+
+/* Active states for better feedback */
+.button:active:not(.button--disabled) {
+  transform: scale(0.98);
+}
+
+/* Focus states for accessibility */
+.button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Legacy button classes - migrated from button.css */
+.case-study-button {
+  color: var(--textNeutralPrimary);
+  align-items: center; /* Ensure proper vertical centering */
+}
+
+.case-study-button .button-text {
+  /* Remove padding-top that was causing misalignment */
+  display: flex;
+  align-items: center;
+}
+
+.case-study-button .button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study-button:hover {
+  color: var(--textSecondary);
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}
