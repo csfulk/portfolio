@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import '../styles/modal.css';
-import FeaturedProjectViewer from './projectViewer';
-import FigmaEmbedViewer from './FigmaEmbedViewer';
+import '../../styles/modal.css';
+import FeaturedProjectViewer from '../viewers/ProjectViewer';
+import FigmaEmbedViewer from '../viewers/FigmaEmbedViewer';
 
 const Modal = ({
   isModalOpen,
