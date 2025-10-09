@@ -10,16 +10,22 @@ import {
   sectionsData 
 } from '@components';
 import { 
-  useModal, 
   useAuth, 
   useCaseStudyViewer, 
-  useKeyboardInteractions, 
-  useImageHandling, 
-  useModalStyles 
+  useModalManager,
+  useImageOptimization
 } from '@hooks';
 import { getCaseStudyImages } from '@data';
 
 const App = () => {
+  // Enhanced modal management with integrated keyboard interactions and styling
+  const modalManager = useModalManager({
+    onEscape: () => {
+      console.log('Modal escaped via keyboard');
+    },
+    allowEnterInInputs: true
+  });
+
   const {
     isModalOpen,
     modalContent,
@@ -29,11 +35,11 @@ const App = () => {
     loading,
     transitioning,
     setExpanded,
-    setLoading,
     startTransition,
     completeTransition,
     loadViewer,
-  } = useModal();
+    debugInfo: modalDebugInfo
+  } = modalManager;
 
   const { authenticated, authenticateAndOpenViewer } = useAuth({
     startTransition,
@@ -60,26 +66,16 @@ const App = () => {
     ...caseStudyCriticalImages
   ];
   
-  // Use unified image handling (only for enabled case studies)
-  useImageHandling(criticalImages, { preload: true });
-  useImageHandling(caseStudyAllImages, { lazy: true });
-
-  // Apply modal styles using the custom hook
-  useModalStyles(isModalOpen);
-
-  useKeyboardInteractions({
-    onEscape: () => {
-      document.activeElement?.blur();
-      closeModal();
-    },
-    onArrowLeft: () => {
-      // Add logic to navigate to the previous item if applicable
-    },
-    onArrowRight: () => {
-      // Add logic to navigate to the next item if applicable
-    },
-    allowEnterInInputs: true,
+  // Enhanced image optimization with performance monitoring
+  const imageOptimization = useImageOptimization({
+    criticalImages,
+    lazyImages: caseStudyAllImages,
+    logProgress: false // Set to true for debugging
   });
+
+  // Console log modal state for debugging (remove in production)
+  console.log('Modal State →', modalDebugInfo);
+  console.log('Image Stats →', imageOptimization.imageStats);
 
   return (
     <ThemeProvider>

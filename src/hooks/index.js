@@ -16,3 +16,11 @@ export { useScrollFade } from './useScrollFade'
 
 // Feature-Specific Hooks
 export { default as useCaseStudyViewer } from './useCaseStudyViewer'
+
+// Composite Hooks - Advanced patterns
+export { 
+  useModalManager, 
+  useImageOptimization, 
+  useUIState, 
+  useInteractionPatterns 
+} from './composite'
