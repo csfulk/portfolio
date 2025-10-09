@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import '@styles/button-enhanced.css';
+import '@styles/button.css';
 
 const buttonVariants = {
   primary: {
@@ -161,12 +161,12 @@ const ButtonComponent = forwardRef(({
   };
 
   const classes = [
-    'button-enhanced',
-    `button-enhanced--${variant}`,
-    `button-enhanced--${size}`,
-    fullWidth && 'button-enhanced--full-width',
-    isLoading && 'button-enhanced--loading',
-    disabled && 'button-enhanced--disabled',
+    'button',
+    `button--${variant}`,
+    `button--${size}`,
+    fullWidth && 'button--full-width',
+    isLoading && 'button--loading',
+    disabled && 'button--disabled',
     className
   ].filter(Boolean).join(' ');
 

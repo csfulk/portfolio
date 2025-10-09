@@ -190,6 +190,34 @@ html {
 .leading-relaxed { line-height: var(--typography-line-height-relaxed); }
 .leading-loose { line-height: var(--typography-line-height-loose); }
 
+/* Text Color Utilities - Consistent with design tokens */
+.text-color-primary { color: var(--textPrimary); }
+.text-color-secondary { color: var(--textSecondary); }
+.text-color-tertiary { color: var(--textTertiary); }
+.text-color-inverse { color: var(--textNeutralPrimary); }
+
+/* Text Alignment Utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Text Transform Utilities */
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+/* Text Decoration Utilities */
+.text-underline { text-decoration: underline; }
+.text-line-through { text-decoration: line-through; }
+
+/* Text Truncation Utility */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Spacing Utilities for Typography */
 .space-y-sm > * + * { margin-top: var(--spacing-sm); }
 .space-y-md > * + * { margin-top: var(--spacing-md); }

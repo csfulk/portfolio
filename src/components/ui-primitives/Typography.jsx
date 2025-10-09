@@ -6,21 +6,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Unified typography configuration - maps variants to CSS classes and fallback styles
 const typographyVariants = {
-  display1: { element: 'h1', size: 'display1', weight: 'bold' },
-  display2: { element: 'h2', size: 'display2', weight: 'bold' },
-  h1: { element: 'h1', size: '4xl', weight: 'bold' },
-  h2: { element: 'h2', size: '3xl', weight: 'semibold' },
-  h3: { element: 'h3', size: '2xl', weight: 'semibold' },
-  h4: { element: 'h4', size: 'xl', weight: 'medium' },
-  h5: { element: 'h5', size: 'lg', weight: 'medium' },
-  h6: { element: 'h6', size: 'md', weight: 'medium' },
-  body1: { element: 'p', size: 'md', weight: 'normal' },
-  body2: { element: 'p', size: 'sm', weight: 'normal' },
-  subtitle1: { element: 'p', size: 'lg', weight: 'medium' },
-  subtitle2: { element: 'p', size: 'md', weight: 'medium' },
-  caption: { element: 'span', size: 'xs', weight: 'normal' },
-  overline: { element: 'span', size: 'xxs', weight: 'medium' },
+  display1: { element: 'h1', size: 'display1', weight: 'bold', cssClass: 'text-display-1' },
+  display2: { element: 'h2', size: 'display2', weight: 'bold', cssClass: 'text-display-2' },
+  h1: { element: 'h1', size: '4xl', weight: 'bold', cssClass: 'text-heading-1' },
+  h2: { element: 'h2', size: '3xl', weight: 'semibold', cssClass: 'text-heading-2' },
+  h3: { element: 'h3', size: '2xl', weight: 'semibold', cssClass: 'text-heading-3' },
+  h4: { element: 'h4', size: 'xl', weight: 'medium', cssClass: 'text-heading-4' },
+  h5: { element: 'h5', size: 'lg', weight: 'medium', cssClass: 'text-heading-5' },
+  h6: { element: 'h6', size: 'md', weight: 'medium', cssClass: 'text-heading-6' },
+  body1: { element: 'p', size: 'md', weight: 'normal', cssClass: 'text-body-lg' },
+  body2: { element: 'p', size: 'sm', weight: 'normal', cssClass: 'text-body' },
+  subtitle1: { element: 'p', size: 'lg', weight: 'medium', cssClass: 'text-body-lg font-medium' },
+  subtitle2: { element: 'p', size: 'md', weight: 'medium', cssClass: 'text-body-lg font-medium' },
+  caption: { element: 'span', size: 'xs', weight: 'normal', cssClass: 'text-caption' },
+  overline: { element: 'span', size: 'xxs', weight: 'medium', cssClass: 'text-caption font-medium' },
 };
 
 const Text = ({ 
@@ -38,36 +39,28 @@ const Text = ({
   const variantConfig = typographyVariants[variant] || typographyVariants.body1;
   const Component = as || variantConfig.element;
 
-  const textStyles = {
-    fontSize: `var(--typography-font-size-${variantConfig.size})`,
-    fontWeight: `var(--typography-font-weight-${variantConfig.weight})`,
-    color: `var(--colors-text-${color})`,
-    textAlign: align,
-    textTransform: transform,
-    textDecoration: decoration,
-    fontFamily: 'var(--typography-font-family-primary)',
-    lineHeight: 'var(--typography-line-height-normal)',
-    margin: 0,
-    ...(truncate && {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
-    })
+  // Use CSS classes exclusively for consistency and performance
+  const colorMap = {
+    primary: 'text-color-primary',
+    secondary: 'text-color-secondary', 
+    tertiary: 'text-color-tertiary',
+    inverse: 'text-color-inverse'
   };
 
   const classes = [
-    'text',
-    `text--${variant}`,
-    `text--color-${color}`,
-    `text--align-${align}`,
-    truncate && 'text--truncate',
+    'text',                                    // Base text class
+    variantConfig.cssClass,                    // Typography scale CSS class
+    color && (colorMap[color] || `text-color-${color}`), // Mapped color class
+    align && align !== 'left' && `text-${align}`,        // Text alignment
+    transform && transform !== 'none' && `text-${transform}`, // Text transform
+    decoration && decoration !== 'none' && `text-${decoration}`, // Text decoration
+    truncate && 'text-truncate',               // Truncation utility
     className
   ].filter(Boolean).join(' ');
 
   return (
     <Component 
       className={classes}
-      style={textStyles}
       {...props}
     >
       {children}
