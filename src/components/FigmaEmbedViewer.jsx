@@ -15,11 +15,29 @@ const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
       ref={containerRef}
       role="dialog"
       aria-modal="true"
-      style={{ width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.9)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+      style={{ 
+        width: '100vw', 
+        height: '100vh', 
+        background: 'var(--colors-surface-overlay)', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center' 
+      }}
     >
       <button
         className="close-button"
-        style={{ position: 'absolute', top: 24, right: 32, fontSize: 32, background: 'none', border: 'none', color: '#fff', cursor: 'pointer', zIndex: 2 }}
+        style={{ 
+          position: 'absolute', 
+          top: 'var(--spacing-xl)', 
+          right: 'var(--spacing-3xl)', 
+          fontSize: 'var(--typography-font-size-3xl)', 
+          background: 'none', 
+          border: 'none', 
+          color: 'var(--colors-text-inverse)', 
+          cursor: 'pointer', 
+          zIndex: 'var(--z-index-tooltip)' 
+        }}
         onClick={onClose}
         aria-label="Close dialog"
       >
@@ -37,21 +55,21 @@ const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
         <div
           style={{
             width: '100%',
-            height: 'calc(100% + 50px)', // 50px extra to cover the bottom bar
-            marginBottom: '-50px',
+            height: 'calc(100% + var(--spacing-6xl))', // Extra space to cover the bottom bar
+            marginBottom: 'calc(-1 * var(--spacing-6xl))',
             overflow: 'hidden',
-            borderRadius: 8,
-            background: '#1D1D1D',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--colors-surface-modal)',
           }}
         >
           <iframe
             style={{
-              background: '#1D1D1D',
+              background: 'var(--colors-surface-modal)',
               border: 0,
               width: '100%',
               height: '100%',
               display: 'block',
-              borderRadius: 8,
+              borderRadius: 'var(--radius-lg)',
             }}
             width="100%"
             height="100%"

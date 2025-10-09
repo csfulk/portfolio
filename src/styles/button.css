@@ -27,7 +27,7 @@
 }
 
 .button-icon .button-text {
-  padding-top:20px;
+  padding-top: var(--spacing-lg);
 
 }
 
