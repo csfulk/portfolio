@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Container from '../layout-system/Container';
 import { VStack, HStack } from '../layout-system/Stack';
-import { Surface, Typography as Text } from '../ui-primitives';
+import { Surface, Typography as Text } from '../index.js';
 import { useExpandable, useLazyImage } from '@hooks';
 
 // Main Section container

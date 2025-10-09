@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Button, Heading, Surface, Typography as Text } from '../ui-primitives';
+import { Button, Heading, Surface, Typography as Text } from '../index.js';
 import './PrivacyDetailsModal.css';
 
 const PrivacyDetailsModal = ({ isOpen, onClose }) => {

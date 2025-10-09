@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnhancedButton as Button } from '@components';
+import { Button } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
 import '@styles/section.css';

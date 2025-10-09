@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Button, Surface, Typography as Text } from '../ui-primitives';
+import { Button, Surface, Typography as Text } from '../index.js';
 import './PrivacyBanner.css';
 
 const CountdownCircle = ({ timeRemaining, isActive }) => {

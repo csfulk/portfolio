@@ -8,7 +8,7 @@ import {
   Section,
   HStack,
   VStack,
-  EnhancedButton as Button
+  Button
 } from '@components';
 
 const EnhancedSectionWrapper = ({ 
