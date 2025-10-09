@@ -10,7 +10,7 @@
 }
 
 .button-enhanced:focus-visible {
-  outline: 2px solid var(--colors-interactive-primary);
+  outline: 2px solid var(--buttonPrimary);
   outline-offset: 2px;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .button-enhanced--secondary:hover {
-  border: 1px solid var(--colors-interactive-outline);
+  border: 1px solid var(--buttonOutline);
 }
 
 .button-enhanced--outline:hover {
@@ -37,8 +37,8 @@
 
 /* Destructive variant hover */
 .button-enhanced--destructive:hover {
-  background-color: var(--colors-interactive-hover-destructive) !important;
-  color: var(--colors-text-inverse) !important;
+  background-color: var(--buttonDestructiveHover, #cc0000) !important;
+  color: var(--textNeutralPrimary) !important;
   box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
 }
 

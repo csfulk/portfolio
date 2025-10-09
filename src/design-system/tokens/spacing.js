@@ -4,33 +4,84 @@
  */
 
 export const spacing = {
-  // Fine-grained spacing
-  xxxs: '0.25rem',   // 4px
-  xxs: '0.3125rem',  // 5px  
-  xs: '0.5rem',      // 8px
-  sm: '0.75rem',     // 12px
-  md: '1rem',        // 16px (base)
-  lg: '1.25rem',     // 20px
-  xl: '1.563rem',    // 25px
-  
-  // Large spacing
-  '2xl': '1.953rem', // 31px
-  '3xl': '2.441rem', // 39px
-  '4xl': '3.052rem', // 49px
-  '5xl': '3.815rem', // 61px
-  '6xl': '4.768rem', // 76px
-  '7xl': '5.96rem',  // 95px
+  // Core spacing scale - Major Third (1.25x) progression
+  xxxs: '0.25rem',   // 4px  - Borders, focus outlines
+  xxs: '0.3125rem',  // 5px  - Fine adjustments
+  xs: '0.5rem',      // 8px  - Small gaps, icon spacing
+  sm: '0.75rem',     // 12px - Form elements, tight spacing
+  md: '1rem',        // 16px - Base unit, component padding
+  lg: '1.25rem',     // 20px - Standard gaps, button padding
+  xl: '1.563rem',    // 25px - Generous padding, card spacing
+  '2xl': '1.953rem', // 31px - Section gaps, form groups
+  '3xl': '2.441rem', // 39px - Large sections, vertical rhythm
+  '4xl': '3.052rem', // 49px - Major sections, page spacing
+  '5xl': '3.815rem', // 61px - Hero spacing, major breaks
+  '6xl': '4.768rem', // 76px - Extra large sections
+  '7xl': '5.96rem',  // 95px - Maximum standard spacing
 
-  // Semantic spacing
-  section: '5.96rem',     // 7xl for section padding
-  container: '1.25rem',   // lg for container padding
-  component: '1rem',      // md for component spacing
-  element: '0.5rem',      // xs for element spacing
-  
-  // Layout spacing
+  // Semantic spacing categories for consistent usage
+  semantic: {
+    // Component-level spacing
+    component: {
+      tight: '0.5rem',     // xs - Compact components
+      normal: '1rem',      // md - Standard components  
+      loose: '1.25rem'     // lg - Generous components
+    },
+    
+    // Section-level spacing
+    section: {
+      padding: '5.96rem',  // 7xl - Main section padding
+      gap: '3.052rem',     // 4xl - Between sections
+      margin: '2.441rem'   // 3xl - Section margins
+    },
+    
+    // UI element spacing
+    ui: {
+      border: '0.25rem',   // xxxs - Border spacing, focus rings
+      focus: '0.3125rem',  // xxs - Focus outline offset
+      icon: '0.5rem',      // xs - Icon margins, spacing
+      button: '1rem'       // md - Button internal padding
+    },
+    
+    // Navigation specific
+    navigation: {
+      height: '4rem',      // Standard navigation height
+      padding: '1.563rem', // xl - Navigation padding
+      offset: '1.25rem'    // lg - Animation transforms
+    },
+    
+    // Modal and overlay spacing
+    modal: {
+      padding: '1.953rem', // 2xl - Modal internal padding
+      gap: '1.563rem',     // xl - Modal element gaps
+      offset: '1.25rem'    // lg - Modal animations
+    },
+    
+    // Form specific spacing
+    form: {
+      fieldGap: '1rem',     // md - Between form fields
+      groupGap: '1.953rem', // 2xl - Between form groups
+      labelGap: '0.5rem'    // xs - Label to input spacing
+    }
+  },
+
+  // Layout spacing - responsive and contextual
   layout: {
-    horizontal: '5.96rem', // Main horizontal padding
-    vertical: '2.441rem',  // Main vertical padding
-    gap: '1.25rem'         // Default gap between elements
+    // Horizontal padding system
+    horizontal: {
+      mobile: '1.953rem',   // 2xl - 31px mobile padding
+      tablet: '3.052rem',   // 4xl - 49px tablet padding  
+      desktop: '5.96rem'    // 7xl - 95px desktop padding
+    },
+    
+    // Vertical rhythm
+    vertical: '2.441rem',   // 3xl - Main vertical spacing
+    
+    // Standard gaps
+    gap: {
+      tight: '0.75rem',     // sm - Tight layouts
+      normal: '1.25rem',    // lg - Standard gap
+      loose: '1.953rem'     // 2xl - Loose layouts
+    }
   }
 };

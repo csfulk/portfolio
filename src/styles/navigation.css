@@ -1,6 +1,6 @@
 @keyframes slideIn {
   from {
-    transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+    transform: translateY(calc(-1 * var(--spacing-lg))); /* Negative spacing-lg */
   }
   to {
     transform: translateY(0);
@@ -20,7 +20,7 @@
   box-sizing: border-box; /* Ensure padding is included in the width */
   opacity: 0;
   pointer-events: none; /* Prevent interaction when hidden */
-  transform: translateY(-1.25rem); /* 20px = --spacing-lg */
+  transform: translateY(calc(-1 * var(--spacing-lg))); /* Negative spacing-lg */
   transition: transform 0.3s ease, padding 0.3s ease; /* Only animate transform and padding for section transitions */
   z-index: 1000;
 }

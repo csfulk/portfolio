@@ -31,6 +31,7 @@ export const legacyTokens = {
     surfaceOverlay: colors.surface.overlay,
     textPrimary: colors.text.primary,
     textSecondary: colors.text.secondary,
+    textTertiary: colors.text.tertiary,
     textNeutralPrimary: colors.text.inverse,
     textPrimarySection: colors.text.section.primary,
     textSecondarySection: colors.text.section.secondary,
@@ -41,12 +42,22 @@ export const legacyTokens = {
     buttonDestructive: colors.interactive.destructive,
     buttonPrimaryHover: colors.interactive.hover.primary,
     buttonSecondaryHover: colors.interactive.hover.secondary,
+    buttonOutlineHover: colors.interactive.hover.outline,
+    buttonGhostHover: colors.interactive.hover.ghost,
+    buttonLinkHover: colors.interactive.hover.link,
+    buttonDestructiveHover: colors.interactive.hover.destructive,
     buttonTextHover: colors.interactive.hover.text,
+    buttonAccentHover: colors.interactive.hover.accent,
     success: colors.interactive.success,
     primary: colors.brand.primary,
     accent: colors.brand.accent,
-    // Legacy layout spacing
-    'horizontal-padding': spacing.layout.horizontal
+    // Legacy layout spacing - backwards compatibility
+    'horizontal-padding': spacing.layout.horizontal.desktop,
+    // Additional semantic spacing mappings
+    'navigation-height': spacing.semantic.navigation.height,
+    'navigation-offset': spacing.semantic.navigation.offset,
+    'modal-padding': spacing.semantic.modal.padding,
+    'form-field-gap': spacing.semantic.form.fieldGap
   },
   spacing,
   fontSizes: typography.fontSize,

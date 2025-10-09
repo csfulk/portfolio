@@ -81,7 +81,7 @@
 /* Spinner animation */
 .spinner {
   border: var(--spinner-border-width, 4px) solid rgba(255, 255, 255, 0.2);
-  border-top: var(--spinner-border-width, 4px) solid var(--spinner-color);
+  border-top: var(--spinner-border-width, 4px) solid var(--textNeutralPrimary);
   border-radius: 50%;
   width: var(--spinner-size, 40px);
   height: var(--spinner-size, 40px);
@@ -109,7 +109,7 @@
 @keyframes fade {
   from {
     opacity: 0;
-    transform: translateY(-1.25rem); /* Match navigation animation */
+    transform: translateY(calc(-1 * var(--spacing-lg))); /* Match navigation animation */
   }
   to {
     opacity: 1;

@@ -29,7 +29,7 @@
   justify-content: flex-start;
   gap: var(--spacing-lg); /* Space between items */
   padding-left: var(--horizontal-padding); /* Use the shared padding variable */
-  padding-top: 180px;
+  padding-top: var(--navigation-height, 4rem); /* Space for fixed navigation + extra */
   box-sizing: border-box; /* Ensure padding is included in the width */
   overflow-y: visible; /* Allow the left column to grow dynamically */
 }
@@ -192,7 +192,7 @@
   object-fit: cover; /* Maintain aspect ratio and cover the container */
   opacity: 0;
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  transform: translateY(20px);
+  transform: translateY(var(--spacing-lg));
 }
 
 .section-image.loaded {
@@ -202,7 +202,7 @@
 
 .section-image.loading {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(var(--spacing-lg));
 }
 
 /* Vertical Button Group */
