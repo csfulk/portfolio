@@ -7,7 +7,7 @@
 import { colors } from './colors/index.js';
 import { spacing } from './spacing/index.js';
 import { typography } from './typography/index.js';
-import { radius, shadows, zIndex, breakpoints, transitions, responsiveScaling } from './layout/index.js';
+import { radius, shadows, zIndex, breakpoints, containers, transitions, responsiveScaling } from './layout/index.js';
 
 export const tokens = {
   colors,
@@ -17,6 +17,7 @@ export const tokens = {
   shadows,
   zIndex,
   breakpoints,
+  containers,
   transitions,
   responsiveScaling
 };
@@ -57,11 +58,20 @@ export const legacyTokens = {
     // Additional semantic spacing mappings
     'navigation-height': spacing.semantic.navigation.height,
     'navigation-offset': spacing.semantic.navigation.offset,
+    'section-content-offset': spacing.semantic.section.contentOffset,
     'modal-padding': spacing.semantic.modal.padding,
     'form-field-gap': spacing.semantic.form.fieldGap
   },
   spacing,
   fontSizes: typography.fontSize,
+  // Icon sizes based on spacing scale
+  iconSizes: {
+    xs: spacing.xs,    // 0.5rem - 8px
+    sm: spacing.sm,    // 0.75rem - 12px  
+    md: spacing.md,    // 1rem - 16px
+    lg: spacing.lg,    // 1.25rem - 20px
+    xl: spacing.xl     // 1.563rem - 25px
+  },
   radius,
   fontFamily: typography.fontFamily,
   zIndex,

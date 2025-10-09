@@ -29,10 +29,13 @@
   justify-content: flex-start;
   gap: var(--spacing-lg); /* Space between items */
   padding-left: var(--horizontal-padding); /* Use the shared padding variable */
-  padding-top: var(--navigation-height, 4rem); /* Space for fixed navigation + extra */
+  padding-right: var(--spacing-lg); /* Add some breathing room on the right */
+  padding-top: var(--spacing-semantic-section-content-offset, 11.5rem); /* Offset content from top */
   box-sizing: border-box; /* Ensure padding is included in the width */
   overflow-y: visible; /* Allow the left column to grow dynamically */
 }
+
+
 
 /* Right Column */
 .section-right {

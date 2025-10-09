@@ -1,5 +1,6 @@
-/* Import Typography System (NEW DESIGN-SYSTEM STRUCTURE) */
+/* Import Design System Components */
 @import '../design-system/styles/typography.css';
+@import '../design-system/styles/icon.css';
 
 /* Import Responsive Styles */
 @import './responsive.css';

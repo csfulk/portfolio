@@ -1,0 +1,79 @@
+/**
+ * Icon Component Styles - Design System
+ * SVG icon system with size variants
+ */
+
+.ds-icon {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  flex-shrink: 0;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+/* Size variants using design tokens */
+.ds-icon--xs {
+  width: var(--icon-sizes-xs, 0.5rem);
+  height: var(--icon-sizes-xs, 0.5rem);
+}
+
+.ds-icon--sm {
+  width: var(--icon-sizes-sm, 0.75rem);
+  height: var(--icon-sizes-sm, 0.75rem);
+}
+
+.ds-icon--md {
+  width: var(--icon-sizes-md, 1rem);
+  height: var(--icon-sizes-md, 1rem);
+}
+
+.ds-icon--lg {
+  width: var(--icon-sizes-lg, 1.25rem);
+  height: var(--icon-sizes-lg, 1.25rem);
+}
+
+.ds-icon--xl {
+  width: var(--icon-sizes-xl, 1.563rem);
+  height: var(--icon-sizes-xl, 1.563rem);
+}
+
+/* Interactive states */
+.ds-icon:hover {
+  opacity: 0.8;
+}
+
+/* Context-aware coloring */
+.ds-icon--primary {
+  color: var(--colorPrimary, #007bff);
+}
+
+.ds-icon--secondary {
+  color: var(--colorSecondary, #6c757d);
+}
+
+.ds-icon--success {
+  color: var(--colorSuccess, #28a745);
+}
+
+.ds-icon--warning {
+  color: var(--colorWarning, #ffc107);
+}
+
+.ds-icon--error {
+  color: var(--colorError, #dc3545);
+}
+
+/* Loading state */
+.ds-icon--loading {
+  animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

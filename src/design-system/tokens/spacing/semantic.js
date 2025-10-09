@@ -4,6 +4,7 @@
  */
 
 import { spacing } from './index.js';
+import { containers } from '../layout/index.js';
 
 /**
  * Component spacing
@@ -60,12 +61,13 @@ export const layoutSpacing = {
   section: {
     paddingY: spacing['4xl'],
     paddingX: spacing.lg,
-    gap: spacing['2xl']
+    gap: spacing['2xl'],
+    contentOffset: spacing['10xl'] // Top offset for section content
   },
 
   // Container spacing
   container: {
-    maxWidth: '1200px',
+    maxWidth: containers.xl,
     paddingX: spacing.lg,
     marginY: spacing.xl
   },

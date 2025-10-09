@@ -42,6 +42,14 @@ export const breakpoints = {
   wide: '1440px'
 };
 
+export const containers = {
+  sm: '640px',
+  md: '768px', 
+  lg: '1024px',
+  xl: '1200px',
+  '2xl': '1440px'
+};
+
 // Responsive base font size scaling
 // NOTE: These values are implemented in CSS (src/styles/primitives.css)
 // because font-size media queries cannot be applied via JavaScript

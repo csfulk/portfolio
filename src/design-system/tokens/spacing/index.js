@@ -18,6 +18,9 @@ export const spacing = {
   '5xl': '3.815rem', // 61px - Hero spacing, major breaks
   '6xl': '4.768rem', // 76px - Extra large sections
   '7xl': '5.96rem',  // 95px - Maximum standard spacing
+  '8xl': '7.45rem',  // 119px - Extra large sections
+  '9xl': '9.31rem',  // 149px - Massive spacing
+  '10xl': '11.64rem', // 186px - Section content offset
 
   // Semantic spacing categories for consistent usage
   semantic: {
@@ -32,7 +35,8 @@ export const spacing = {
     section: {
       padding: '5.96rem',  // 7xl - Main section padding
       gap: '3.052rem',     // 4xl - Between sections
-      margin: '2.441rem'   // 3xl - Section margins
+      margin: '2.441rem',  // 3xl - Section margins
+      contentOffset: '11.64rem' // 10xl - Top offset for section content
     },
     
     // UI element spacing
@@ -45,7 +49,7 @@ export const spacing = {
     
     // Navigation specific
     navigation: {
-      height: '4rem',      // Standard navigation height
+      height: '4rem',      // Standard navigation height (4xl equivalent)
       padding: '1.563rem', // xl - Navigation padding
       offset: '1.25rem'    // lg - Animation transforms
     },

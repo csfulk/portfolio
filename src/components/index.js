@@ -5,7 +5,7 @@ export { default as Hero } from './pages/Hero'
 export { Modal, PasswordGate } from './modals'
 
 // Main Components
-export { default as Icon } from './icon'
+// Icon moved to design system
 
 // Layout Components
 export { default as Navigation } from './layout/Navigation'
@@ -41,7 +41,8 @@ export {
   Caption, 
   Overline,
   Button,
-  Surface 
+  Surface,
+  Icon
 } from '../design-system/components'
 
 // Privacy Components
