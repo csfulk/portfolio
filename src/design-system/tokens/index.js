@@ -1,12 +1,13 @@
 /**
- * Unified Design System Tokens
- * Single source of truth for all design tokens
+ * Design System Tokens - Unified Export
+ * Centralized token system with clean organization
  */
 
-import { colors } from './colors.js';
-import { spacing } from './spacing.js';
-import { typography } from './typography.js';
-import { radius, shadows, zIndex, breakpoints, transitions, responsiveScaling } from './layout.js';
+// Import from organized token folders (NEW STRUCTURE)
+import { colors } from './colors/index.js';
+import { spacing } from './spacing/index.js';
+import { typography } from './typography/index.js';
+import { radius, shadows, zIndex, breakpoints, transitions, responsiveScaling } from './layout/index.js';
 
 export const tokens = {
   colors,

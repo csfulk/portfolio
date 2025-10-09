@@ -12,11 +12,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Import the token generator
+// Import the token generator (NEW STRUCTURE with fallback)
 async function generateStaticTokens() {
   try {
-    // Dynamic import to handle ES modules
-    const { generateStaticCSS } = await import('../src/design-system/tokens/cssGenerator.js');
+    // Try new generator location first
+    let generateStaticCSS;
+    try {
+      const module = await import('../src/design-system/generators/cssGenerator.js');
+      generateStaticCSS = module.generateStaticCSS;
+    } catch (error) {
+      // Fallback to old location during transition
+      const module = await import('../src/design-system/tokens/cssGenerator.js');
+      generateStaticCSS = module.generateStaticCSS;
+    }
     
     const cssContent = generateStaticCSS();
     const outputPath = resolve(__dirname, '../dist/tokens.css');

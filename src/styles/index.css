@@ -1,5 +1,5 @@
-/* Import Typography System */
-@import './typography.css';
+/* Import Typography System (NEW DESIGN-SYSTEM STRUCTURE) */
+@import '../design-system/styles/typography.css';
 
 /* Import Responsive Styles */
 @import './responsive.css';

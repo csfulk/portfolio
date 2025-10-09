@@ -1,6 +1,6 @@
-// Enhanced token application with load order optimization
-import { applyTokensToDOM } from '../design-system/tokens/cssGenerator';
-import { legacyTokens } from '../design-system/tokens';
+// Enhanced token application with load order optimization (NEW STRUCTURE)
+import { applyTokensToDOM } from '../design-system/generators/cssGenerator.js';
+import { legacyTokens } from '../design-system/tokens/index.js';
 
 /**
  * Applies tokens synchronously for optimal load performance

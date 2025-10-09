@@ -1,0 +1,242 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Typography Foundation Styles */
+
+:root {
+  /*
+   * Base font size for rem calculations
+   * Kept in CSS for immediate availability and media query support
+   */
+  font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+  :root { font-size: 16px; }
+}
+
+@media (max-width: 768px) {
+  :root { font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  :root { font-size: 16px; }
+}
+
+/* Typography Reset & Base Styles */
+h1, h2, h3, h4, h5, h6, p, small, caption {
+  margin: 0;
+  font-family: var(--typography-font-family-primary);
+}
+
+/* Semantic HTML Typography - Minimal & Clean */
+h1 { font-size: var(--typography-font-size-4xl); font-weight: var(--typography-font-weight-bold); line-height: var(--typography-line-height-tight); }
+h2 { font-size: var(--typography-font-size-3xl); font-weight: var(--typography-font-weight-semibold); line-height: var(--typography-line-height-tight); }
+h3 { font-size: var(--typography-font-size-2xl); font-weight: var(--typography-font-weight-semibold); line-height: var(--typography-line-height-normal); }
+h4 { font-size: var(--typography-font-size-xl); font-weight: var(--typography-font-weight-medium); line-height: var(--typography-line-height-normal); }
+h5 { font-size: var(--typography-font-size-lg); font-weight: var(--typography-font-weight-medium); line-height: var(--typography-line-height-normal); }
+h6 { font-size: var(--typography-font-size-md); font-weight: var(--typography-font-weight-medium); line-height: var(--typography-line-height-normal); }
+
+/* Body text - NO margin reset, let components control spacing */
+p {
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-relaxed);
+  /* NO margin - let components handle their own spacing needs */
+}
+
+small { font-size: var(--typography-font-size-xs); font-weight: var(--typography-font-weight-normal); line-height: var(--typography-line-height-normal); }
+caption { font-size: var(--typography-font-size-xxs); font-weight: var(--typography-font-weight-normal); line-height: var(--typography-line-height-normal); }
+
+/* Body baseline styles */
+body {
+  font-family: var(--typography-font-family-primary);
+  background-color: var(--surface-0);
+  color: var(--textPrimary);
+  font-size: var(--typography-font-size-sm);
+  line-height: var(--typography-line-height-relaxed);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Typography Utility Classes */
+
+/* Semantic Typography Scales - Using CSS Variables for Single Source of Truth */
+.text-display-1 {
+  font-size: var(--typography-font-size-display1);
+  font-weight: var(--typography-font-weight-bold);
+  line-height: var(--typography-line-height-tight);
+  letter-spacing: var(--typography-letter-spacing-tight);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-display-2 {
+  font-size: var(--typography-font-size-display2);
+  font-weight: var(--typography-font-weight-bold);
+  line-height: var(--typography-line-height-tight);
+  letter-spacing: var(--typography-letter-spacing-tight);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-1 {
+  font-size: var(--typography-font-size-4xl);
+  font-weight: var(--typography-font-weight-bold);
+  line-height: var(--typography-line-height-tight);
+  letter-spacing: var(--typography-letter-spacing-tight);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-2 {
+  font-size: var(--typography-font-size-3xl);
+  font-weight: var(--typography-font-weight-semibold);
+  line-height: var(--typography-line-height-tight);
+  letter-spacing: var(--typography-letter-spacing-tight);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-3 {
+  font-size: var(--typography-font-size-2xl);
+  font-weight: var(--typography-font-weight-semibold);
+  line-height: var(--typography-line-height-normal);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-4 {
+  font-size: var(--typography-font-size-xl);
+  font-weight: var(--typography-font-weight-medium);
+  line-height: var(--typography-line-height-normal);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-5 {
+  font-size: var(--typography-font-size-lg);
+  font-weight: var(--typography-font-weight-medium);
+  line-height: var(--typography-line-height-normal);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-heading-6 {
+  font-size: var(--typography-font-size-md);
+  font-weight: var(--typography-font-weight-medium);
+  line-height: var(--typography-line-height-normal);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-body-lg {
+  font-size: var(--typography-font-size-md);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-relaxed);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-body {
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-relaxed);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-body-sm {
+  font-size: var(--typography-font-size-xs);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-relaxed);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+.text-section-description {
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-loose);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.text-caption {
+  font-size: var(--typography-font-size-xxs);
+  font-weight: var(--typography-font-weight-normal);
+  line-height: var(--typography-line-height-normal);
+  letter-spacing: var(--typography-letter-spacing-normal);
+  font-family: var(--typography-font-family-primary);
+}
+
+/* Individual Property Utilities - Using CSS Variables */
+.font-family-primary { font-family: var(--typography-font-family-primary); }
+.font-family-mono { font-family: var(--typography-font-family-mono); }
+
+.font-light { font-weight: var(--typography-font-weight-light); }
+.font-normal { font-weight: var(--typography-font-weight-normal); }
+.font-medium { font-weight: var(--typography-font-weight-medium); }
+.font-semibold { font-weight: var(--typography-font-weight-semibold); }
+.font-bold { font-weight: var(--typography-font-weight-bold); }
+.font-extrabold { font-weight: var(--typography-font-weight-extrabold); }
+
+.leading-tight { line-height: var(--typography-line-height-tight); }
+.leading-normal { line-height: var(--typography-line-height-normal); }
+.leading-relaxed { line-height: var(--typography-line-height-relaxed); }
+.leading-loose { line-height: var(--typography-line-height-loose); }
+
+/* Text Color Utilities - Consistent with design tokens */
+.text-color-primary { color: var(--textPrimary); }
+.text-color-secondary { color: var(--textSecondary); }
+.text-color-tertiary { color: var(--textTertiary); }
+.text-color-inverse { color: var(--textNeutralPrimary); }
+
+/* Text Alignment Utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Text Transform Utilities */
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+/* Text Decoration Utilities */
+.text-underline { text-decoration: underline; }
+.text-line-through { text-decoration: line-through; }
+
+/* Text Truncation Utility */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Spacing Utilities for Typography */
+.space-y-sm > * + * { margin-top: var(--spacing-sm); }
+.space-y-md > * + * { margin-top: var(--spacing-md); }
+.space-y-lg > * + * { margin-top: var(--spacing-lg); }
+.space-y-xl > * + * { margin-top: var(--spacing-xl); }
+
+/* Specific component spacing patterns */
+.section-description-spacing p {
+  margin-bottom: var(--spacing-md);
+}
+
+.section-description-spacing p:last-child {
+  margin-bottom: 0;
+}
+
+/* Overlay utility for backdrop blur effects */
+.overlay {
+  background-color: var(--surfaceOverlay);
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  position: relative; /* Ensure proper stacking context */
+}

@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { tokens } from '../design-system/tokens';
+import { tokens } from '../design-system/tokens/index.js';
 
 export const ThemeContext = createContext(tokens);
 
