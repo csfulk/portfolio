@@ -37,12 +37,13 @@ export const colors = {
     success: '#0aba62',
     // Variant-specific hover colors
     hover: {
-      primary: '#0077ff',      // Darker hover for primary buttons
-      secondary: '#e0e0e0',    // Slightly darker hover for secondary
-      outline: '#1D1D1D',      // Fill with primary color on hover
-      ghost: '#f0f0f0',        // Light background for ghost hover
-      link: '#cc0066',         // Darker accent for link hover
-      destructive: '#cc0000'   // Darker red for destructive hover
+      primary: '#0077ff',      // Primary button hover background
+      secondary: '#e0e0e0',    // Secondary button hover background
+      outline: '#1D1D1D',      // Outline button hover (fills with primary)
+      ghost: '#f0f0f0',        // Ghost button hover background
+      link: '#cc0066',         // Link button hover color
+      destructive: '#cc0000',  // Destructive button hover background
+      text: '#1D1D1D'          // Text hover color (for buttons)
     }
   },
 

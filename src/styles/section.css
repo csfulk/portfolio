@@ -1,6 +1,3 @@
-/* Import Primitives */
-@import './primitives.css';
-
 /* Import Responsive Styles */
 @import './responsive.css';
 
@@ -30,7 +27,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--spacing-2xl); /* Space between items */
+  gap: var(--spacing-lg); /* Space between items */
   padding-left: var(--horizontal-padding); /* Use the shared padding variable */
   padding-top: 180px;
   box-sizing: border-box; /* Ensure padding is included in the width */
@@ -47,18 +44,6 @@
   overflow: hidden; /* Prevent content overflow */
   position: sticky; /* Keep the right column fixed in place */
   top: 0; /* Stick to the top of the viewport */
-}
-
-/* Left Column */
-.section-left {
-  flex: 0 0 40%; /* Left column takes up 40% of the width */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: var(--spacing-lg); /* Space between items */
-  padding-left: var(--horizontal-padding); /* Use the shared padding variable */
-  box-sizing: border-box; /* Ensure padding is included in the width */
-  overflow-y: visible; /* Allow the left column to grow dynamically */
 }
 
 .section-logo {
@@ -80,28 +65,19 @@
 }
 
 .section-title {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  line-height: 1.4;
   color: var(--textPrimarySection);
 }
 
 .section-subtitle {
-  font-size: var(--font-size-sm);
-  font-weight: 400;
   color: var(--textPrimarySection);
-
 }
 
 /* Description text */
 .section-description {
-  font-size: var(--font-size-sm);
   color: var(--textPrimarySection);
-  line-height: 1.8;
   text-overflow: ellipsis;
   white-space: normal;
-  transition: all 0.3s ease;
-  
+  transition: var(--transitions-normal);
 }
 
 .section-description-container.collapsed .section-description {
@@ -127,41 +103,25 @@
   max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */
 }
 
-/* Ensure truncation applies directly to section-description elements */
-.section-description-container.truncated .section-description {
-  overflow: hidden !important;
-  display: -webkit-box !important;
-  line-clamp: 3 !important;
-  -webkit-line-clamp: 3 !important; /* Limit to 3 lines */
-  -webkit-box-orient: vertical !important;
-  max-height: calc(3 * 1.8em) !important; /* Ensure height matches 3 lines */
-}
-
 /* Description text */
 .section-description p {
-  line-height: 1.8; /* Improve line spacing */
-  word-wrap: break-word; /* Ensure long words break to the next line */
-  color: var(--textPrimarySection); /* Ensure consistent text color */
-}
+  word-wrap: break-word;
+  color: var(--textPrimarySection);
 
-.section-description-container .section-description p {
-  margin-bottom: var(--spacing-md) !important; /* Force spacing between paragraphs */
-  line-height: 1.8; /* Improve line spacing */
-  word-wrap: break-word; /* Ensure long words break to the next line */
 }
 
 /* Description container */
 .section-description-container {
   overflow: hidden;
-  transition: height 0.3s ease; /* Use height for transitions */
+  transition: max-height 0.3s ease; /* Use max-height for smoother transitions */
 }
 
-.section-description-container.collapsed {
-  height: 5.4em; /* 3 lines * 1.8em line height */
+.section-description-container.truncated {
+  max-height: 5.4em; /* 3 lines * 1.8em line height */
 }
 
 .section-description-container.expanded {
-  height: auto; /* Allow full expansion */
+  max-height: none; /* Allow full expansion */
 }
 
 /* Gradient effect for truncated description */
@@ -177,18 +137,7 @@
   z-index: 1;;
 }
 
-/* Expanded description container */
-.section-description-container.expanded {
-  max-height: none; /* Allow JS to dynamically assign the height using scrollHeight */
-  overflow: visible; /* Allow full content to be visible */
-  transition: max-height 0.3s ease; /* Smooth and natural easing */
-}
 
-.section-description-container.expanded-height {
-  height: auto; /* Allow full expansion */
-  max-height: none; /* Remove any max-height restrictions */
-  transition: height 0.3s ease; /* Smooth transition for height */
-}
 
 /* Toggle button */
 .toggle-button {
@@ -196,9 +145,9 @@
   margin-top: var(--spacing-sm); /* Add spacing above the button */
   background: none;
   border: none;
-  color: var(--textSecondary); /* Use primary color */
-  font-size: var(--font-size-sm);
-  font-weight: 400;
+  color: var(--textSecondary);
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-normal);
   cursor: pointer;
   padding: 0;
   z-index: 1; /* Ensure the button is above other elements */
@@ -214,9 +163,9 @@
   list-style: disc;
   padding-left: var(--spacing-lg);
   color: var(--textSecondarySection);
-  line-height: 2.25;
+  line-height: var(--typography-line-height-loose);
   margin: 0;
-  display: block; /* Ensure bullets are displayed */
+  display: block;
 }
 
 /* Hide bullet points when truncated */
@@ -231,20 +180,8 @@
 
 /* Highlight the role in the bullet points */
 .role-highlight {
-  font-weight: 600;
-  color: var(--textNeutralPrimary); /* White color for the role */
-}
-
-/* Right Column */
-.section-right {
-  flex: 0 0 60%; /* Right column takes up 60% of the width */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align the image at the top */
-  height: 100vh; /* Fix the height of the right column to the viewport */
-  overflow: hidden; /* Prevent content overflow */
-  position: sticky; /* Keep the right column fixed in place */
-  top: 0; /* Stick to the top of the viewport */
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--textNeutralPrimary);
 }
 
 /* Image - Lazy loading with fade-in effect */
@@ -271,9 +208,8 @@
 /* Vertical Button Group */
 .button-group-vertical {
   display: flex;
-  justify-content: center; /* Center buttons horizontally */
-  align-items: flex-start; /* Center buttons vertically */
   flex-direction: column; /* Stack buttons vertically */
+  align-items: flex-start; /* Align buttons to the left */
   gap: var(--spacing-md); /* Add spacing between buttons */
 }
 

@@ -70,7 +70,7 @@
   padding-left: var(--spacing-md);
   color: var(--colors-text-secondary);
   font-size: var(--typography-font-size-md);
-  line-height: 1.5;
+  line-height: var(--typography-line-height-relaxed);
 }
 
 .privacy-modal__list li {

@@ -1,8 +1,6 @@
 /* Tablet (max-width: 1024px) */
 @media (max-width: 1024px) {
-  html {
-    font-size: 15px; /* Slightly smaller font size for tablets */
-  }
+  /* Font-size handled by typography.css - removed conflicting rule */
 
   section {
     padding: var(--spacing-md); /* Adjust padding for tablets */
@@ -15,9 +13,7 @@
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
-  html {
-    font-size: 14px; /* Smaller font size for mobile devices */
-  }
+  /* Font-size handled by typography.css - removed conflicting rule */
 
   .grid-2 {
     grid-template-columns: 1fr; /* Single column for smaller screens */
@@ -34,9 +30,7 @@
 
 /* Small Mobile (max-width: 480px) */
 @media (max-width: 480px) {
-  html {
-    font-size: 13px; /* Even smaller font size for small screens */
-  }
+  /* Font-size handled by typography.css - removed conflicting rule */
 
   section {
     padding: var(--spacing-sm); /* Adjust padding for small screens */

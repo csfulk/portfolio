@@ -42,6 +42,16 @@ export const breakpoints = {
   wide: '1440px'
 };
 
+// Responsive base font size scaling
+// NOTE: These values are implemented in CSS (src/styles/primitives.css)
+// because font-size media queries cannot be applied via JavaScript
+export const responsiveScaling = {
+  base: '14px',      // Matches primitives.css root font-size
+  tablet: '14px',    // Keeping consistent with base
+  mobile: '14px',    // Keeping consistent with base  
+  small: '14px'      // Keeping consistent with base
+};
+
 export const transitions = {
   fast: '0.15s ease-out',
   normal: '0.25s ease-out',

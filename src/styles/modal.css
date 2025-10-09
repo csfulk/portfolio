@@ -57,7 +57,7 @@
   right: var(--spacing-md, 1rem);
   background: none;
   border: none;
-  font-size: var(--font-size-lg, 1.5rem);
+  font-size: var(--typography-font-size-lg, 1.5rem);
   color: var(--textNeutralPrimary);
   cursor: pointer;
   z-index: var(--z-index-modal-close, 10);

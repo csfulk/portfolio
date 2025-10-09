@@ -3,10 +3,10 @@
  * Single source of truth for all design tokens
  */
 
-import { colors } from './colors';
-import { spacing } from './spacing';
-import { typography } from './typography';
-import { radius, shadows, zIndex, breakpoints, transitions } from './layout';
+import { colors } from './colors.js';
+import { spacing } from './spacing.js';
+import { typography } from './typography.js';
+import { radius, shadows, zIndex, breakpoints, transitions, responsiveScaling } from './layout.js';
 
 export const tokens = {
   colors,
@@ -16,7 +16,8 @@ export const tokens = {
   shadows,
   zIndex,
   breakpoints,
-  transitions
+  transitions,
+  responsiveScaling
 };
 
 // Legacy support - maintain backward compatibility
@@ -26,6 +27,8 @@ export const legacyTokens = {
     'surface-1': colors.surface.secondary,
     'surface-2': colors.surface.tertiary,
     surfaceSection: colors.surface.section,
+    surfaceModal: colors.surface.modal,
+    surfaceOverlay: colors.surface.overlay,
     textPrimary: colors.text.primary,
     textSecondary: colors.text.secondary,
     textNeutralPrimary: colors.text.inverse,
@@ -36,17 +39,29 @@ export const legacyTokens = {
     buttonAccent: colors.interactive.accent,
     buttonOutline: colors.interactive.outline,
     buttonDestructive: colors.interactive.destructive,
-    buttonPrimaryHover: colors.interactive.hover,
-    buttonTextHover: colors.text.primary,
+    buttonPrimaryHover: colors.interactive.hover.primary,
+    buttonSecondaryHover: colors.interactive.hover.secondary,
+    buttonTextHover: colors.interactive.hover.text,
+    success: colors.interactive.success,
     primary: colors.brand.primary,
-    accent: colors.brand.accent
+    accent: colors.brand.accent,
+    // Legacy layout spacing
+    'horizontal-padding': spacing.layout.horizontal
   },
   spacing,
   fontSizes: typography.fontSize,
   radius,
   fontFamily: typography.fontFamily,
   zIndex,
-  boxShadow: shadows
+  boxShadow: shadows,
+  // Explicit legacy shadow mappings
+  shadows: {
+    'box-shadow-sm': shadows.sm,
+    'box-shadow-md': shadows.md,
+    'box-shadow-lg': shadows.lg,
+    'box-shadow-xl': shadows.xl,
+    'box-shadow-modal': shadows.modal
+  }
 };
 
 export default tokens;

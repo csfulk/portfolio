@@ -9,8 +9,8 @@
 }
 
 .project-title {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-size: var(--typography-font-size-xl);
+  font-weight: var(--typography-font-weight-semibold);
   color: var(--textPrimarySection);
 }
 
@@ -39,8 +39,8 @@
 
 .nav-button {
   color: var(--textNeutralPrimary);
-  font-size: var(--font-size-md);
-  font-weight: 500;
+  font-size: var(--typography-font-size-md);
+  font-weight: var(--typography-font-weight-medium);
   cursor: pointer;
   transition: background-color 0.2s ease;
   outline: none;
@@ -52,7 +52,7 @@
 }
 
 .image-count {
-  font-size: var(--font-size-sm);
+  font-size: var(--typography-font-size-sm);
   color: var(--textSecondary);
   width: 4rem;
   text-align: center;
@@ -63,10 +63,10 @@
   position: absolute;
   top: var(--spacing-xl);
   right: var(--spacing-4xl);
-  font-size: var(--font-size-lg);
+  font-size: var(--typography-font-size-lg);
   color: var(--textNeutralPrimary);
   background: none;
-  font-weight: 300;
+  font-weight: var(--typography-font-weight-light);
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
@@ -87,7 +87,7 @@
 }
 
 .keyboard-instructions {
-  font-size: var(--font-size-sm);
+  font-size: var(--typography-font-size-sm);
   color: var(--textSecondary);
   text-align: center;
 }

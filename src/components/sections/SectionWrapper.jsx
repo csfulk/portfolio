@@ -26,8 +26,8 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
               <img src={logo} alt="Logo" className="section-logo" />
             </div>
           )}
-          {title && <h1 className="section-title">{title}</h1>}
-          {subtitle && <h2 className="section-subtitle">{subtitle}</h2>}
+          {title && <h1 className="section-title text-heading-3">{title}</h1>}
+          {subtitle && <h2 className="section-subtitle text-body-sm">{subtitle}</h2>}
           {description && (
             <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
               <div
@@ -36,7 +36,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                 style={{ maxHeight: isExpanded ? 'none' : '5.4em' }}
               >
                 {description.split('\n').map((paragraph, index) => (
-                  <p key={index} className="section-description">{paragraph.trim()}</p>
+                  <p key={index} className="section-description text-section-description">{paragraph.trim()}</p>
                 ))}
                 {bulletPoints.length > 0 && (
                   <ul className="section-bullets">

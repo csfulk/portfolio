@@ -6,4 +6,4 @@ export { generateCSSVariables, applyTokensToDOM } from './tokens/cssGenerator';
 export { colors } from './tokens/colors';
 export { spacing } from './tokens/spacing';
 export { typography } from './tokens/typography';
-export { radius, shadows, zIndex, breakpoints, transitions } from './tokens/layout';
+export { radius, shadows, zIndex, breakpoints, transitions, responsiveScaling } from './tokens/layout';
