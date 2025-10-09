@@ -2,7 +2,7 @@
 export { default as Hero } from './Hero'
 export { default as Modal } from './Modal'
 export { default as PasswordGate } from './PasswordGate'
-export { default as Button } from './button'
+// Removed legacy button - use EnhancedButton from ui-primitives instead
 export { default as Icon } from './icon'
 export { default as FigmaEmbedViewer } from './FigmaEmbedViewer'
 
@@ -42,3 +42,6 @@ export {
   Button as EnhancedButton,
   Surface 
 } from './ui-primitives'
+
+// Privacy Components
+export { PrivacyBanner, PrivacyDetailsModal } from './privacy'

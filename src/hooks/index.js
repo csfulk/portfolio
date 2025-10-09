@@ -16,6 +16,7 @@ export { useScrollFade } from './useScrollFade'
 
 // Feature-Specific Hooks
 export { default as useCaseStudyViewer } from './useCaseStudyViewer'
+export { usePrivacyIntegration } from './usePrivacyIntegration'
 
 // Composite Hooks - Advanced patterns
 export { 

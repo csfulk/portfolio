@@ -5,51 +5,61 @@
 
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import '@styles/button-enhanced.css';
 
 const buttonVariants = {
   primary: {
     backgroundColor: 'var(--colors-interactive-primary)',
     color: 'var(--colors-text-inverse)',
     border: 'none',
-    '&:hover': {
-      backgroundColor: 'var(--colors-interactive-hover)',
-      color: 'var(--colors-interactive-primary)'
-    }
+    '--button-hover-bg': 'var(--colors-interactive-hover-primary)',
+    '--button-hover-color': 'var(--colors-text-inverse)'
   },
   secondary: {
     backgroundColor: 'var(--colors-interactive-secondary)',
     color: 'var(--colors-interactive-primary)',
     border: 'none',
-    '&:hover': {
-      backgroundColor: 'var(--colors-interactive-hover)',
-      color: 'var(--colors-text-inverse)'
-    }
+    '--button-hover-bg': 'var(--colors-interactive-hover-secondary)',
+    '--button-hover-color': 'var(--colors-interactive-primary)'
   },
   outline: {
     backgroundColor: 'transparent',
     color: 'var(--colors-interactive-primary)',
     border: '1px solid var(--colors-interactive-outline)',
-    '&:hover': {
-      backgroundColor: 'var(--colors-interactive-primary)',
-      color: 'var(--colors-text-inverse)'
-    }
+    '--button-hover-bg': 'var(--colors-interactive-hover-outline)',
+    '--button-hover-color': 'var(--colors-text-inverse)'
   },
   ghost: {
     backgroundColor: 'transparent',
     color: 'var(--colors-interactive-primary)',
     border: 'none',
-    '&:hover': {
-      backgroundColor: 'var(--colors-interactive-secondary)'
-    }
+    '--button-hover-bg': 'var(--colors-interactive-hover-ghost)',
+    '--button-hover-color': 'var(--colors-interactive-primary)'
   },
   link: {
     backgroundColor: 'transparent',
     color: 'var(--colors-interactive-accent)',
     border: 'none',
     textDecoration: 'underline',
-    '&:hover': {
-      textDecoration: 'none'
-    }
+    '--button-hover-bg': 'transparent',
+    '--button-hover-color': 'var(--colors-interactive-hover-link)',
+    '--button-hover-decoration': 'none'
+  },
+  destructive: {
+    backgroundColor: 'var(--colors-interactive-destructive)',
+    color: 'var(--colors-text-inverse)',
+    border: 'none',
+    '--button-hover-bg': 'var(--colors-interactive-hover-destructive)',
+    '--button-hover-color': 'var(--colors-text-inverse)'
+  },
+  text: {
+    backgroundColor: 'transparent',
+    color: 'var(--colors-text-primary)',
+    border: 'none',
+    textDecoration: 'none',
+    '--button-hover-bg': 'transparent',
+    '--button-hover-color': 'var(--colors-text-secondary)',
+    '--button-hover-decoration': 'none'
   }
 };
 
@@ -70,8 +80,8 @@ const buttonSizes = {
     minHeight: '40px'
   },
   lg: {
-    padding: 'var(--spacing-md) var(--spacing-2xl)',
-    fontSize: 'var(--typography-font-size-md)',
+    padding: 'var(--spacing-lg) var(--spacing-xl)',
+    fontSize: 'var(--typography-font-size-sm)',
     minHeight: '48px'
   },
   xl: {
@@ -83,13 +93,24 @@ const buttonSizes = {
 
 const ButtonComponent = forwardRef(({ 
   children,
+  text, // Backward compatibility - use text prop if children not provided
   variant = 'primary',
   size = 'md',
+  fontWeight, // Now optional - defaults to medium if not provided
   icon,
   iconPosition = 'leading',
   isLoading = false,
   disabled = false,
   fullWidth = false,
+  // Style override props
+  noPadding = false,
+  paddingX,
+  paddingY, 
+  padding,
+  color,
+  backgroundColor,
+  hoverColor,
+  hoverBackgroundColor,
   className = '',
   onClick,
   type = 'button',
@@ -99,13 +120,26 @@ const ButtonComponent = forwardRef(({
   const variantStyles = buttonVariants[variant] || buttonVariants.primary;
   const sizeStyles = buttonSizes[size] || buttonSizes.md;
 
+  // Handle padding overrides
+  const getPadding = () => {
+    if (noPadding) return '0';
+    if (padding) return padding;
+    if (paddingX || paddingY) {
+      const x = paddingX || '0';
+      const y = paddingY || '0';
+      return `${y} ${x}`;
+    }
+    return sizeStyles.padding;
+  };
+
   const buttonStyles = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 'var(--spacing-xs)',
     fontFamily: 'var(--typography-font-family-primary)',
-    fontWeight: 'var(--typography-font-weight-medium)',
+    // Simple font weight logic - use prop or default to medium
+    fontWeight: fontWeight ? `var(--typography-font-weight-${fontWeight})` : 'var(--typography-font-weight-medium)',
     borderRadius: 'var(--radius-full)',
     cursor: disabled || isLoading ? 'not-allowed' : 'pointer',
     transition: 'var(--transitions-hover)',
@@ -117,6 +151,13 @@ const ButtonComponent = forwardRef(({
     opacity: disabled || isLoading ? 0.6 : 1,
     ...variantStyles,
     ...sizeStyles,
+    // Override with custom styles if provided
+    padding: getPadding(),
+    ...(color && { color }),
+    ...(backgroundColor && { backgroundColor }),
+    // Set custom properties for hover states
+    ...(hoverColor && { '--button-hover-color': hoverColor }),
+    ...(hoverBackgroundColor && { '--button-hover-bg': hoverBackgroundColor }),
   };
 
   const classes = [
@@ -184,9 +225,10 @@ const ButtonComponent = forwardRef(({
 
   const renderContent = () => {
     const iconElement = renderIcon();
+    const buttonContent = children || text; // Support both children and text prop
     const textElement = (
       <span className="button-text">
-        {children}
+        {buttonContent}
       </span>
     );
 
@@ -225,14 +267,25 @@ const ButtonComponent = forwardRef(({
 ButtonComponent.displayName = 'Button';
 
 ButtonComponent.propTypes = {
-  children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'ghost', 'link']),
+  children: PropTypes.node,
+  text: PropTypes.string, // Backward compatibility
+  variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'ghost', 'link', 'destructive', 'text']),
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
+  fontWeight: PropTypes.oneOf(['light', 'normal', 'medium', 'semibold', 'bold', 'extrabold']),
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   iconPosition: PropTypes.oneOf(['leading', 'trailing']),
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,
+  // Style override props
+  noPadding: PropTypes.bool,
+  paddingX: PropTypes.string,
+  paddingY: PropTypes.string,
+  padding: PropTypes.string,
+  color: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  hoverColor: PropTypes.string,
+  hoverBackgroundColor: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),

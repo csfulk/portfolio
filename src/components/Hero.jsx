@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@components';
+import { EnhancedButton as Button } from '@components';
 import { scrollToSection } from '@scripts';
 
 const Hero = () => {
@@ -26,17 +26,22 @@ const Hero = () => {
 
         <div className="button-group">
           <Button
-            text="Case Studies"
             variant="primary"
-            className="button-primary"
+            size="lg"
+            fontWeight="medium"
             onClick={() => scrollToSection('.first-section')} // Use the utility function
-          />
+          >
+            Case Studies
+          </Button>
+
           <Button
-            text="Open Resume"
             variant="secondary"
-            className="button-secondary"
+            size="lg"
+            fontWeight="medium"
             onClick={() => window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank')}
-          />
+          >
+            Open Resume
+          </Button>
         </div>
       </div>
     </section>

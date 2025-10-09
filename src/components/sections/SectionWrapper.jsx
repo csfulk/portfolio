@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@components';
+import { EnhancedButton as Button } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
 import '@styles/section.css';
@@ -65,8 +65,10 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                   icon={caseStudy.button.icon}
                   iconPosition="leading"
                   variant="text"
+                  noPadding={true}
+                  color="var(--textNeutralPrimary)"
+                  hoverColor="var(--textSecondary)"
                   className="case-study-button"
-                  authenticated={authenticated}
                   onClick={() => {
                     handleCaseStudyClick({
                       type: caseStudy.viewer.type,

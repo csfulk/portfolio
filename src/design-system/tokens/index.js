@@ -36,7 +36,7 @@ export const legacyTokens = {
     buttonAccent: colors.interactive.accent,
     buttonOutline: colors.interactive.outline,
     buttonDestructive: colors.interactive.destructive,
-    buttonHover: colors.interactive.hover,
+    buttonPrimaryHover: colors.interactive.hover,
     buttonTextHover: colors.text.primary,
     primary: colors.brand.primary,
     accent: colors.brand.accent

@@ -1,0 +1,98 @@
+/**
+ * Enhanced Button Styles
+ * Hover states and animations for the UI primitive Button component
+ */
+
+.button-enhanced {
+  transition: all var(--transitions-hover);
+  border: none;
+  outline: none;
+}
+
+.button-enhanced:focus-visible {
+  outline: 2px solid var(--colors-interactive-primary);
+  outline-offset: 2px;
+}
+
+/* Universal Button Hover - uses custom properties set by each variant */
+.button-enhanced:hover:not(.button-enhanced--disabled):not(.button-enhanced--loading) {
+  background-color: var(--button-hover-bg) !important;
+  color: var(--button-hover-color) !important;
+  text-decoration: var(--button-hover-decoration, inherit) !important;
+}
+
+/* Variant-specific additional hover effects */
+.button-enhanced--primary:hover {
+  box-shadow: 0 4px 12px rgba(29, 29, 29, 0.15);
+}
+
+.button-enhanced--secondary:hover {
+  border: 1px solid var(--colors-interactive-outline);
+}
+
+.button-enhanced--outline:hover {
+  border-color: var(--button-hover-bg) !important;
+  box-shadow: 0 2px 8px rgba(29, 29, 29, 0.1);
+}
+
+/* Destructive variant hover */
+.button-enhanced--destructive:hover {
+  background-color: var(--colors-interactive-hover-destructive) !important;
+  color: var(--colors-text-inverse) !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+/* Loading State */
+.button-enhanced--loading {
+  pointer-events: none;
+}
+
+/* Disabled State */
+.button-enhanced--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Full Width */
+.button-enhanced--full-width {
+  width: 100%;
+}
+
+/* Size variations already handled by inline styles */
+
+/* Active states for better feedback */
+.button-enhanced:active:not(.button-enhanced--disabled) {
+  transform: scale(0.98);
+}
+
+/* Focus states for accessibility */
+.button-enhanced:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Legacy button classes - migrated from button.css */
+.case-study-button {
+  color: var(--textNeutralPrimary);
+  align-items: center; /* Ensure proper vertical centering */
+}
+
+.case-study-button .button-text {
+  /* Remove padding-top that was causing misalignment */
+  display: flex;
+  align-items: center;
+}
+
+.case-study-button .button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study-button:hover {
+  color: var(--textSecondary);
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}

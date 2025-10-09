@@ -34,8 +34,16 @@ export const colors = {
     accent: '#F09',
     outline: '#e0e0e0',
     destructive: '#ff0000',
-    hover: '#0077ff',
-    success: '#0aba62'
+    success: '#0aba62',
+    // Variant-specific hover colors
+    hover: {
+      primary: '#0077ff',      // Darker hover for primary buttons
+      secondary: '#e0e0e0',    // Slightly darker hover for secondary
+      outline: '#1D1D1D',      // Fill with primary color on hover
+      ghost: '#f0f0f0',        // Light background for ghost hover
+      link: '#cc0066',         // Darker accent for link hover
+      destructive: '#cc0000'   // Darker red for destructive hover
+    }
   },
 
   // Brand Colors

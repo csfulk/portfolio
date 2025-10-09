@@ -18,7 +18,7 @@
 - `buttonAccent`: #F09
 - `buttonOutline`: #e0e0e0
 - `buttonDestructive`: #ff0000
-- `buttonHover`: #0077ff
+- `buttonPrimaryHover`: #0077ff
 - `buttonTextHover`: var(--textPrimary)
 - `primary`: #0000FF
 - `accent`: #F09

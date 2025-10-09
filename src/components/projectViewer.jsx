@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from '@components';
+import { EnhancedButton as Button } from '@components';
 import '@styles/ProjectViewer.css';
 
 

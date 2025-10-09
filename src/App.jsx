@@ -13,14 +13,17 @@ import {
   useAuth, 
   useCaseStudyViewer, 
   useModalManager,
-  useImageOptimization
+  useImageOptimization,
+  usePrivacyIntegration
 } from '@hooks';
+import { PrivacyBanner, PrivacyDetailsModal } from './components/privacy';
 import { getCaseStudyImages } from '@data';
 import { initializeServices } from '@services';
 
 // Development only - privacy test utilities
 if (import.meta.env.DEV) {
   import('@utils/privacyTestUtils.js');
+  import('@utils/privacyTestHelper.js');
 }
 
 const App = () => {
@@ -31,6 +34,9 @@ const App = () => {
     },
     allowEnterInInputs: true
   });
+
+  // Privacy integration for EU GDPR compliance
+  const privacy = usePrivacyIntegration();
 
   const {
     isModalOpen,
@@ -146,6 +152,22 @@ const App = () => {
           loadViewer={loadViewer}
           loading={loading}
         />
+        
+        {/* Privacy Components - EU GDPR Compliance */}
+        {privacy.showBanner && (
+          <PrivacyBanner
+            onAccept={privacy.onBannerAccept}
+            onDecline={privacy.onBannerDecline}
+            onShowDetails={privacy.onBannerShowDetails}
+            autoAcceptDelay={8000}
+          />
+        )}
+        
+        <PrivacyDetailsModal
+          isOpen={privacy.showDetails}
+          onClose={privacy.onDetailsClose}
+        />
+        
         <Footer />
       </>
     </ThemeProvider>
