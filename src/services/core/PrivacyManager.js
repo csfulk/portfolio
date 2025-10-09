@@ -263,10 +263,19 @@ class PrivacyManager {
       version: this.consentVersion,
       auto: consentData.auto || false,
       manual: consentData.manual || false,
+      autoCountdown: consentData.autoCountdown || false,
       reason: consentData.reason || 'user-action'
     };
     
     localStorage.setItem(this.consentKey, JSON.stringify(consent));
+    
+    // Log consent method for analytics
+    console.log('💾 Consent saved:', {
+      granted: consent.granted,
+      method: consent.autoCountdown ? 'auto-countdown' : 
+              consent.manual ? 'manual-click' : 
+              consent.auto ? 'auto-enable' : 'unknown'
+    });
   }
 
   /**
@@ -280,17 +289,21 @@ class PrivacyManager {
   }
 
   /**
-   * Show ultra-lightweight EU consent banner
+   * Show EU consent banner with countdown timer
    * @private
    */
   _showConsentBanner(resolve) {
-    console.log('🎨 Creating privacy consent banner...');
+    console.log('🎨 Creating privacy consent banner with countdown...');
     
     // Prevent multiple banners
     if (document.getElementById('privacy-banner')) {
       console.log('⚠️ Banner already exists, not creating duplicate');
       return;
     }
+
+    let countdownActive = true;
+    let timeRemaining = 8; // 8 seconds countdown
+    let countdownInterval;
 
     console.log('🎨 Creating banner DOM element...');
     const banner = document.createElement('div');
@@ -316,25 +329,80 @@ class PrivacyManager {
       ">
         <style>
           @keyframes slideIn {
-            from { opacity: 0; transform: translateY(100%); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(100%) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          
+          @keyframes slideOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(100%) scale(0.95); }
+          }
+          
+          @keyframes rotateCountdown {
+            from { stroke-dashoffset: 87.96; }
+            to { stroke-dashoffset: 0; }
+          }
+          
+          .countdown-circle {
+            animation: rotateCountdown 8s linear forwards;
+          }
+          
+          .banner-exit {
+            animation: slideOut 0.4s ease-in forwards;
           }
         </style>
-        <div style="margin-bottom: 0.75rem; color: rgba(255, 255, 255, 0.9);">
-          This portfolio collects performance data and visitor analytics (including general location) to optimize the experience and understand professional interest.
+        
+        <div style="margin-bottom: 0.875rem;">
+          <div style="color: rgba(255, 255, 255, 0.9); font-size: 0.85rem;">
+            Hi! I collect basic analytics to improve my portfolio.
+          </div>
         </div>
+        
         <div style="display: flex; gap: 0.5rem; align-items: center;">
           <button id="privacy-accept" style="
             background: #ffffff;
             color: #000000;
             border: none;
-            padding: 0.5rem 0.875rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s ease;
-          ">Allow</button>
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          ">
+            <span>Allow</span>
+            <!-- Countdown Timer Circle -->
+            <div id="countdown-container" style="position: relative; width: 16px; height: 16px; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 32 32" style="transform: rotate(-90deg);">
+                <circle cx="16" cy="16" r="14" 
+                  fill="none" 
+                  stroke="rgba(0, 0, 0, 0.2)" 
+                  stroke-width="3"/>
+                <circle cx="16" cy="16" r="14" 
+                  fill="none" 
+                  stroke="rgba(0, 0, 0, 0.6)" 
+                  stroke-width="3"
+                  stroke-dasharray="87.96"
+                  stroke-dashoffset="87.96"
+                  stroke-linecap="round"
+                  class="countdown-circle"
+                  id="countdown-progress"/>
+              </svg>
+              <div id="countdown-number" style="
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 0.6rem;
+                font-weight: 600;
+                color: rgba(0, 0, 0, 0.8);
+              ">8</div>
+            </div>
+          </button>
+          
           <button id="privacy-decline" style="
             background: transparent;
             color: rgba(255, 255, 255, 0.8);
@@ -345,6 +413,7 @@ class PrivacyManager {
             cursor: pointer;
             transition: all 0.15s ease;
           ">Decline</button>
+          
           <button id="privacy-info" style="
             background: none;
             border: none;
@@ -361,7 +430,75 @@ class PrivacyManager {
 
     document.body.appendChild(banner);
 
-    // Add hover effects
+    // Start countdown timer
+    const startCountdown = () => {
+      const countdownNumber = document.getElementById('countdown-number');
+      const countdownSeconds = document.getElementById('countdown-seconds');
+      const countdownText = document.getElementById('countdown-text');
+      
+      countdownInterval = setInterval(() => {
+        timeRemaining--;
+        
+        if (countdownNumber) countdownNumber.textContent = timeRemaining;
+        
+        if (timeRemaining <= 0) {
+          clearInterval(countdownInterval);
+          
+          // Show checkmark in circle
+          const countdownNumber = document.getElementById('countdown-number');
+          if (countdownNumber) {
+            countdownNumber.innerHTML = '✓';
+            countdownNumber.style.fontSize = '0.55rem';
+          }
+          
+          // Auto-accept after countdown
+          setTimeout(() => {
+            if (countdownActive && document.getElementById('privacy-banner')) {
+              handleChoice(true, 'auto-countdown');
+            }
+          }, 500);
+        }
+      }, 1000);
+    };
+
+    // Handle user choice with enhanced tracking
+    const handleChoice = (granted, reason = 'manual') => {
+      countdownActive = false;
+      clearInterval(countdownInterval);
+      
+      banner.classList.add('banner-exit');
+      
+      setTimeout(() => {
+        if (banner.parentNode) {
+          document.body.removeChild(banner);
+        }
+      }, 400);
+
+      this.hasConsent = granted;
+      this._saveConsent({ 
+        granted, 
+        timestamp: Date.now(), 
+        manual: reason === 'manual',
+        autoCountdown: reason === 'auto-countdown'
+      });
+      
+      console.log(`🇪🇺 EU user ${granted ? 'granted' : 'declined'} performance monitoring consent (${reason})`);
+      resolve(granted);
+    };
+
+    // Stop countdown if user interacts
+    const stopCountdown = () => {
+      countdownActive = false;
+      clearInterval(countdownInterval);
+      
+      // Hide the countdown container to show just "Allow"
+      const countdownContainer = document.getElementById('countdown-container');
+      if (countdownContainer) {
+        countdownContainer.style.display = 'none';
+      }
+    };
+
+    // Add hover effects and event listeners
     const acceptBtn = document.getElementById('privacy-accept');
     const declineBtn = document.getElementById('privacy-decline');
     
@@ -377,39 +514,32 @@ class PrivacyManager {
       declineBtn.style.color = 'rgba(255, 255, 255, 0.8)';
     };
 
-    // Handle user choice with smooth animation
-    const handleChoice = (granted) => {
-      banner.style.animation = 'slideOut 0.3s ease-in';
-      banner.style.animationFillMode = 'forwards';
-      
-      // Add slide out animation
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes slideOut {
-          from { opacity: 1; transform: translateY(0); }
-          to { opacity: 0; transform: translateY(100%); }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      setTimeout(() => {
-        if (banner.parentNode) {
-          document.body.removeChild(banner);
-        }
-        document.head.removeChild(style);
-      }, 300);
-
-      this.hasConsent = granted;
-      this._saveConsent({ granted, timestamp: Date.now(), manual: true });
-      
-      console.log(`EU user ${granted ? 'granted' : 'declined'} performance monitoring consent`);
-      resolve(granted);
+    // Event listeners
+    acceptBtn.onclick = () => {
+      stopCountdown();
+      handleChoice(true, 'manual');
+    };
+    
+    declineBtn.onclick = () => {
+      stopCountdown();
+      handleChoice(false, 'manual');
+    };
+    
+    document.getElementById('privacy-info').onclick = () => {
+      stopCountdown();
+      this._showDetails();
     };
 
-    // Event listeners
-    document.getElementById('privacy-accept').onclick = () => handleChoice(true);
-    document.getElementById('privacy-decline').onclick = () => handleChoice(false);
-    document.getElementById('privacy-info').onclick = () => this._showDetails();
+    // Stop countdown on banner interaction
+    banner.addEventListener('mouseenter', stopCountdown);
+    banner.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        stopCountdown();
+      }
+    });
+
+    // Start the countdown after banner animation completes
+    setTimeout(startCountdown, 500);
   }
 
   /**

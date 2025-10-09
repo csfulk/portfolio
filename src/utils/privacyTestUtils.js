@@ -84,12 +84,34 @@ export const getPrivacyStatus = () => {
 export const showBannerManually = () => {
   if (window.portfolioServices?.privacy) {
     console.log('🧪 Manually triggering privacy banner...');
+    console.log('🔄 Banner includes 8-second countdown timer that auto-accepts');
+    console.log('💡 Hover over banner or click any button to stop countdown');
     window.portfolioServices.privacy._showConsentBanner((granted) => {
       console.log(`Test banner result: ${granted ? 'granted' : 'declined'}`);
     });
   } else {
     console.error('❌ Privacy manager not found. Services available:', !!window.portfolioServices);
   }
+};
+
+/**
+ * Test countdown timer behavior
+ */
+export const testCountdownTimer = () => {
+  console.log('🔄 Testing countdown timer behavior...');
+  console.log('1. Force EU detection');
+  forceEUDetection();
+  console.log('2. Clear existing consent');
+  console.log('3. Reload page to see countdown banner in action');
+  console.log('');
+  console.log('Expected behavior:');
+  console.log('• Banner appears with green countdown circle');
+  console.log('• Numbers count down from 8 to 0');
+  console.log('• Auto-accepts when countdown reaches 0');
+  console.log('• Hovering stops countdown');
+  console.log('• Clicking any button stops countdown');
+  console.log('');
+  console.log('Run: location.reload() to test');
 };
 
 /**
@@ -225,6 +247,7 @@ if (typeof window !== 'undefined' && import.meta.env.DEV) {
     clear: clearPrivacyData,
     status: getPrivacyStatus,
     showBanner: showBannerManually,
+    testTimer: testCountdownTimer,
     location: getLocationData,
     granularity: showLocationGranularity,
     hyperLocal: showHyperLocalStats,
@@ -237,6 +260,7 @@ if (typeof window !== 'undefined' && import.meta.env.DEV) {
   console.log('• privacyTest.clear() - Clear all privacy data');
   console.log('• privacyTest.status() - Show current privacy status');
   console.log('• privacyTest.showBanner() - Manually show banner for testing');
+  console.log('• privacyTest.testTimer() - Test countdown timer behavior');
   console.log('• privacyTest.location() - Show all location analytics data');
   console.log('• privacyTest.granularity() - Show location detection granularity');
   console.log('• privacyTest.hyperLocal() - Show hyper-local visitor breakdown');
