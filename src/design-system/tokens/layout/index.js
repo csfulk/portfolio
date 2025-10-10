@@ -47,7 +47,10 @@ export const containers = {
   md: '640px', 
   lg: '1024px',
   xl: '1200px',
-  '2xl': '1440px'
+  '2xl': '1440px',
+  // Component-specific containers
+  banner: '280px',
+  modal: '600px'
 };
 
 // Responsive base font size scaling
@@ -80,7 +83,11 @@ export const minHeight = {
     lg: '48px',
     xl: '56px'
   },
-  textTruncate: '5.4em'  // Text truncation height for expandable content
+  textTruncate: '5.4em',  // Text truncation height for expandable content
+  spinner: {
+    size: '40px',
+    borderWidth: '4px'
+  }
 };
 
 // Display Properties - Layout display values
@@ -141,10 +148,67 @@ export const border = {
   }
 };
 
+// Outline Properties - Focus and accessibility outlines
+export const outline = {
+  width: {
+    thin: '1px',
+    medium: '2px',
+    thick: '3px'
+  },
+  offset: {
+    none: '0px',
+    sm: '1px',
+    md: '2px',
+    lg: '4px'
+  }
+};
+
 // Text Decoration Properties
 export const textDecoration = {
   none: 'none',
   underline: 'underline',
   lineThrough: 'line-through',
   overline: 'overline'
+};
+
+// Filter Properties - CSS filters for visual effects
+export const filters = {
+  blur: {
+    none: 'blur(0)',
+    sm: 'blur(2px)',
+    md: 'blur(5px)',
+    lg: 'blur(10px)',
+    xl: 'blur(16px)'
+  },
+  backdropBlur: {
+    none: 'blur(0)',
+    sm: 'blur(4px)',
+    md: 'blur(8px)',
+    lg: 'blur(16px)',
+    xl: 'blur(24px)'
+  }
+};
+
+// Transform Properties - CSS transforms for animations and positioning
+export const transforms = {
+  // Slide animations
+  slideUp: 'translateY(calc(-1 * var(--spacing-lg)))', // Slide up by spacing-lg
+  slideDown: 'translateY(var(--spacing-lg))',         // Slide down by spacing-lg
+  slideReset: 'translateY(0)',                        // Reset to original position
+  
+  // Common transform values
+  translateCenter: 'translate(-50%, -50%)',           // Center positioning
+  translateXCenter: 'translateX(-50%)',               // Horizontal center
+  translateYCenter: 'translateY(-50%)',               // Vertical center
+  
+  // Scale transforms
+  scaleNone: 'scale(1)',
+  scaleDown: 'scale(0.95)',
+  scaleUp: 'scale(1.05)',
+  
+  // Combined transforms for animations
+  slideUpScale: 'translateY(100%) scale(0.95)',       // Initial state for slide-up animations
+  slideDownScale: 'translateY(var(--spacing-lg)) scale(0.95)', // Modal entrance
+  resetScale: 'translateY(0) scale(1)',               // Final state
+  modalEntrance: 'translateY(20px) scale(0.95)'      // Modal entrance animation
 };

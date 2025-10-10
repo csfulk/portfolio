@@ -159,7 +159,7 @@ export function generateCSSVariables() {
   // Layout tokens
   css += '\n  /* Layout */\n';
   Object.entries(flattened)
-    .filter(([key]) => key.includes('radius') || key.includes('shadows') || key.includes('z-index') || key.includes('transitions'))
+    .filter(([key]) => key.includes('radius') || key.includes('shadows') || key.includes('z-index') || key.includes('transitions') || key.includes('transforms') || key.includes('filters'))
     .forEach(([key, value]) => {
       css += `  ${key}: ${value};\n`;
     });
@@ -197,7 +197,8 @@ export function generateCSSVariables() {
   Object.entries(flattened)
     .filter(([key]) => key.includes('display-') || key.includes('flex-') || 
                        key.includes('visibility-') || key.includes('overflow-') ||
-                       key.includes('border-') || key.includes('text-decoration-'))
+                       key.includes('border-') || key.includes('outline-') ||
+                       key.includes('text-decoration-') || key.includes('icon-sizes-'))
     .forEach(([key, value]) => {
       css += `  ${key}: ${value};\n`;
     });

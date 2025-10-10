@@ -8,20 +8,20 @@
   bottom: var(--spacing-lg);
   right: var(--spacing-lg);
   z-index: var(--z-index-modal);
-  max-width: 280px;
+  max-width: var(--containers-banner);
   opacity: 0;
-  transform: translateY(100%) scale(0.95);
+  transform: var(--transforms-slide-up-scale);
   transition: all var(--transitions-modal);
 }
 
 .privacy-banner--visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: var(--transforms-reset-scale);
 }
 
 .privacy-banner__content {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
+  border: var(--border-width-thin) solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: var(--filters-backdrop-blur-lg);
 }
 
 .privacy-banner__message {

@@ -7,7 +7,7 @@
 import { colors } from './colors/index.js';
 import { spacing } from './spacing/index.js';
 import { typography } from './typography/index.js';
-import { radius, shadows, zIndex, breakpoints, containers, transitions, responsiveScaling, minHeight, display, flex, visibility, overflow, border, textDecoration } from './layout/index.js';
+import { radius, shadows, zIndex, breakpoints, containers, transitions, responsiveScaling, minHeight, display, flex, visibility, overflow, border, outline, textDecoration, transforms, filters } from './layout/index.js';
 
 export const tokens = {
   colors,
@@ -26,7 +26,10 @@ export const tokens = {
   visibility,
   overflow,
   border,
-  textDecoration
+  outline,
+  textDecoration,
+  transforms,
+  filters
 };
 
 // Legacy support - maintain backward compatibility
@@ -77,7 +80,8 @@ export const legacyTokens = {
     sm: spacing.sm,    // 0.75rem - 12px  
     md: spacing.md,    // 1rem - 16px
     lg: spacing.lg,    // 1.25rem - 20px
-    xl: spacing.xl     // 1.563rem - 25px
+    xl: spacing.xl,    // 1.563rem - 25px
+    button: spacing['2xl'] // 1.953rem - 32px for button icons
   },
   radius,
   fontFamily: typography.fontFamily,

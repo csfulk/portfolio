@@ -23,7 +23,7 @@
   right: 0;
   bottom: 0;
   background: var(--colors-surface-overlay);
-  backdrop-filter: blur(8px);
+  backdrop-filter: var(--filters-backdrop-blur-md);
 }
 
 .privacy-modal__content {
@@ -130,8 +130,8 @@
   border-radius: var(--radius-sm);
   transition: all var(--transitions-fast);
   line-height: 1;
-  width: 32px;
-  height: 32px;
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
   display: var(--display-flex);
   align-items: center;
   justify-content: center;
@@ -143,8 +143,8 @@
 }
 
 .privacy-modal__close-button:focus {
-  outline: 2px solid var(--colors-interactive-primary);
-  outline-offset: 2px;
+  outline: var(--outline-width-medium) solid var(--colors-interactive-primary);
+  outline-offset: var(--outline-offset-md);
 }
 
 /* Animations */
@@ -156,10 +156,10 @@
 @keyframes slideUp {
   from { 
     opacity: 0; 
-    transform: translateY(20px) scale(0.95); 
+    transform: var(--transforms-modal-entrance); 
   }
   to { 
     opacity: 1; 
-    transform: translateY(0) scale(1); 
+    transform: var(--transforms-reset-scale); 
   }
 }

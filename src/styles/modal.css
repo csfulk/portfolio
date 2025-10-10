@@ -80,11 +80,11 @@
 
 /* Spinner animation */
 .spinner {
-  border: var(--spinner-border-width, 4px) solid rgba(255, 255, 255, 0.2);
-  border-top: var(--spinner-border-width, 4px) solid var(--textNeutralPrimary);
+  border: var(--min-height-spinner-border-width) solid rgba(255, 255, 255, 0.2);
+  border-top: var(--min-height-spinner-border-width) solid var(--textNeutralPrimary);
   border-radius: 50%;
-  width: var(--spinner-size, 40px);
-  height: var(--spinner-size, 40px);
+  width: var(--min-height-spinner-size);
+  height: var(--min-height-spinner-size);
   animation: spin 1s linear infinite;
 }
 
@@ -109,11 +109,11 @@
 @keyframes fade {
   from {
     opacity: 0;
-    transform: translateY(calc(-1 * var(--spacing-lg))); /* Match navigation animation */
+    transform: var(--transforms-slide-up);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: var(--transforms-slide-reset);
   }
 }
 

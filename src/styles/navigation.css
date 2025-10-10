@@ -1,9 +1,9 @@
 @keyframes slideIn {
   from {
-    transform: translateY(calc(-1 * var(--spacing-lg))); /* Negative spacing-lg */
+    transform: var(--transforms-slide-up);
   }
   to {
-    transform: translateY(0);
+    transform: var(--transforms-slide-reset);
   }
 }
 
@@ -20,7 +20,7 @@
   box-sizing: border-box; /* Ensure padding is included in the width */
   opacity: 0;
   pointer-events: none; /* Prevent interaction when hidden */
-  transform: translateY(calc(-1 * var(--spacing-lg))); /* Negative spacing-lg */
+  transform: var(--transforms-slide-up);
   transition: transform 0.3s ease, padding 0.3s ease; /* Only animate transform and padding for section transitions */
   z-index: 1000;
 }
@@ -28,7 +28,7 @@
 .navigation.visible {
   opacity: 1;
   pointer-events: auto; /* Allow interaction when visible */
-  transform: translateY(0);
+  transform: var(--transforms-slide-reset);
   padding: var(--spacing-sm) var(--horizontal-padding);
   animation: slideIn 0.3s ease forwards;
 }
