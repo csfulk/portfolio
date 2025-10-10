@@ -1,6 +1,14 @@
 /**
  * Enhanced Button Component
  * Comprehensive button with design system integration and variants
+ * 
+ * Features:
+ * - Multiple variants (primary, secondary, outline, ghost, link, destructive, text)
+ * - Size options (xs, sm, md, lg, xl)
+ * - Icon support with positioning
+ * - Loading states with spinner
+ * - Countdown feature with circular progress indicator
+ * - Full customization with style overrides
  */
 
 import React, { forwardRef } from 'react';
@@ -102,6 +110,9 @@ const ButtonComponent = forwardRef(({
   isLoading = false,
   disabled = false,
   fullWidth = false,
+  // Countdown feature props
+  countdown,
+  countdownActive = false,
   // Style override props
   noPadding = false,
   paddingX,
@@ -178,6 +189,71 @@ const ButtonComponent = forwardRef(({
     onClick?.(e);
   };
 
+  const renderCountdown = () => {
+    if (!countdown || !countdownActive) return null;
+
+    return (
+      <span 
+        className="button-countdown"
+        style={{
+          position: 'relative',
+          width: '18px',
+          height: '18px',
+          flexShrink: 0,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+        aria-hidden="true"
+      >
+        <svg 
+          width="18" 
+          height="18" 
+          viewBox="0 0 32 32" 
+          style={{ transform: 'rotate(-90deg)' }}
+        >
+          <circle 
+            cx="16" 
+            cy="16" 
+            r="14" 
+            fill="none"
+            stroke="rgba(255, 255, 255, 0.2)"
+            strokeWidth="2.5"
+          />
+          <circle 
+            cx="16" 
+            cy="16" 
+            r="14" 
+            fill="none"
+            stroke="var(--primary)"
+            strokeWidth="2.5"
+            strokeDasharray="87.96"
+            strokeDashoffset="87.96"
+            strokeLinecap="round"
+            style={{
+              transition: 'stroke-dashoffset 8s linear',
+              strokeDashoffset: countdownActive ? '0' : '87.96'
+            }}
+          />
+        </svg>
+        <span 
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: 'var(--typography-font-size-xs)',
+            fontWeight: 'var(--typography-font-weight-semibold)',
+            color: 'currentColor',
+            lineHeight: 1
+          }}
+        >
+          {countdown > 0 ? countdown : '✓'}
+        </span>
+      </span>
+    );
+  };
+
   const renderIcon = () => {
     if (isLoading) {
       return (
@@ -225,6 +301,7 @@ const ButtonComponent = forwardRef(({
 
   const renderContent = () => {
     const iconElement = renderIcon();
+    const countdownElement = renderCountdown();
     const buttonContent = children || text; // Support both children and text prop
     const textElement = (
       <span className="button-text">
@@ -232,11 +309,28 @@ const ButtonComponent = forwardRef(({
       </span>
     );
 
-    if (!iconElement) return textElement;
+    // Build content array based on what elements exist
+    const contentElements = [];
+    
+    // Add icon if it exists and should be leading
+    if (iconElement && iconPosition === 'leading') {
+      contentElements.push(iconElement);
+    }
+    
+    // Always add text content
+    contentElements.push(textElement);
+    
+    // Add countdown if it exists (always trailing)
+    if (countdownElement) {
+      contentElements.push(countdownElement);
+    }
+    
+    // Add icon if it exists and should be trailing
+    if (iconElement && iconPosition === 'trailing') {
+      contentElements.push(iconElement);
+    }
 
-    return iconPosition === 'leading' 
-      ? [iconElement, textElement]
-      : [textElement, iconElement];
+    return contentElements;
   };
 
   return (
@@ -277,6 +371,9 @@ ButtonComponent.propTypes = {
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,
+  // Countdown feature props
+  countdown: PropTypes.number,
+  countdownActive: PropTypes.bool,
   // Style override props
   noPadding: PropTypes.bool,
   paddingX: PropTypes.string,

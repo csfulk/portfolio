@@ -7,28 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { Button, Surface, Typography as Text } from '../index.js';
 import './PrivacyBanner.css';
 
-const CountdownCircle = ({ timeRemaining, isActive }) => {
-  if (!isActive) return null;
-
-  return (
-    <div className="countdown-container">
-      <svg width="16" height="16" viewBox="0 0 32 32" className="countdown-svg">
-        <circle 
-          cx="16" cy="16" r="14" 
-          className="countdown-bg"
-        />
-        <circle 
-          cx="16" cy="16" r="14" 
-          className={`countdown-progress ${isActive ? 'countdown-active' : ''}`}
-        />
-      </svg>
-      <div className="countdown-number">
-        {timeRemaining > 0 ? timeRemaining : '✓'}
-      </div>
-    </div>
-  );
-};
-
 const PrivacyBanner = ({ 
   onAccept, 
   onDecline, 
@@ -86,6 +64,9 @@ const PrivacyBanner = ({
     <div className={`privacy-banner ${isVisible ? 'privacy-banner--visible' : ''}`}>
       <Surface 
         variant="modal" 
+        padding="lg"
+        radius="xl"
+        elevation="4"
         className="privacy-banner__content"
         onMouseEnter={handleUserInteraction}
       >
@@ -98,31 +79,37 @@ const PrivacyBanner = ({
         <div className="privacy-banner__actions">
           <Button 
             variant="secondary" 
-            size="sm" 
+            size="xs" 
             onClick={handleAccept}
             className="privacy-banner__accept"
+            countdown={timeRemaining}
+            countdownActive={countdownActive}
           >
-            <span>Allow</span>
-            <CountdownCircle 
-              timeRemaining={timeRemaining}
-              isActive={countdownActive}
-            />
+            Allow
           </Button>
           
           <Button 
             variant="outline" 
-            size="sm" 
+            size="xs" 
             onClick={handleDecline}
             className="privacy-banner__decline"
+            color="var(--textSecondary)"
+            hoverColor="var(--textPrimary)"
+            backgroundColor="transparent"
+            hoverBackgroundColor="rgba(255, 255, 255, 0.05)"
           >
             Decline
           </Button>
           
           <Button 
-            variant="ghost" 
-            size="sm" 
+            variant="text" 
+            size="xs" 
             onClick={handleShowDetails}
             className="privacy-banner__details"
+            color="var(--textTertiary)"
+            hoverColor="var(--textSecondary)"
+            paddingX="var(--spacing-sm)"
+            paddingY="var(--spacing-xs)"
           >
             Details
           </Button>
