@@ -21,7 +21,7 @@ const Stack = ({
   const isHorizontal = direction === 'horizontal';
   
   const stackStyles = {
-    display: 'flex',
+    display: 'var(--display-flex)',
     flexDirection: isHorizontal ? 'row' : 'column',
     gap: `var(--spacing-${gap})`,
     alignItems: align,

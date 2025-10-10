@@ -37,7 +37,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
             </p>
           )}
           {description && (
-            <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
+            <div className="description-wrapper" style={{ display: 'var(--display-flex)', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
               <div
                 className={`section-description-container ${isExpanded ? 'expanded' : 'truncated'}`}
                 ref={descriptionRef}
@@ -102,7 +102,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
               alt={title} 
               className={`section-image ${isLoaded ? 'loaded' : 'loading'}`}
               style={{ 
-                visibility: imageSrc ? 'visible' : 'hidden' 
+                visibility: imageSrc ? 'var(--visibility-visible)' : 'var(--visibility-hidden)' 
               }}
             />
           </div>

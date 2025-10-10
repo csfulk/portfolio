@@ -75,27 +75,27 @@ const buttonSizes = {
   xs: {
     padding: 'var(--spacing-xs) var(--spacing-sm)',
     fontSize: 'var(--typography-scales-body-sm-font-size)',
-    minHeight: '24px'
+    minHeight: 'var(--min-height-button-xs)'
   },
   sm: {
     padding: 'var(--spacing-sm) var(--spacing-md)',
     fontSize: 'var(--typography-scales-body-font-size)',
-    minHeight: '32px'
+    minHeight: 'var(--min-height-button-sm)'
   },
   md: {
     padding: 'var(--spacing-sm) var(--spacing-xl)',
     fontSize: 'var(--typography-scales-body-font-size)',
-    minHeight: '40px'
+    minHeight: 'var(--min-height-button-md)'
   },
   lg: {
     padding: 'var(--spacing-lg) var(--spacing-xl)',
     fontSize: 'var(--typography-scales-body-font-size)',
-    minHeight: '48px'
+    minHeight: 'var(--min-height-button-lg)'
   },
   xl: {
     padding: 'var(--spacing-lg) var(--spacing-3xl)',
     fontSize: 'var(--typography-scales-heading-5-font-size)',
-    minHeight: '56px'
+    minHeight: 'var(--min-height-button-xl)'
   }
 };
 

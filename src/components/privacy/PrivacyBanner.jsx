@@ -92,7 +92,7 @@ const PrivacyBanner = ({
             countdownActive={countdownActive}
             fullWidth
           >
-            Allowing in
+            {countdownActive ? 'Allowing in' : 'Allow'}
           </Button>
           
           <Button 
@@ -103,8 +103,8 @@ const PrivacyBanner = ({
             color="var(--colors-text-inverse)"
             borderColor="var(--colors-interactive-outline)"
             hoverColor="var(--colors-interactive-outline)"
-            backgroundColor="transparent"
-            hoverBackgroundColor="rgba(255, 255, 255, 0.5)"
+            backgroundColor="var(--colors-utility-transparent)"
+            hoverBackgroundColor="var(--colors-utility-white-overlay)"
             
             fullWidth
           >

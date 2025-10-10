@@ -8,8 +8,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: calc(var(--z-index-modal) + 2);
-  display: flex;
+  z-index: var(--z-index-modal);
+  display: var(--display-flex);
   align-items: center;
   justify-content: center;
   padding: var(--spacing-md);
@@ -22,24 +22,21 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--surfaceOverlay);
-  backdrop-filter: blur(var(--backdrop-blur-lg));
+  background: var(--colors-surface-overlay);
+  backdrop-filter: blur(8px);
 }
 
 .privacy-modal__content {
   position: relative;
-  max-width: 540px;
+  max-width: var(--containers-sm);
   width: 100%;
-  padding: var(--spacing-2xl);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--box-shadow-modal);
-  background: var(--surfaceModal);
-  border: 1px solid var(--borderSubtle);
   animation: slideUp var(--transitions-modal) ease-out;
 }
 
 .privacy-modal__title {
   margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--typography-scales-heading-5-font-size);
+  font-weight: var(--fontWeight-bold);
 }
 
 .privacy-modal__body {
@@ -71,7 +68,7 @@
   margin: 0;
   padding-left: var(--spacing-lg);
   color: var(--textSecondary);
-  font-size: var(--typography-scales-heading-6-font-size);
+  font-size: var(--typography-scales-body-font-size);
   line-height: var(--typography-scales-heading-6-line-height);
 }
 
@@ -81,15 +78,73 @@
 
 .privacy-modal__footer-info {
   margin-top: var(--spacing-xl);
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid var(--borderSubtle);
-  color: var(--textTertiary);
 }
 
-.privacy-modal__close-btn {
-  margin-top: var(--spacing-lg);
-  width: 100%;
+.privacy-modal__info-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-xs) var(--spacing-sm);
+  align-items: start;
+}
+
+.privacy-modal__info-list dt {
+  margin: 0;
+  font-size: var(--typography-scales-body-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  line-height: var(--typography-scales-body-line-height);
+}
+
+.privacy-modal__info-list dd {
+  margin: 0;
+  font-size: var(--typography-scales-body-font-size);
+  line-height: var(--typography-scales-body-line-height);
+}
+
+.privacy-modal__info-label {
+  color: var(--colors-text-secondary);
+}
+
+.privacy-modal__info-text {
+  color: var(--colors-text-tertiary);
+}
+
+.privacy-modal__section-intro {
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-scales-body-font-size);
+  line-height: var(--typography-scales-body-line-height);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.privacy-modal__close-button {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: none;
+  border: none;
+  font-size: var(--typography-scales-heading-3-font-size);
+  color: var(--colors-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all var(--transitions-fast);
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: var(--display-flex);
+  align-items: center;
   justify-content: center;
+}
+
+.privacy-modal__close-button:hover {
+  background-color: var(--colors-interactive-hover-ghost);
+  color: var(--colors-text-primary);
+}
+
+.privacy-modal__close-button:focus {
+  outline: 2px solid var(--colors-interactive-primary);
+  outline-offset: 2px;
 }
 
 /* Animations */

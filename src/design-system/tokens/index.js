@@ -7,7 +7,7 @@
 import { colors } from './colors/index.js';
 import { spacing } from './spacing/index.js';
 import { typography } from './typography/index.js';
-import { radius, shadows, zIndex, breakpoints, containers, transitions, responsiveScaling } from './layout/index.js';
+import { radius, shadows, zIndex, breakpoints, containers, transitions, responsiveScaling, minHeight, display, flex, visibility, overflow, border, textDecoration } from './layout/index.js';
 
 export const tokens = {
   colors,
@@ -19,7 +19,14 @@ export const tokens = {
   breakpoints,
   containers,
   transitions,
-  responsiveScaling
+  responsiveScaling,
+  minHeight,
+  display,
+  flex,
+  visibility,
+  overflow,
+  border,
+  textDecoration
 };
 
 // Legacy support - maintain backward compatibility

@@ -19,7 +19,7 @@ const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
         width: '100vw', 
         height: '100vh', 
         background: 'var(--colors-surface-overlay)', 
-        display: 'flex', 
+        display: 'var(--display-flex)', 
         flexDirection: 'column', 
         alignItems: 'center', 
         justifyContent: 'center' 

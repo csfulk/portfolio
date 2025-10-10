@@ -10,7 +10,9 @@ export const colors = {
     secondary: '#f5f5f5',     // Secondary backgrounds (--surface-1) 
     tertiary: '#e0e0e0',      // Tertiary backgrounds (--surface-2)
     section: '#000000',       // Section backgrounds (--surfaceSection)
-    modal: '#1D1D1D',         // Modal backgrounds (--surfaceModal)
+    modal: '#1D1D1D',         // Modal backgrounds (--surfaceModal) - legacy
+    'modal-light': '#ffffff', // Light modal backgrounds
+    'modal-dark': '#1D1D1D',  // Dark modal backgrounds
     overlay: 'rgba(0, 0, 0, 0.84)', // Overlay backgrounds (--surfaceOverlay)
     loading: '#f0f0f0'        // Loading state backgrounds
   },
@@ -60,6 +62,11 @@ export const colors = {
   utility: {
     white: '#ffffff',
     black: '#000000', 
-    transparent: 'transparent'
+    transparent: 'transparent',
+    // Semi-transparent overlays
+    whiteOverlay: 'rgba(255, 255, 255, 0.5)',
+    blackOverlay: 'rgba(0, 0, 0, 0.5)',
+    whiteOverlayLight: 'rgba(255, 255, 255, 0.2)',
+    whiteOverlayMedium: 'rgba(255, 255, 255, 0.8)'
   }
 };

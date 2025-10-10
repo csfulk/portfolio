@@ -183,6 +183,24 @@ export function generateCSSVariables() {
         css += `  ${key}: ${value};\n`;
       }
     });
+
+  // Layout Properties - Min Heights
+  css += '\n  /* Layout - Min Heights */\n';
+  Object.entries(flattened)
+    .filter(([key]) => key.includes('min-height'))
+    .forEach(([key, value]) => {
+      css += `  ${key}: ${value};\n`;
+    });
+
+  // Layout Properties - Display, Flex, Visibility, etc.
+  css += '\n  /* Layout Properties */\n';
+  Object.entries(flattened)
+    .filter(([key]) => key.includes('display-') || key.includes('flex-') || 
+                       key.includes('visibility-') || key.includes('overflow-') ||
+                       key.includes('border-') || key.includes('text-decoration-'))
+    .forEach(([key, value]) => {
+      css += `  ${key}: ${value};\n`;
+    });
   
   css += '}\n';
   

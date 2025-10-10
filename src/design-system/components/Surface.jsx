@@ -12,6 +12,8 @@ const surfaceVariants = {
   tertiary: 'var(--colors-surface-tertiary)',
   section: 'var(--colors-surface-section)',
   modal: 'var(--colors-surface-modal)',
+  'modal-light': 'var(--colors-surface-modal-light)',
+  'modal-dark': 'var(--colors-surface-modal-dark)',
 };
 
 const elevationLevels = {
@@ -67,7 +69,7 @@ const Surface = ({
 
 Surface.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'section', 'modal']),
+  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'section', 'modal', 'modal-light', 'modal-dark']),
   elevation: PropTypes.oneOf([0, 1, 2, 3, 4]),
   padding: PropTypes.oneOf(['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl']),
   radius: PropTypes.oneOf(['none', 'sm', 'md', 'lg', 'xl', '2xl', 'full']),

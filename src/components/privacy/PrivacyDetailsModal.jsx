@@ -3,12 +3,30 @@
  * Detailed privacy information modal
  */
 
-import React from 'react';
-import { Button, Surface } from '../index.js';
+import React, { useEffect } from 'react';
+import { Surface } from '../../design-system';
 import './PrivacyDetailsModal.css';
 
 const PrivacyDetailsModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+
+  // Handle escape key and focus management
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    // Prevent background scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -19,16 +37,30 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
   return (
     <div className="privacy-modal" onClick={handleBackdropClick}>
       <div className="privacy-modal__backdrop" />
-            <Surface className="privacy-modal__surface">
+      <Surface 
+        variant="modal-light" 
+        elevation="4" 
+        radius="xl" 
+        padding="2xl"
+        className="privacy-modal__content"
+      >
+        <button 
+          className="privacy-modal__close-button"
+          onClick={onClose}
+          aria-label="Close privacy modal"
+        >
+          ×
+        </button>
+        
         <h3 className="privacy-modal__title">
           Privacy & Analytics Information
         </h3>
         
         <div className="privacy-modal__body">
           <div className="privacy-modal__section">
-            <p style={{ color: 'var(--colors-text-secondary)' }}>
+            <p className="privacy-modal__section-intro">
               <strong className="privacy-modal__section-title privacy-modal__section-title--collect">
-                What we collect:
+                Data that helps me imporve my portfolio:
               </strong>
             </p>
             <ul className="privacy-modal__list">
@@ -42,9 +74,9 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
           </div>
           
           <div className="privacy-modal__section">
-            <p style={{ color: 'var(--colors-text-secondary)' }}>
+            <p className="privacy-modal__section-intro">
               <strong className="privacy-modal__section-title privacy-modal__section-title--no-collect">
-                What we don't collect:
+                Stuff I don't collect:
               </strong>
             </p>
             <ul className="privacy-modal__list">
@@ -55,23 +87,7 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
               <li>Device identifiers or fingerprinting data</li>
             </ul>
           </div>
-          
-          <div className="privacy-modal__footer-info">
-            <small style={{ color: 'var(--colors-text-tertiary)' }}>
-              <strong>Purpose:</strong> Performance optimization and professional analytics to understand visitor interest.<br/>
-              <strong>Storage:</strong> Performance data stays local (24hr expiry). Location data may be sent to analytics services.<br/>
-              <strong>Your Rights:</strong> You can opt out anytime and request data deletion.
-            </small>
-          </div>
         </div>
-        
-        <Button 
-          variant="primary" 
-          onClick={onClose}
-          className="privacy-modal__close-btn"
-        >
-          Got it
-        </Button>
       </Surface>
     </div>
   );

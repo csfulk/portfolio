@@ -33,7 +33,7 @@ const Container = ({
     paddingLeft: `var(--spacing-${padding})`,
     paddingRight: `var(--spacing-${padding})`,
     ...(centerContent && {
-      display: 'flex',
+      display: 'var(--display-flex)',
       flexDirection: 'column',
       alignItems: 'center'
     })
