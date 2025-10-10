@@ -51,8 +51,8 @@ caption { font-size: var(--typography-font-size-xxs); font-weight: var(--typogra
 /* Body baseline styles */
 body {
   font-family: var(--typography-font-family-primary);
-  background-color: var(--surface-0);
-  color: var(--textPrimary);
+  background-color: var(--colors-surface-primary);
+  color: var(--colors-text-primary);
   font-size: var(--typography-font-size-sm);
   line-height: var(--typography-line-height-relaxed);
   margin: 0;
@@ -66,135 +66,12 @@ html {
   overflow-x: hidden;
 }
 
-/* Typography Utility Classes */
+/* Typography Utility Classes - Minimal & Essential */
 
-/* Semantic Typography Scales - Using CSS Variables for Single Source of Truth */
-.text-display-1 {
-  font-size: var(--typography-font-size-display1);
-  font-weight: var(--typography-font-weight-bold);
-  line-height: var(--typography-line-height-tight);
-  letter-spacing: var(--typography-letter-spacing-tight);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-display-2 {
-  font-size: var(--typography-font-size-display2);
-  font-weight: var(--typography-font-weight-bold);
-  line-height: var(--typography-line-height-tight);
-  letter-spacing: var(--typography-letter-spacing-tight);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-1 {
-  font-size: var(--typography-font-size-4xl);
-  font-weight: var(--typography-font-weight-bold);
-  line-height: var(--typography-line-height-tight);
-  letter-spacing: var(--typography-letter-spacing-tight);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-2 {
-  font-size: var(--typography-font-size-3xl);
-  font-weight: var(--typography-font-weight-semibold);
-  line-height: var(--typography-line-height-tight);
-  letter-spacing: var(--typography-letter-spacing-tight);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-3 {
-  font-size: var(--typography-font-size-2xl);
-  font-weight: var(--typography-font-weight-semibold);
-  line-height: var(--typography-line-height-normal);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-4 {
-  font-size: var(--typography-font-size-xl);
-  font-weight: var(--typography-font-weight-medium);
-  line-height: var(--typography-line-height-normal);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-5 {
-  font-size: var(--typography-font-size-lg);
-  font-weight: var(--typography-font-weight-medium);
-  line-height: var(--typography-line-height-normal);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-heading-6 {
-  font-size: var(--typography-font-size-md);
-  font-weight: var(--typography-font-weight-medium);
-  line-height: var(--typography-line-height-normal);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-body-lg {
-  font-size: var(--typography-font-size-md);
-  font-weight: var(--typography-font-weight-normal);
-  line-height: var(--typography-line-height-relaxed);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-body {
-  font-size: var(--typography-font-size-sm);
-  font-weight: var(--typography-font-weight-normal);
-  line-height: var(--typography-line-height-relaxed);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-body-sm {
-  font-size: var(--typography-font-size-xs);
-  font-weight: var(--typography-font-weight-normal);
-  line-height: var(--typography-line-height-relaxed);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-.text-section-description {
-  font-size: var(--typography-font-size-sm);
-  font-weight: var(--typography-font-weight-normal);
-  line-height: var(--typography-line-height-loose);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-  margin-bottom: var(--spacing-md);
-}
-
-.text-caption {
-  font-size: var(--typography-font-size-xxs);
-  font-weight: var(--typography-font-weight-normal);
-  line-height: var(--typography-line-height-normal);
-  letter-spacing: var(--typography-letter-spacing-normal);
-  font-family: var(--typography-font-family-primary);
-}
-
-/* Individual Property Utilities - Using CSS Variables */
-.font-family-primary { font-family: var(--typography-font-family-primary); }
-.font-family-mono { font-family: var(--typography-font-family-mono); }
-
-.font-light { font-weight: var(--typography-font-weight-light); }
-.font-normal { font-weight: var(--typography-font-weight-normal); }
-.font-medium { font-weight: var(--typography-font-weight-medium); }
-.font-semibold { font-weight: var(--typography-font-weight-semibold); }
-.font-bold { font-weight: var(--typography-font-weight-bold); }
-.font-extrabold { font-weight: var(--typography-font-weight-extrabold); }
-
-.leading-tight { line-height: var(--typography-line-height-tight); }
-.leading-normal { line-height: var(--typography-line-height-normal); }
-.leading-relaxed { line-height: var(--typography-line-height-relaxed); }
-.leading-loose { line-height: var(--typography-line-height-loose); }
-
-/* Text Color Utilities - Consistent with design tokens */
-.text-color-primary { color: var(--textPrimary); }
-.text-color-secondary { color: var(--textSecondary); }
-.text-color-tertiary { color: var(--textTertiary); }
-.text-color-inverse { color: var(--textNeutralPrimary); }
+/* 
+ * NOTE: Typography scale utilities removed - now handled by Typography component 
+ * using direct CSS variables for better performance and consistency
+ */
 
 /* Text Alignment Utilities */
 .text-left { text-align: left; }

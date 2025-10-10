@@ -28,16 +28,18 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
           )}
           {title && (
             <Typography 
-              variant="h1" 
-              className="section-title text-heading-3"
+              variant="h3"
+              color="inverse" 
+              className="section-title"
             >
               {title}
             </Typography>
           )}
           {subtitle && (
             <Typography 
-              variant="h2" 
-              className="section-subtitle text-body-sm"
+              variant="body2"
+              color="inverse"
+              className="section-subtitle"
             >
               {subtitle}
             </Typography>
@@ -52,8 +54,9 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                 {description.split('\n').map((paragraph, index) => (
                   <Typography 
                     key={index} 
-                    variant="body2" 
-                    className="section-description text-section-description"
+                    variant="body2"
+                    color="inverse"
+                    className="section-description"
                   >
                     {paragraph.trim()}
                   </Typography>
@@ -86,8 +89,8 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                   iconPosition="leading"
                   variant="text"
                   noPadding={true}
-                  color="var(--textNeutralPrimary)"
-                  hoverColor="var(--textSecondary)"
+                  color="var(--colors-text-inverse)"
+                  hoverColor="var(--colors-text-secondary)"
                   className="case-study-button"
                   onClick={() => {
                     handleCaseStudyClick({

@@ -68,16 +68,16 @@
 }
 
 .section-title {
-  color: var(--textPrimarySection);
+  color: var(--colors-text-section-primary);
 }
 
 .section-subtitle {
-  color: var(--textPrimarySection);
+  color: var(--colors-text-section-primary);
 }
 
 /* Description text */
 .section-description {
-  color: var(--textPrimarySection);
+  color: var(--colors-text-section-primary);
   text-overflow: ellipsis;
   white-space: normal;
   transition: var(--transitions-normal);
@@ -109,7 +109,7 @@
 /* Description text */
 .section-description p {
   word-wrap: break-word;
-  color: var(--textPrimarySection);
+  color: var(--colors-text-section-primary);
 
 }
 
@@ -148,7 +148,7 @@
   margin-top: var(--spacing-sm); /* Add spacing above the button */
   background: none;
   border: none;
-  color: var(--textSecondary);
+  color: var(--colors-text-secondary);
   font-size: var(--typography-font-size-sm);
   font-weight: var(--typography-font-weight-normal);
   cursor: pointer;
@@ -165,7 +165,7 @@
 .section-bullets {
   list-style: disc;
   padding-left: var(--spacing-lg);
-  color: var(--textSecondarySection);
+  color: var(--colors-text-section-secondary);
   line-height: var(--typography-line-height-loose);
   margin: 0;
   display: block;
@@ -184,7 +184,7 @@
 /* Highlight the role in the bullet points */
 .role-highlight {
   font-weight: var(--typography-font-weight-semibold);
-  color: var(--textNeutralPrimary);
+  color: var(--colors-text-inverse);
 }
 
 /* Image - Lazy loading with fade-in effect */

@@ -6,22 +6,134 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Unified typography configuration - maps variants to CSS classes and fallback styles
+// Unified typography configuration - maps variants to design token CSS variables
 const typographyVariants = {
-  display1: { element: 'h1', size: 'display1', weight: 'bold', cssClass: 'text-display-1' },
-  display2: { element: 'h2', size: 'display2', weight: 'bold', cssClass: 'text-display-2' },
-  h1: { element: 'h1', size: '4xl', weight: 'bold', cssClass: 'text-heading-1' },
-  h2: { element: 'h2', size: '3xl', weight: 'semibold', cssClass: 'text-heading-2' },
-  h3: { element: 'h3', size: '2xl', weight: 'semibold', cssClass: 'text-heading-3' },
-  h4: { element: 'h4', size: 'xl', weight: 'medium', cssClass: 'text-heading-4' },
-  h5: { element: 'h5', size: 'lg', weight: 'medium', cssClass: 'text-heading-5' },
-  h6: { element: 'h6', size: 'md', weight: 'medium', cssClass: 'text-heading-6' },
-  body1: { element: 'p', size: 'md', weight: 'normal', cssClass: 'text-body-lg' },
-  body2: { element: 'p', size: 'sm', weight: 'normal', cssClass: 'text-body' },
-  subtitle1: { element: 'p', size: 'lg', weight: 'medium', cssClass: 'text-body-lg font-medium' },
-  subtitle2: { element: 'p', size: 'md', weight: 'medium', cssClass: 'text-body-lg font-medium' },
-  caption: { element: 'span', size: 'xs', weight: 'normal', cssClass: 'text-caption' },
-  overline: { element: 'span', size: 'xxs', weight: 'medium', cssClass: 'text-caption font-medium' },
+  display1: { 
+    element: 'h1',
+    styles: {
+      fontSize: 'var(--typography-scales-display-1-font-size)',
+      fontWeight: 'var(--typography-scales-display-1-font-weight)',
+      lineHeight: 'var(--typography-scales-display-1-line-height)',
+      letterSpacing: 'var(--typography-scales-display-1-letter-spacing)'
+    }
+  },
+  display2: { 
+    element: 'h2',
+    styles: {
+      fontSize: 'var(--typography-scales-display-2-font-size)',
+      fontWeight: 'var(--typography-scales-display-2-font-weight)',
+      lineHeight: 'var(--typography-scales-display-2-line-height)',
+      letterSpacing: 'var(--typography-scales-display-2-letter-spacing)'
+    }
+  },
+  h1: { 
+    element: 'h1',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-1-font-size)',
+      fontWeight: 'var(--typography-scales-heading-1-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-1-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-1-letter-spacing)'
+    }
+  },
+  h2: { 
+    element: 'h2',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-2-font-size)',
+      fontWeight: 'var(--typography-scales-heading-2-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-2-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-2-letter-spacing)'
+    }
+  },
+  h3: { 
+    element: 'h3',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-3-font-size)',
+      fontWeight: 'var(--typography-scales-heading-3-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-3-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-3-letter-spacing)'
+    }
+  },
+  h4: { 
+    element: 'h4',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-4-font-size)',
+      fontWeight: 'var(--typography-scales-heading-4-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-4-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-4-letter-spacing)'
+    }
+  },
+  h5: { 
+    element: 'h5',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-5-font-size)',
+      fontWeight: 'var(--typography-scales-heading-5-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-5-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-5-letter-spacing)'
+    }
+  },
+  h6: { 
+    element: 'h6',
+    styles: {
+      fontSize: 'var(--typography-scales-heading-6-font-size)',
+      fontWeight: 'var(--typography-scales-heading-6-font-weight)',
+      lineHeight: 'var(--typography-scales-heading-6-line-height)',
+      letterSpacing: 'var(--typography-scales-heading-6-letter-spacing)'
+    }
+  },
+  body1: { 
+    element: 'p',
+    styles: {
+      fontSize: 'var(--typography-scales-body-lg-font-size)',
+      fontWeight: 'var(--typography-scales-body-lg-font-weight)',
+      lineHeight: 'var(--typography-scales-body-lg-line-height)',
+      letterSpacing: 'var(--typography-scales-body-lg-letter-spacing)'
+    }
+  },
+  body2: { 
+    element: 'p',
+    styles: {
+      fontSize: 'var(--typography-scales-body-font-size)',
+      fontWeight: 'var(--typography-scales-body-font-weight)',
+      lineHeight: 'var(--typography-scales-body-line-height)',
+      letterSpacing: 'var(--typography-scales-body-letter-spacing)'
+    }
+  },
+  subtitle1: { 
+    element: 'p',
+    styles: {
+      fontSize: 'var(--typography-scales-body-lg-font-size)',
+      fontWeight: 'var(--typography-font-weight-medium)',
+      lineHeight: 'var(--typography-scales-body-lg-line-height)',
+      letterSpacing: 'var(--typography-scales-body-lg-letter-spacing)'
+    }
+  },
+  subtitle2: { 
+    element: 'p',
+    styles: {
+      fontSize: 'var(--typography-scales-body-font-size)',
+      fontWeight: 'var(--typography-font-weight-medium)',
+      lineHeight: 'var(--typography-scales-body-line-height)',
+      letterSpacing: 'var(--typography-scales-body-letter-spacing)'
+    }
+  },
+  caption: { 
+    element: 'span',
+    styles: {
+      fontSize: 'var(--typography-scales-caption-font-size)',
+      fontWeight: 'var(--typography-scales-caption-font-weight)',
+      lineHeight: 'var(--typography-scales-caption-line-height)',
+      letterSpacing: 'var(--typography-scales-caption-letter-spacing)'
+    }
+  },
+  overline: { 
+    element: 'span',
+    styles: {
+      fontSize: 'var(--typography-scales-caption-font-size)',
+      fontWeight: 'var(--typography-font-weight-medium)',
+      lineHeight: 'var(--typography-scales-caption-line-height)',
+      letterSpacing: 'var(--typography-scales-caption-letter-spacing)'
+    }
+  },
 };
 
 const Text = ({ 
@@ -34,33 +146,39 @@ const Text = ({
   truncate = false,
   className = '',
   as,
+  style = {},
   ...props 
 }) => {
   const variantConfig = typographyVariants[variant] || typographyVariants.body1;
   const Component = as || variantConfig.element;
 
-  // Use CSS classes exclusively for consistency and performance
+  // Color mapping to design token CSS variables
   const colorMap = {
-    primary: 'text-color-primary',
-    secondary: 'text-color-secondary', 
-    tertiary: 'text-color-tertiary',
-    inverse: 'text-color-inverse'
+    primary: 'var(--colors-text-primary)',
+    secondary: 'var(--colors-text-secondary)', 
+    tertiary: 'var(--colors-text-tertiary)',
+    inverse: 'var(--colors-text-inverse)'
   };
 
-  const classes = [
-    'text',                                    // Base text class
-    variantConfig.cssClass,                    // Typography scale CSS class
-    color && (colorMap[color] || `text-color-${color}`), // Mapped color class
-    align && align !== 'left' && `text-${align}`,        // Text alignment
-    transform && transform !== 'none' && `text-${transform}`, // Text transform
-    decoration && decoration !== 'none' && `text-${decoration}`, // Text decoration
-    truncate && 'text-truncate',               // Truncation utility
-    className
-  ].filter(Boolean).join(' ');
+  // Build inline styles using design tokens
+  const inlineStyles = {
+    fontFamily: 'var(--typography-font-family-primary)',
+    margin: 0, // Reset default margins for consistent spacing
+    ...variantConfig.styles,
+    color: colorMap[color] || `var(--colors-text-${color})`,
+    textAlign: align !== 'left' ? align : undefined,
+    textTransform: transform !== 'none' ? transform : undefined,
+    textDecoration: decoration !== 'none' ? decoration : undefined,
+    overflow: truncate ? 'hidden' : undefined,
+    textOverflow: truncate ? 'ellipsis' : undefined,
+    whiteSpace: truncate ? 'nowrap' : undefined,
+    ...style // Allow custom style overrides
+  };
 
   return (
     <Component 
-      className={classes}
+      className={className}
+      style={inlineStyles}
       {...props}
     >
       {children}
@@ -119,7 +237,8 @@ Text.propTypes = {
   variant: PropTypes.oneOf(Object.keys(typographyVariants)),
   transform: PropTypes.oneOf(['none', 'uppercase', 'lowercase', 'capitalize']),
   decoration: PropTypes.oneOf(['none', 'underline', 'line-through']),
-  truncate: PropTypes.bool
+  truncate: PropTypes.bool,
+  style: PropTypes.object
 };
 
 Heading.propTypes = {
