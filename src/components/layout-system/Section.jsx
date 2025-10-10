@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Container from '../layout-system/Container';
 import { VStack, HStack } from '../layout-system/Stack';
-import { Surface, Typography as Text } from '../index.js';
+import { Surface } from '../index.js';
 import { useExpandable, useLazyImage } from '@hooks';
 
 // Main Section container
@@ -57,23 +57,15 @@ const SectionHeader = ({
       )}
       
       {title && (
-        <Text.Heading 
-          level={1} 
-          color="section.primary"
-          className="section-title"
-        >
+        <h1 className="section-title">
           {title}
-        </Text.Heading>
+        </h1>
       )}
       
       {subtitle && (
-        <Text.Heading 
-          level={2} 
-          color="section.secondary"
-          className="section-subtitle"
-        >
+        <h2 className="section-subtitle">
           {subtitle}
-        </Text.Heading>
+        </h2>
       )}
       
       {children}
@@ -118,9 +110,9 @@ const SectionDescription = ({
       <div className={`section-description ${className}`.trim()} {...props}>
         {typeof children === 'string' ? (
           children.split('\n').map((paragraph, index) => (
-            <Text.Body key={index} style={{ marginBottom: 'var(--spacing-md)' }}>
+            <p key={index} style={{ marginBottom: 'var(--spacing-md)' }}>
               {paragraph.trim()}
-            </Text.Body>
+            </p>
           ))
         ) : (
           children
@@ -141,9 +133,9 @@ const SectionDescription = ({
       >
         {typeof children === 'string' ? (
           children.split('\n').map((paragraph, index) => (
-            <Text.Body key={index} style={{ marginBottom: 'var(--spacing-md)' }}>
+            <p key={index} style={{ marginBottom: 'var(--spacing-md)' }}>
               {paragraph.trim()}
-            </Text.Body>
+            </p>
           ))
         ) : (
           children
@@ -159,7 +151,7 @@ const SectionDescription = ({
             border: 'none',
             color: 'var(--colors-interactive-accent)',
             cursor: 'pointer',
-            fontSize: 'var(--typography-font-size-sm)',
+            fontSize: 'var(--typography-scales-body-font-size)',
             padding: '0',
             textDecoration: 'underline'
           }}

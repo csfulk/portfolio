@@ -31,7 +31,7 @@ const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
           position: 'absolute', 
           top: 'var(--spacing-xl)', 
           right: 'var(--spacing-3xl)', 
-          fontSize: 'var(--typography-font-size-3xl)', 
+          fontSize: 'var(--typography-scales-heading-2-font-size)', 
           background: 'none', 
           border: 'none', 
           color: 'var(--colors-text-inverse)', 

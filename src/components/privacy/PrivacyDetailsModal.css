@@ -71,8 +71,8 @@
   margin: 0;
   padding-left: var(--spacing-lg);
   color: var(--textSecondary);
-  font-size: var(--typography-font-size-md);
-  line-height: var(--typography-line-height-relaxed);
+  font-size: var(--typography-scales-heading-6-font-size);
+  line-height: var(--typography-scales-heading-6-line-height);
 }
 
 .privacy-modal__list li {

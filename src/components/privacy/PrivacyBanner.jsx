@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Button, Surface, Typography as Text } from '../index.js';
+import { Button, Surface } from '../index.js';
 import './PrivacyBanner.css';
 
 const PrivacyBanner = ({ 
@@ -71,7 +71,7 @@ const PrivacyBanner = ({
         onMouseEnter={handleUserInteraction}
       >
         <div className="privacy-banner__message">
-          <Text variant="body2" color="inverse">
+          <p style={{ color: 'var(--colors-text-inverse)' }}>
             Hi! I collect basic information to improve my portfolio.{' '}
             <span 
               onClick={handleShowDetails}
@@ -79,7 +79,7 @@ const PrivacyBanner = ({
             >
               Learn more
             </span>.
-          </Text>
+          </p>
         </div>
         
         <div className="privacy-banner__actions">

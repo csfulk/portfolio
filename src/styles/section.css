@@ -68,16 +68,37 @@
 }
 
 .section-title {
+  /* Complete typography from design system tokens */
+  font-size: var(--typography-scales-heading-3-font-size);
+  font-weight: var(--typography-scales-heading-3-font-weight);
+  line-height: var(--typography-scales-heading-3-line-height);
+  letter-spacing: var(--typography-scales-heading-3-letter-spacing);
+  font-family: var(--typography-font-family-primary);
   color: var(--colors-text-section-primary);
+  margin: 0;
 }
 
 .section-subtitle {
+  /* Complete typography from design system tokens */
+  font-size: var(--typography-scales-body-font-size);
+  font-weight: var(--typography-scales-body-font-weight);
+  line-height: var(--typography-scales-body-line-height);
+  letter-spacing: var(--typography-scales-body-letter-spacing);
+  font-family: var(--typography-font-family-primary);
   color: var(--colors-text-section-primary);
+  margin: 0;
 }
 
 /* Description text */
 .section-description {
+  /* Complete typography from design system tokens */
+  font-size: var(--typography-scales-body-font-size);
+  font-weight: var(--typography-scales-body-font-weight);
+  line-height: var(--typography-scales-body-line-height);
+  letter-spacing: var(--typography-scales-body-letter-spacing);
+  font-family: var(--typography-font-family-primary);
   color: var(--colors-text-section-primary);
+  margin:0 0 var(--spacing-lg) 0;
   text-overflow: ellipsis;
   white-space: normal;
   transition: var(--transitions-normal);
@@ -149,8 +170,8 @@
   background: none;
   border: none;
   color: var(--colors-text-secondary);
-  font-size: var(--typography-font-size-sm);
-  font-weight: var(--typography-font-weight-normal);
+  font-size: var(--typography-scales-body-font-size);
+  font-weight: var(--typography-scales-body-font-weight);
   cursor: pointer;
   padding: 0;
   z-index: 1; /* Ensure the button is above other elements */
@@ -166,7 +187,7 @@
   list-style: disc;
   padding-left: var(--spacing-lg);
   color: var(--colors-text-section-secondary);
-  line-height: var(--typography-line-height-loose);
+  line-height: var(--typography-scales-body-line-height);
   margin: 0;
   display: block;
 }
@@ -183,7 +204,7 @@
 
 /* Highlight the role in the bullet points */
 .role-highlight {
-  font-weight: var(--typography-font-weight-semibold);
+  font-weight: var(--typography-scales-heading-3-font-weight);
   color: var(--colors-text-inverse);
 }
 

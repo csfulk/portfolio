@@ -33,13 +33,6 @@ export {
 
 // UI Primitives (DIRECT FROM DESIGN-SYSTEM)
 export { 
-  Typography, 
-  Heading, 
-  Display, 
-  Body, 
-  Subtitle, 
-  Caption, 
-  Overline,
   Button,
   Surface,
   Icon

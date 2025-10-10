@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Button, Heading, Surface, Typography as Text } from '../index.js';
+import { Button, Surface } from '../index.js';
 import './PrivacyDetailsModal.css';
 
 const PrivacyDetailsModal = ({ isOpen, onClose }) => {
@@ -19,18 +19,18 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
   return (
     <div className="privacy-modal" onClick={handleBackdropClick}>
       <div className="privacy-modal__backdrop" />
-      <Surface variant="primary" className="privacy-modal__content">
-        <Heading level={3} className="privacy-modal__title">
-          Performance Analytics
-        </Heading>
+            <Surface className="privacy-modal__surface">
+        <h3 className="privacy-modal__title">
+          Privacy & Analytics Information
+        </h3>
         
         <div className="privacy-modal__body">
           <div className="privacy-modal__section">
-            <Text variant="body1" color="secondary">
+            <p style={{ color: 'var(--colors-text-secondary)' }}>
               <strong className="privacy-modal__section-title privacy-modal__section-title--collect">
                 What we collect:
               </strong>
-            </Text>
+            </p>
             <ul className="privacy-modal__list">
               <li>Page load speeds and component render times</li>
               <li>Resource loading performance (images, scripts)</li>
@@ -42,11 +42,11 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
           </div>
           
           <div className="privacy-modal__section">
-            <Text variant="body1" color="secondary">
+            <p style={{ color: 'var(--colors-text-secondary)' }}>
               <strong className="privacy-modal__section-title privacy-modal__section-title--no-collect">
                 What we don't collect:
               </strong>
-            </Text>
+            </p>
             <ul className="privacy-modal__list">
               <li>Personal identifying information (names, emails)</li>
               <li>Precise location or GPS coordinates</li>
@@ -57,11 +57,11 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
           </div>
           
           <div className="privacy-modal__footer-info">
-            <Text variant="caption" color="tertiary">
+            <small style={{ color: 'var(--colors-text-tertiary)' }}>
               <strong>Purpose:</strong> Performance optimization and professional analytics to understand visitor interest.<br/>
               <strong>Storage:</strong> Performance data stays local (24hr expiry). Location data may be sent to analytics services.<br/>
               <strong>Your Rights:</strong> You can opt out anytime and request data deletion.
-            </Text>
+            </small>
           </div>
         </div>
         

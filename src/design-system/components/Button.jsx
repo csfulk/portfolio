@@ -74,27 +74,27 @@ const buttonVariants = {
 const buttonSizes = {
   xs: {
     padding: 'var(--spacing-xs) var(--spacing-sm)',
-    fontSize: 'var(--typography-font-size-xs)',
+    fontSize: 'var(--typography-scales-body-sm-font-size)',
     minHeight: '24px'
   },
   sm: {
     padding: 'var(--spacing-sm) var(--spacing-md)',
-    fontSize: 'var(--typography-font-size-sm)',
+    fontSize: 'var(--typography-scales-body-font-size)',
     minHeight: '32px'
   },
   md: {
     padding: 'var(--spacing-sm) var(--spacing-xl)',
-    fontSize: 'var(--typography-font-size-sm)',
+    fontSize: 'var(--typography-scales-body-font-size)',
     minHeight: '40px'
   },
   lg: {
     padding: 'var(--spacing-lg) var(--spacing-xl)',
-    fontSize: 'var(--typography-font-size-sm)',
+    fontSize: 'var(--typography-scales-body-font-size)',
     minHeight: '48px'
   },
   xl: {
     padding: 'var(--spacing-lg) var(--spacing-3xl)',
-    fontSize: 'var(--typography-font-size-lg)',
+    fontSize: 'var(--typography-scales-heading-5-font-size)',
     minHeight: '56px'
   }
 };
@@ -152,7 +152,7 @@ const ButtonComponent = forwardRef(({
     gap: 'var(--spacing-xs)',
     fontFamily: 'var(--typography-font-family-primary)',
     // Simple font weight logic - use prop or default to medium
-    fontWeight: fontWeight ? `var(--typography-font-weight-${fontWeight})` : 'var(--typography-font-weight-medium)',
+    fontWeight: fontWeight ? `var(--typography-font-weight-${fontWeight})` : 'var(--typography-scales-heading-6-font-weight)',
     borderRadius: 'var(--radius-full)',
     cursor: disabled || isLoading ? 'not-allowed' : 'pointer',
     transition: 'var(--transitions-hover)',
@@ -205,8 +205,8 @@ const ButtonComponent = forwardRef(({
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 'var(--typography-font-size-xs)',
-          fontWeight: 'var(--typography-font-weight-semibold)',
+          fontSize: 'var(--typography-scales-body-sm-font-size)',
+          fontWeight: 'var(--typography-scales-heading-6-font-weight)',
           color: 'currentColor',
           lineHeight: 1
         }}
@@ -245,7 +245,7 @@ const ButtonComponent = forwardRef(({
             justifyContent: 'center',
             width: '1em',
             height: '1em',
-            fontSize: 'var(--typography-font-size-lg)',
+            fontSize: 'var(--typography-scales-heading-5-font-size)',
             flexShrink: 0
           }}
           aria-hidden="true"

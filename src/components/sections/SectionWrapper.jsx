@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from '@components';
+import { Button } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
 import '@styles/section.css';
@@ -27,22 +27,14 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
             </div>
           )}
           {title && (
-            <Typography 
-              variant="h3"
-              color="inverse" 
-              className="section-title"
-            >
+            <h3 className="section-title">
               {title}
-            </Typography>
+            </h3>
           )}
           {subtitle && (
-            <Typography 
-              variant="body2"
-              color="inverse"
-              className="section-subtitle"
-            >
+            <p className="section-subtitle">
               {subtitle}
-            </Typography>
+            </p>
           )}
           {description && (
             <div className="description-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
@@ -52,14 +44,9 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                 style={{ maxHeight: isExpanded ? 'none' : '5.4em' }}
               >
                 {description.split('\n').map((paragraph, index) => (
-                  <Typography 
-                    key={index} 
-                    variant="body2"
-                    color="inverse"
-                    className="section-description"
-                  >
+                  <p key={index} className="section-description">
                     {paragraph.trim()}
-                  </Typography>
+                  </p>
                 ))}
                 {bulletPoints.length > 0 && (
                   <ul className="section-bullets">
