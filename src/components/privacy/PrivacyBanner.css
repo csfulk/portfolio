@@ -8,7 +8,7 @@
   bottom: var(--spacing-lg);
   right: var(--spacing-lg);
   z-index: var(--z-index-modal);
-  max-width: 420px;
+  max-width: 280px;
   opacity: 0;
   transform: translateY(100%) scale(0.95);
   transition: all var(--transitions-modal);
@@ -30,20 +30,29 @@
 
 .privacy-banner__actions {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--spacing-sm);
   align-items: center;
+  margin-top: var(--spacing-md);
 }
 
 /* Button layout customizations for privacy banner */
-.privacy-banner__accept {
+.privacy-banner__accept,
+.privacy-banner__decline {
   flex: 1;
-  min-width: fit-content;
 }
 
-.privacy-banner__decline,
-.privacy-banner__details {
-  flex-shrink: 0;
+/* Inline learn more text styling */
+.privacy-banner__learn-more {
+  display: inline;
+  vertical-align: baseline;
+  text-decoration: underline;
+  cursor: pointer;
+  color: inherit;
+}
+
+.privacy-banner__learn-more:hover {
+  text-decoration: none;
+  opacity: 0.8;
 }
 
 /* Responsive Design */

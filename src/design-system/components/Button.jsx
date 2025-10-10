@@ -32,7 +32,7 @@ const buttonVariants = {
   },
   outline: {
     backgroundColor: 'transparent',
-    color: 'var(--colors-interactive-primary)',
+    color: 'var(--colors-text-primary)',
     border: '1px solid var(--colors-interactive-outline)',
     '--button-hover-bg': 'var(--colors-interactive-hover-outline)',
     '--button-hover-color': 'var(--colors-text-inverse)'
@@ -120,8 +120,10 @@ const ButtonComponent = forwardRef(({
   padding,
   color,
   backgroundColor,
+  borderColor,
   hoverColor,
   hoverBackgroundColor,
+  hoverBorderColor,
   className = '',
   onClick,
   type = 'button',
@@ -166,9 +168,11 @@ const ButtonComponent = forwardRef(({
     padding: getPadding(),
     ...(color && { color }),
     ...(backgroundColor && { backgroundColor }),
+    ...(borderColor && { borderColor }),
     // Set custom properties for hover states
     ...(hoverColor && { '--button-hover-color': hoverColor }),
     ...(hoverBackgroundColor && { '--button-hover-bg': hoverBackgroundColor }),
+    ...(hoverBorderColor && { '--button-hover-border-color': hoverBorderColor }),
   };
 
   const classes = [
@@ -197,59 +201,18 @@ const ButtonComponent = forwardRef(({
         className="button-countdown"
         style={{
           position: 'relative',
-          width: '18px',
-          height: '18px',
           flexShrink: 0,
           display: 'inline-flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          fontSize: 'var(--typography-font-size-xs)',
+          fontWeight: 'var(--typography-font-weight-semibold)',
+          color: 'currentColor',
+          lineHeight: 1
         }}
         aria-hidden="true"
       >
-        <svg 
-          width="18" 
-          height="18" 
-          viewBox="0 0 32 32" 
-          style={{ transform: 'rotate(-90deg)' }}
-        >
-          <circle 
-            cx="16" 
-            cy="16" 
-            r="14" 
-            fill="none"
-            stroke="rgba(255, 255, 255, 0.2)"
-            strokeWidth="2.5"
-          />
-          <circle 
-            cx="16" 
-            cy="16" 
-            r="14" 
-            fill="none"
-            stroke="var(--primary)"
-            strokeWidth="2.5"
-            strokeDasharray="87.96"
-            strokeDashoffset="87.96"
-            strokeLinecap="round"
-            style={{
-              transition: 'stroke-dashoffset 8s linear',
-              strokeDashoffset: countdownActive ? '0' : '87.96'
-            }}
-          />
-        </svg>
-        <span 
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            fontSize: 'var(--typography-font-size-xs)',
-            fontWeight: 'var(--typography-font-weight-semibold)',
-            color: 'currentColor',
-            lineHeight: 1
-          }}
-        >
-          {countdown > 0 ? countdown : '✓'}
-        </span>
+        {countdown > 0 ? countdown : '✓'}
       </span>
     );
   };
@@ -381,8 +344,10 @@ ButtonComponent.propTypes = {
   padding: PropTypes.string,
   color: PropTypes.string,
   backgroundColor: PropTypes.string,
+  borderColor: PropTypes.string,
   hoverColor: PropTypes.string,
   hoverBackgroundColor: PropTypes.string,
+  hoverBorderColor: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),

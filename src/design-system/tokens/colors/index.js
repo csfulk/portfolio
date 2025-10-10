@@ -20,7 +20,7 @@ export const colors = {
     primary: '#1D1D1D',       // Primary text on light backgrounds (--textPrimary)
     secondary: '#757575',     // Secondary text (--textSecondary) 
     tertiary: '#5a5a5a',      // Tertiary text (--textTertiary)
-    inverse: '#ffffff',       // Text on dark backgrounds (--textNeutralPrimary)
+    inverse: '#f5f5f5',       // Text on dark backgrounds (--textNeutralPrimary)
     section: {
       primary: '#f5f5f5',     // Primary text in dark sections (--textPrimarySection)
       secondary: '#a1a1a1'    // Secondary text in dark sections (--textSecondarySection)
@@ -32,6 +32,7 @@ export const colors = {
     primary: '#1D1D1D',       // Primary button background (--buttonPrimary)
     secondary: '#f5f5f5',     // Secondary button background (--buttonSecondary)
     accent: '#F09',           // Accent color for highlights (--buttonAccent)
+    inverse: '#f5f5f5', 
     outline: '#e0e0e0',       // Outline/border color (--buttonOutline)
     destructive: '#ff0000',   // Destructive actions (--buttonDestructive)
     success: '#0aba62',       // Success states (--success)

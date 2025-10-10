@@ -72,7 +72,13 @@ const PrivacyBanner = ({
       >
         <div className="privacy-banner__message">
           <Text variant="body2" color="inverse">
-            Hi! I collect basic analytics to improve my portfolio.
+            Hi! I collect basic information to improve my portfolio.{' '}
+            <span 
+              onClick={handleShowDetails}
+              className="privacy-banner__learn-more"
+            >
+              Learn more
+            </span>.
           </Text>
         </div>
         
@@ -84,8 +90,9 @@ const PrivacyBanner = ({
             className="privacy-banner__accept"
             countdown={timeRemaining}
             countdownActive={countdownActive}
+            fullWidth
           >
-            Allow
+            Allowing in
           </Button>
           
           <Button 
@@ -93,25 +100,15 @@ const PrivacyBanner = ({
             size="xs" 
             onClick={handleDecline}
             className="privacy-banner__decline"
-            color="var(--textSecondary)"
-            hoverColor="var(--textPrimary)"
+            color="var(--colors-text-inverse)"
+            borderColor="var(--colors-interactive-outline)"
+            hoverColor="var(--colors-interactive-outline)"
             backgroundColor="transparent"
-            hoverBackgroundColor="rgba(255, 255, 255, 0.05)"
+            hoverBackgroundColor="rgba(255, 255, 255, 0.5)"
+            
+            fullWidth
           >
             Decline
-          </Button>
-          
-          <Button 
-            variant="text" 
-            size="xs" 
-            onClick={handleShowDetails}
-            className="privacy-banner__details"
-            color="var(--textTertiary)"
-            hoverColor="var(--textSecondary)"
-            paddingX="var(--spacing-sm)"
-            paddingY="var(--spacing-xs)"
-          >
-            Details
           </Button>
         </div>
       </Surface>
