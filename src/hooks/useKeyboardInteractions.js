@@ -17,8 +17,8 @@ const useKeyboardInteractions = ({ onEscape, onArrowLeft, onArrowRight, allowEnt
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         onArrowRight?.();
-      } else if (['Enter', ' '].includes(e.key)) {
-        e.preventDefault(); // Prevent unintended actions
+      } else if (['Enter', ' '].includes(e.key) && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+        e.preventDefault(); // Prevent unintended actions (but allow in input fields)
       }
     };
 

@@ -13,6 +13,7 @@
 
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import Icon from './Icon.jsx';
 import '../styles/button.css';
 
 const buttonVariants = {
@@ -99,6 +100,15 @@ const buttonSizes = {
   }
 };
 
+// Optimized icon defaults for each button size
+const iconDefaults = {
+  xs: { size: 'md', strokeWeight: 2 },
+  sm: { size: 'lg', strokeWeight: 2.25 },
+  md: { size: 'lg', strokeWeight: 2.25 },
+  lg: { size: 'xl', strokeWeight: 2.25 },
+  xl: { size: 'xl', strokeWeight: 2.5 }
+};
+
 const ButtonComponent = forwardRef(({ 
   children,
   text, // Backward compatibility - use text prop if children not provided
@@ -107,6 +117,8 @@ const ButtonComponent = forwardRef(({
   fontWeight, // Now optional - defaults to medium if not provided
   icon,
   iconPosition = 'leading',
+  iconSize, // Override icon size (uses optimized default if not provided)
+  strokeWeight, // Override stroke weight (uses optimized default if not provided)
   isLoading = false,
   disabled = false,
   fullWidth = false,
@@ -132,6 +144,9 @@ const ButtonComponent = forwardRef(({
 }, ref) => {
   const variantStyles = buttonVariants[variant] || buttonVariants.primary;
   const sizeStyles = buttonSizes[size] || buttonSizes.md;
+  
+  // Get optimized icon defaults for this button size
+  const iconConfig = iconDefaults[size] || iconDefaults.md;
 
   // Handle padding overrides
   const getPadding = () => {
@@ -243,15 +258,16 @@ const ButtonComponent = forwardRef(({
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '1em',
-            height: '1em',
-            fontSize: 'var(--typography-scales-heading-5-font-size)',
             flexShrink: 0
           }}
           aria-hidden="true"
         >
           {typeof icon === 'string' ? (
-            <i className={`icon ${icon}`} />
+            <Icon 
+              name={icon} 
+              size={iconSize || iconConfig.size} 
+              strokeWidth={strokeWeight || iconConfig.strokeWeight}
+            />
           ) : (
             icon
           )}
@@ -331,6 +347,8 @@ ButtonComponent.propTypes = {
   fontWeight: PropTypes.oneOf(['light', 'normal', 'medium', 'semibold', 'bold', 'extrabold']),
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   iconPosition: PropTypes.oneOf(['leading', 'trailing']),
+  iconSize: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']), // Optional - uses optimized default based on button size
+  strokeWeight: PropTypes.number, // Optional - uses optimized default based on button size
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,

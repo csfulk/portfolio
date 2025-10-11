@@ -17,6 +17,7 @@ import {
   usePrivacyIntegration
 } from '@hooks';
 import { PrivacyBanner, PrivacyDetailsModal } from './components/privacy';
+import { ComponentBrowser } from './design-system/componentBrowser';
 import { getCaseStudyImages } from '@data';
 import { initializeServices } from '@services';
 
@@ -126,6 +127,19 @@ const App = () => {
   // Console log modal state for debugging (remove in production)
   console.log('Modal State →', modalDebugInfo);
   console.log('Image Stats →', imageOptimization.imageStats);
+
+  // Check for demo mode query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const demoMode = urlParams.get('demo');
+  
+  // Show Component Browser - unified navigation for all design system tools
+  if (demoMode) {
+    return (
+      <ThemeProvider>
+        <ComponentBrowser />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider>

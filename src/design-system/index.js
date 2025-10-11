@@ -12,6 +12,9 @@ export { generateCSSVariables, applyTokensToDOM } from './generators/cssGenerato
 // Export components
 export * from './components/index.js';
 
+// Export component browser tools (development only)
+export * as componentBrowser from './componentBrowser/index.js';
+
 // Re-export individual token categories for convenience (NEW STRUCTURE)
 export { colors } from './tokens/colors/index.js';
 export { spacing } from './tokens/spacing/index.js';

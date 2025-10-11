@@ -1,12 +1,13 @@
 /**
  * Icon Component Styles - Design System
- * SVG icon system with size variants
+ * Iconoir React integration with design tokens
  */
 
 .ds-icon {
   display: inline-block;
   vertical-align: middle;
-  fill: currentColor;
+  stroke: currentColor;
+  fill: none;
   flex-shrink: 0;
   user-select: none;
   transition: all 0.2s ease;
