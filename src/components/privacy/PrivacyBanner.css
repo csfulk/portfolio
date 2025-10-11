@@ -55,6 +55,11 @@
   opacity: 0.8;
 }
 
+/* Tighter countdown spacing for "Allowing in X" text */
+.privacy-banner__accept {
+  gap: var(--spacing-xxs) !important; /* Tighter than default --spacing-xs */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .privacy-banner {
