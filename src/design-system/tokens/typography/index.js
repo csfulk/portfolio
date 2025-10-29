@@ -24,7 +24,7 @@ const fontSize = {
 const fontWeight = {
   light: 300,
   normal: 400,
-  medium: 500,
+  medium: 475,
   semibold: 600,
   bold: 700
 };
@@ -43,6 +43,24 @@ const letterSpacing = {
   wider: '0.05em'
 };
 
+// Unified weight mapping for text and icon parity
+const weightMapping = {
+  light: { iconStroke: 1 },
+  normal: { iconStroke: 1.5 },
+  medium: { iconStroke: 1.75 },
+  semibold: { iconStroke: 2.25 },
+  bold: { iconStroke: 2.5 }
+};
+
+// Optimized icon defaults for each component size (size only, weight handled by fontWeight)
+const iconDefaults = {
+  xs: { size: 'md' },
+  sm: { size: 'lg' },
+  md: { size: 'lg' },
+  lg: { size: 'xl' },
+  xl: { size: 'xl' }
+};
+
 export const typography = {
   // Export primitives for external use
   fontFamily,
@@ -50,6 +68,8 @@ export const typography = {
   fontWeight,
   lineHeight,
   letterSpacing,
+  weightMapping,
+  iconDefaults,
 
   // Typography Scales - Semantic combinations for consistent usage
   // This is the single source of truth for all typography

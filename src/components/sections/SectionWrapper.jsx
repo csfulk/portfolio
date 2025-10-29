@@ -77,7 +77,9 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                   <Button
                     key={caseStudy.key}
                     text={caseStudy.button.text}
-                    buttonSize="sm"
+                    size="md"
+                    variant="ghost"
+                    fontWeight="medium"
                     icon={isInteractiveIcon 
                       ? (authenticated ? iconConfig.authenticated : iconConfig.unauthenticated)
                       : iconConfig
@@ -85,10 +87,10 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                     iconHover={isInteractiveIcon && authenticated ? iconConfig.hover : undefined}
                     iconActive={isInteractiveIcon && authenticated ? iconConfig.active : undefined}
                     iconPosition="leading"
-                    variant="text"
-                    noPadding={true}
+                    paddingX="0"
                     color="var(--colors-text-inverse)"
                     hoverColor="var(--colors-text-secondary)"
+                    hoverBackgroundColor="transparent"
                     className="case-study-button"
                     onClick={() => {
                       handleCaseStudyClick({
