@@ -6,14 +6,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Iconoir from 'iconoir-react';
 
-// Icon name mapping for common use cases
+// Common icon aliases for convenience
 const iconNameMap = {
-  // Legacy icon font names (for backward compatibility)
-  'icon-Lock_light': 'Lock',
-  'icon-lock': 'Lock',
-  'icon-Lock': 'Lock',
-  
-  // Common UI icons
+  // Common UI icons (simplified names)
   'lock': 'Lock',
   'unlock': 'LockOpen', 
   'down-arrow': 'NavArrowDown',
@@ -73,7 +68,7 @@ const Icon = ({
 };
 
 Icon.propTypes = {
-  /** Icon name - uses Iconoir names or common aliases */
+  /** Icon name - uses direct Iconoir names or common aliases */
   name: PropTypes.string.isRequired,
   /** Icon size based on design tokens */
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),

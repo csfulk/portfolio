@@ -11,7 +11,7 @@
  * - Full customization with style overrides
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from './Icon.jsx';
 import '../styles/button.css';
@@ -119,6 +119,9 @@ const ButtonComponent = forwardRef(({
   iconPosition = 'leading',
   iconSize, // Override icon size (uses optimized default if not provided)
   strokeWeight, // Override stroke weight (uses optimized default if not provided)
+  // Interactive icon states
+  iconHover, // Icon to show on hover
+  iconActive, // Icon to show when pressed/active
   isLoading = false,
   disabled = false,
   fullWidth = false,
@@ -144,6 +147,10 @@ const ButtonComponent = forwardRef(({
 }, ref) => {
   const variantStyles = buttonVariants[variant] || buttonVariants.primary;
   const sizeStyles = buttonSizes[size] || buttonSizes.md;
+  
+  // State for interactive icons
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
   
   // Get optimized icon defaults for this button size
   const iconConfig = iconDefaults[size] || iconDefaults.md;
@@ -232,6 +239,13 @@ const ButtonComponent = forwardRef(({
     );
   };
 
+  // Determine current icon based on state and interactive options
+  const getCurrentIcon = () => {
+    if (isPressed && iconActive) return iconActive;
+    if (isHovered && iconHover) return iconHover;
+    return icon;
+  };
+
   const renderIcon = () => {
     if (isLoading) {
       return (
@@ -250,7 +264,9 @@ const ButtonComponent = forwardRef(({
       );
     }
 
-    if (icon) {
+    const currentIcon = getCurrentIcon();
+    
+    if (currentIcon) {
       return (
         <span 
           className={`button-icon button-icon--${iconPosition}`}
@@ -262,14 +278,14 @@ const ButtonComponent = forwardRef(({
           }}
           aria-hidden="true"
         >
-          {typeof icon === 'string' ? (
+          {typeof currentIcon === 'string' ? (
             <Icon 
-              name={icon} 
+              name={currentIcon} 
               size={iconSize || iconConfig.size} 
               strokeWidth={strokeWeight || iconConfig.strokeWeight}
             />
           ) : (
-            icon
+            currentIcon
           )}
         </span>
       );
@@ -318,6 +334,14 @@ const ButtonComponent = forwardRef(({
       className={classes}
       style={buttonStyles}
       onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
+      onMouseOut={() => {
+        setIsHovered(false);
+        setIsPressed(false);
+      }}
       disabled={disabled || isLoading}
       type={Component === 'button' ? type : undefined}
       aria-disabled={disabled || isLoading}
@@ -349,6 +373,9 @@ ButtonComponent.propTypes = {
   iconPosition: PropTypes.oneOf(['leading', 'trailing']),
   iconSize: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']), // Optional - uses optimized default based on button size
   strokeWeight: PropTypes.number, // Optional - uses optimized default based on button size
+  // Interactive icon states
+  iconHover: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  iconActive: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,

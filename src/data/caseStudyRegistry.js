@@ -10,7 +10,12 @@ export const caseStudyRegistry = {
     section: 'snapchat',
     button: {
       text: 'Fostering Design Systems Alignment',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FigmaEmbedViewer',
@@ -23,7 +28,12 @@ export const caseStudyRegistry = {
     section: 'snapchat',
     button: {
       text: 'Elevating Design Through History & Perception',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FigmaEmbedViewer',
@@ -37,7 +47,12 @@ export const caseStudyRegistry = {
     section: 'youtube',
     button: {
       text: 'Strategic Redesign of YouTube on TV',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FigmaEmbedViewer',
@@ -50,7 +65,12 @@ export const caseStudyRegistry = {
     section: 'youtube',
     button: {
       text: 'YouTube Living Room Case Study',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',
@@ -66,7 +86,12 @@ export const caseStudyRegistry = {
     section: 'youtube',
     button: {
       text: 'Simplifying Movies & TV Customer Journeys',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',
@@ -82,7 +107,12 @@ export const caseStudyRegistry = {
     section: 'youtube',
     button: {
       text: 'Design Systems Case Study',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',
@@ -99,7 +129,12 @@ export const caseStudyRegistry = {
     section: 'apple',
     button: {
       text: 'Apple Developer Documentation Design System',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FigmaEmbedViewer',
@@ -112,7 +147,12 @@ export const caseStudyRegistry = {
     section: 'apple',
     button: {
       text: 'Apple Developer Documentation Case Study',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',
@@ -128,7 +168,12 @@ export const caseStudyRegistry = {
     section: 'apple',
     button: {
       text: 'iOS & MacOSX Advanced Production Art',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',
@@ -145,7 +190,12 @@ export const caseStudyRegistry = {
     section: 'figma',
     button: {
       text: 'RestAPI: Fetch Figma Data App',
-      icon: 'icon-Lock_light'
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiBlinkLeft',
+        active: 'EmojiSingLeftNote'
+      }
     },
     viewer: {
       type: 'FeaturedProjectViewer',

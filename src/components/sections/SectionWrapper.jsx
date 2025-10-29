@@ -68,27 +68,38 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
           )}
           {caseStudies.length > 0 && (
             <div className="button-group-vertical">
-              {caseStudies.map((caseStudy) => (
-                <Button
-                  key={caseStudy.key}
-                  text={caseStudy.button.text}
-                  icon={caseStudy.button.icon}
-                  iconPosition="leading"
-                  variant="text"
-                  noPadding={true}
-                  color="var(--colors-text-inverse)"
-                  hoverColor="var(--colors-text-secondary)"
-                  className="case-study-button"
-                  onClick={() => {
-                    handleCaseStudyClick({
-                      type: caseStudy.viewer.type,
-                      caseStudyKey: caseStudy.key,
-                      ...caseStudy.viewer
-                    });
-                    scrollToSection(`#${id}`);
-                  }}
-                />
-              ))}
+              {caseStudies.map((caseStudy) => {
+                // Handle both old string format and new interactive object format
+                const iconConfig = caseStudy.button.icon;
+                const isInteractiveIcon = typeof iconConfig === 'object' && iconConfig !== null;
+                
+                return (
+                  <Button
+                    key={caseStudy.key}
+                    text={caseStudy.button.text}
+                    icon={isInteractiveIcon 
+                      ? (authenticated ? iconConfig.authenticated : iconConfig.unauthenticated)
+                      : iconConfig
+                    }
+                    iconHover={isInteractiveIcon && authenticated ? iconConfig.hover : undefined}
+                    iconActive={isInteractiveIcon && authenticated ? iconConfig.active : undefined}
+                    iconPosition="leading"
+                    variant="text"
+                    noPadding={true}
+                    color="var(--colors-text-inverse)"
+                    hoverColor="var(--colors-text-secondary)"
+                    className="case-study-button"
+                    onClick={() => {
+                      handleCaseStudyClick({
+                        type: caseStudy.viewer.type,
+                        caseStudyKey: caseStudy.key,
+                        ...caseStudy.viewer
+                      });
+                      scrollToSection(`#${id}`);
+                    }}
+                  />
+                );
+              })}
             </div>
           )}
         </div>
