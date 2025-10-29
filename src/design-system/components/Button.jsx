@@ -14,6 +14,7 @@
 import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from './Icon.jsx';
+import { typography } from '../tokens/typography/index.js';
 import '../styles/button.css';
 
 const buttonVariants = {
@@ -100,25 +101,18 @@ const buttonSizes = {
   }
 };
 
-// Optimized icon defaults for each button size
-const iconDefaults = {
-  xs: { size: 'md', strokeWeight: 2 },
-  sm: { size: 'lg', strokeWeight: 2.25 },
-  md: { size: 'lg', strokeWeight: 2.25 },
-  lg: { size: 'xl', strokeWeight: 2.25 },
-  xl: { size: 'xl', strokeWeight: 2.5 }
-};
+// Import design system tokens for unified weight mapping and icon defaults
+const { weightMapping, iconDefaults } = typography;
 
 const ButtonComponent = forwardRef(({ 
   children,
   text, // Backward compatibility - use text prop if children not provided
   variant = 'primary',
   size = 'md',
-  fontWeight, // Now optional - defaults to medium if not provided
+  fontWeight, // Controls both text and icon weight - defaults to medium if not provided
   icon,
   iconPosition = 'leading',
   iconSize, // Override icon size (uses optimized default if not provided)
-  strokeWeight, // Override stroke weight (uses optimized default if not provided)
   // Interactive icon states
   iconHover, // Icon to show on hover
   iconActive, // Icon to show when pressed/active
@@ -154,6 +148,10 @@ const ButtonComponent = forwardRef(({
   
   // Get optimized icon defaults for this button size
   const iconConfig = iconDefaults[size] || iconDefaults.md;
+  
+  // Get unified weight (defaults to medium for consistent design)
+  const currentWeight = fontWeight || 'medium';
+  const weightConfig = weightMapping[currentWeight] || weightMapping.medium;
 
   // Handle padding overrides
   const getPadding = () => {
@@ -173,8 +171,8 @@ const ButtonComponent = forwardRef(({
     justifyContent: 'center',
     gap: 'var(--spacing-xs)',
     fontFamily: 'var(--typography-font-family-primary)',
-    // Simple font weight logic - use prop or default to medium
-    fontWeight: fontWeight ? `var(--typography-font-weight-${fontWeight})` : 'var(--typography-scales-heading-6-font-weight)',
+    // Unified weight system - controls both text and icon weight
+    fontWeight: `var(--typography-font-weight-${currentWeight})`,
     borderRadius: 'var(--radius-full)',
     cursor: disabled || isLoading ? 'not-allowed' : 'pointer',
     transition: 'var(--transitions-hover)',
@@ -282,7 +280,7 @@ const ButtonComponent = forwardRef(({
             <Icon 
               name={currentIcon} 
               size={iconSize || iconConfig.size} 
-              strokeWidth={strokeWeight || iconConfig.strokeWeight}
+              strokeWidth={weightConfig.iconStroke}
             />
           ) : (
             currentIcon
@@ -375,11 +373,10 @@ ButtonComponent.propTypes = {
   text: PropTypes.string, // Backward compatibility
   variant: PropTypes.oneOf(['primary', 'secondary', 'outline', 'ghost', 'link', 'destructive', 'text']),
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
-  fontWeight: PropTypes.oneOf(['light', 'normal', 'medium', 'semibold', 'bold', 'extrabold']),
+  fontWeight: PropTypes.oneOf(['light', 'normal', 'medium', 'semibold', 'bold']),
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   iconPosition: PropTypes.oneOf(['leading', 'trailing']),
   iconSize: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']), // Optional - uses optimized default based on button size
-  strokeWeight: PropTypes.number, // Optional - uses optimized default based on button size
   // Interactive icon states
   iconHover: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   iconActive: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
