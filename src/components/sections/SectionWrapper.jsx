@@ -77,6 +77,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                   <Button
                     key={caseStudy.key}
                     text={caseStudy.button.text}
+                    buttonSize="sm"
                     icon={isInteractiveIcon 
                       ? (authenticated ? iconConfig.authenticated : iconConfig.unauthenticated)
                       : iconConfig

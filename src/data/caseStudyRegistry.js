@@ -13,7 +13,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -31,7 +31,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -50,7 +50,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -68,7 +68,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -89,7 +89,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -110,7 +110,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -132,7 +132,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -150,7 +150,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -171,7 +171,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },
@@ -193,7 +193,7 @@ export const caseStudyRegistry = {
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
-        hover: 'EmojiBlinkLeft',
+        hover: 'EmojiSingRightNote',
         active: 'EmojiSingLeftNote'
       }
     },

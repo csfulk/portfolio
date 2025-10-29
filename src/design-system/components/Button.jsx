@@ -335,10 +335,17 @@ const ButtonComponent = forwardRef(({
       style={buttonStyles}
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setIsPressed(false);
+      }}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
-      onMouseOut={() => {
+      onBlur={() => {
+        setIsHovered(false);
+        setIsPressed(false);
+      }}
+      onDragLeave={() => {
         setIsHovered(false);
         setIsPressed(false);
       }}
