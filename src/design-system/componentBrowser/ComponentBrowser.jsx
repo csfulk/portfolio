@@ -5,18 +5,15 @@
 
 import React, { useState } from 'react';
 import IconoirBrowser from './IconoirBrowserWorking.jsx';
-import ButtonIconMatrix from './ButtonIconMatrix.jsx';
 import ButtonDocumentation from './ButtonDocumentation.jsx';
-import IconDefaultsTest from './IconDefaultsTest.jsx';
-import StrokeWeightTest from './StrokeWeightTest.jsx';
-import IconoirDemo from './IconoirDemo.jsx';
+import SystemDocumentation from './SystemDocumentation.jsx';
 
 const ComponentBrowser = () => {
   // Get initial demo from URL parameter
   const getInitialDemo = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const demoParam = urlParams.get('demo');
-    const validDemos = ['home', 'icons', 'buttons', 'docs', 'defaults', 'stroke', 'demo', 'browse'];
+    const validDemos = ['home', 'icons', 'docs', 'system', 'browse'];
     return validDemos.includes(demoParam) ? (demoParam === 'browse' ? 'icons' : demoParam) : 'home';
   };
 
@@ -33,7 +30,8 @@ const ComponentBrowser = () => {
       // Map internal IDs to URL parameters
       const urlMapping = {
         'icons': 'browse',
-        'docs': 'docs'
+        'docs': 'docs',
+        'system': 'system'
       };
       url.searchParams.set('demo', urlMapping[demoId] || demoId);
     }
@@ -54,34 +52,16 @@ const ComponentBrowser = () => {
       description: 'Browse 1,600+ Iconoir icons'
     },
     {
-      id: 'buttons',
-      title: 'Button Optimization',
-      icon: '🎯',
-      description: 'Optimize button-icon combinations'
-    },
-    {
       id: 'docs',
       title: 'Button Documentation',
       icon: '📚',
       description: 'Interactive button code generator'
     },
     {
-      id: 'defaults',
-      title: 'Icon Defaults',
-      icon: '⚡',
-      description: 'Automatic icon optimization'
-    },
-    {
-      id: 'stroke',
-      title: 'Stroke Weights',
-      icon: '🎨',
-      description: 'Test stroke weight variations'
-    },
-    {
-      id: 'demo',
-      title: 'Basic Examples',
-      icon: '🚀',
-      description: 'Simple icon demonstrations'
+      id: 'system',
+      title: 'System Documentation',
+      icon: '📖',
+      description: 'How the design system works'
     }
   ];
 
@@ -89,16 +69,10 @@ const ComponentBrowser = () => {
     switch (activeDemo) {
       case 'icons':
         return <IconoirBrowser />;
-      case 'buttons':
-        return <ButtonIconMatrix />;
       case 'docs':
         return <ButtonDocumentation />;
-      case 'defaults':
-        return <IconDefaultsTest />;
-      case 'stroke':
-        return <StrokeWeightTest />;
-      case 'demo':
-        return <IconoirDemo />;
+      case 'system':
+        return <SystemDocumentation />;
       default:
         return <HomePage onNavigate={handleDemoChange} />;
     }
@@ -349,23 +323,16 @@ const HomePage = ({ onNavigate }) => {
         />
         
         <QuickActionCard
-          title="Optimize Buttons"
-          description="Fine-tune button-icon combinations"
-          action="buttons"
-          onNavigate={onNavigate}
-        />
-
-        <QuickActionCard
           title="Button Documentation"
           description="Generate button code with interactive controls"
           action="docs"
           onNavigate={onNavigate}
         />
-        
+
         <QuickActionCard
-          title="Test Stroke Weights"
-          description="Compare stroke weight variations"
-          action="stroke"
+          title="System Documentation"
+          description="Learn how the design system works"
+          action="system"
           onNavigate={onNavigate}
         />
 

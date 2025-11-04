@@ -87,7 +87,7 @@ const ButtonDocumentation = () => {
     icon: '',
     iconPosition: 'leading',
     iconSize: 'auto',
-    strokeWeight: 'auto',
+    fontWeight: 'auto', // Uses unified weight system (controls both text and icon)
     disabled: false,
     loading: false,
     fullWidth: false,
@@ -121,7 +121,7 @@ const ButtonDocumentation = () => {
   ];
 
   const iconSizes = ['auto', 'xs', 'sm', 'md', 'lg', 'xl'];
-  const strokeWeights = ['auto', '1', '1.5', '2', '2.25', '2.5', '3'];
+  const fontWeights = ['auto', 'light', 'normal', 'medium', 'semibold', 'bold'];
 
   // Get all available icons from Iconoir (like the working IconBrowser)
   const allIcons = useMemo(() => {
@@ -175,15 +175,16 @@ const ButtonDocumentation = () => {
       if (config.iconSize !== 'auto') {
         props.push(`iconSize="${config.iconSize}"`);
       }
-      
-      if (config.strokeWeight !== 'auto') {
-        props.push(`strokeWeight={${config.strokeWeight}}`);
-      }
+    }
+    
+    // Add fontWeight (controls both text and icon weight via unified system)
+    if (config.fontWeight !== 'auto') {
+      props.push(`fontWeight="${config.fontWeight}"`);
     }
     
     // Add state props
     if (config.disabled) props.push(`disabled`);
-    if (config.loading) props.push(`loading`);
+    if (config.loading) props.push(`isLoading`);
     if (config.fullWidth) props.push(`fullWidth`);
     
     // Add link props
@@ -226,10 +227,40 @@ const ButtonDocumentation = () => {
         <p style={{
           fontSize: 'var(--typography-scales-body-font-size)',
           color: 'var(--colors-text-secondary)',
-          margin: 0
+          margin: 0,
+          marginBottom: '16px'
         }}>
           Configure your button and copy the generated code
         </p>
+        
+        {/* Automatic Optimization Info */}
+        <div style={{
+          padding: '16px',
+          backgroundColor: 'var(--colors-surface-secondary, #f0f9ff)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--colors-interactive-accent-alpha, rgba(0, 102, 204, 0.2))',
+          marginBottom: '8px'
+        }}>
+          <div style={{
+            fontSize: 'var(--typography-scales-body-sm-font-size)',
+            color: 'var(--colors-text-primary)',
+            marginBottom: '8px'
+          }}>
+            <strong>✨ Smart Design System:</strong>
+          </div>
+          <div style={{
+            fontSize: 'var(--typography-scales-body-sm-font-size)',
+            color: 'var(--colors-text-secondary)',
+            lineHeight: 1.5
+          }}>
+            Icons are automatically optimized for each button size. The <code style={{ 
+              backgroundColor: 'var(--colors-surface-tertiary)', 
+              padding: '2px 4px', 
+              borderRadius: '2px',
+              fontSize: '0.9em'
+            }}>fontWeight</code> prop controls both text and icon weight for perfect visual harmony.
+          </div>
+        </div>
       </div>
 
       {/* Three Column Layout */}
@@ -554,6 +585,14 @@ const ButtonDocumentation = () => {
 
                 {/* Icon Size Dropdown */}
                 <FormSection title="Icon Size">
+                  <div style={{
+                    fontSize: 'var(--typography-scales-body-xs-font-size)',
+                    color: 'var(--colors-text-tertiary)',
+                    marginBottom: '8px',
+                    lineHeight: 1.4
+                  }}>
+                    Auto uses optimized defaults: xs→md, sm→lg, md→lg, lg→xl, xl→xl
+                  </div>
                   <select
                     value={config.iconSize}
                     onChange={(e) => updateConfig('iconSize', e.target.value)}
@@ -584,11 +623,19 @@ const ButtonDocumentation = () => {
                   </select>
                 </FormSection>
 
-                {/* Stroke Weight Dropdown */}
-                <FormSection title="Icon Stroke Weight">
+                {/* Font Weight Dropdown - Controls both text and icon weight */}
+                <FormSection title="Font Weight (Text + Icon)">
+                  <div style={{
+                    fontSize: 'var(--typography-scales-body-xs-font-size)',
+                    color: 'var(--colors-text-tertiary)',
+                    marginBottom: '8px',
+                    lineHeight: 1.4
+                  }}>
+                    Unified system: one prop controls both text and icon weight for perfect parity
+                  </div>
                   <select
-                    value={config.strokeWeight}
-                    onChange={(e) => updateConfig('strokeWeight', e.target.value)}
+                    value={config.fontWeight}
+                    onChange={(e) => updateConfig('fontWeight', e.target.value)}
                     style={{
                       width: '100%',
                       padding: '12px',
@@ -608,9 +655,9 @@ const ButtonDocumentation = () => {
                       outline: 'none'
                     }}
                   >
-                    {strokeWeights.map(weight => (
+                    {fontWeights.map(weight => (
                       <option key={weight} value={weight}>
-                        {weight === 'auto' ? 'Auto (default)' : `${weight}px`}
+                        {weight === 'auto' ? 'Auto (medium)' : weight.charAt(0).toUpperCase() + weight.slice(1)}
                       </option>
                     ))}
                   </select>
@@ -722,9 +769,9 @@ const ButtonDocumentation = () => {
                 icon={config.hasIcon && config.icon ? config.icon : undefined}
                 iconPosition={config.iconPosition === 'leading' ? undefined : config.iconPosition}
                 iconSize={config.iconSize === 'auto' ? undefined : config.iconSize}
-                strokeWeight={config.strokeWeight === 'auto' ? undefined : parseFloat(config.strokeWeight)}
+                fontWeight={config.fontWeight === 'auto' ? undefined : config.fontWeight}
                 disabled={config.disabled}
-                loading={config.loading}
+                isLoading={config.loading}
                 fullWidth={config.fullWidth}
                 href={config.href || undefined}
                 target={config.target === '_self' ? undefined : config.target}
