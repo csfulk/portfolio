@@ -94,11 +94,8 @@ export const caseStudyRegistry = {
       }
     },
     viewer: {
-      type: 'FeaturedProjectViewer',
-      title: 'YouTube Movies & Shows Case Study',
-      folder: '/assets/yt_case_study_01',
-      count: 24,
-      fileName: 'feature_project_ytms'
+      type: 'FigmaEmbedViewer',
+      embedUrl: 'https://embed.figma.com/deck/3LTgOAAvTjpOfY96s0RZnp/Simplifying-Core-User-Journeys-with-UXR---Eng-Collaboration?node-id=103-8015&viewport=-104%2C-55%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
