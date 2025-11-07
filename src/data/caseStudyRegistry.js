@@ -195,11 +195,8 @@ export const caseStudyRegistry = {
       }
     },
     viewer: {
-      type: 'FeaturedProjectViewer',
-      title: 'Fetch Figma Data App',
-      folder: '/assets/fetch_figma',
-      count: 12,
-      fileName: 'fetch_figma'
+      type: 'FigmaEmbedViewer',
+      embedUrl: 'https://embed.figma.com/proto/TFOcvXbwsCU33FQqBkNMWO/Colt-Fulk?page-id=737%3A4564&node-id=738-4584&p=f&viewport=-378%2C384%2C0.26&scaling=contain&content-scaling=fixed&embed-host=share'
     }
   }
 };
