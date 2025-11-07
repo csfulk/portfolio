@@ -15,10 +15,10 @@ export const Navigation = () => {
     <nav className={navClasses}>
       <ul className="nav-list left overlay">
         <li className="nav-item" onClick={() => scrollToSection('.hero')}>Home</li>
-        <li className="nav-item" onClick={() => scrollToSection('.first-section')}>Snapchat</li>
-        <li className="nav-item" onClick={() => scrollToSection('.second-section')}>YouTube</li>
+        <li className="nav-item" onClick={() => scrollToSection('.first-section')}>YouTube</li>
+        <li className="nav-item" onClick={() => scrollToSection('.second-section')}>Snapchat</li>
         <li className="nav-item" onClick={() => scrollToSection('.third-section')}>Apple</li>
-        <li className="nav-item" onClick={() => scrollToSection('.fourth-section')}>Figma</li>
+        <li className="nav-item" onClick={() => scrollToSection('.fourth-section')}>Figma Dev</li>
       </ul>
       <ul className="nav-list right">
       <li className="nav-item">
