@@ -152,11 +152,8 @@ export const caseStudyRegistry = {
       }
     },
     viewer: {
-      type: 'FeaturedProjectViewer',
-      title: 'Apple Developer Documentation Case Study',
-      folder: '/assets/apple_case_study_01',
-      count: 13,
-      fileName: 'apple_dev_doc'
+      type: 'FigmaEmbedViewer',
+      embedUrl: 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-95%2C-35%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 

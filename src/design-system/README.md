@@ -13,13 +13,14 @@ src/design-system/
 │   ├── layout/      # Shadows, radius, breakpoints, transitions
 │   └── index.js     # Unified token exports
 ├── components/      # React components built with tokens
-│   ├── Typography.jsx  # Text components and semantic variants
 │   ├── Button.jsx      # Button component with design system integration
 │   ├── Surface.jsx     # Surface/container component
+│   ├── Icon.jsx        # Icon component (Iconoir wrapper)
 │   └── index.js        # Component exports
 ├── styles/          # CSS implementations from tokens
 │   ├── typography.css  # Typography CSS variables and utilities
-│   └── button.css      # Button component styles
+│   ├── button.css      # Button component styles
+│   └── icon.css        # Icon component styles
 ├── generators/      # Build tools and CSS generation
 │   └── cssGenerator.js # Converts tokens to CSS variables
 └── index.js         # Main design system export
@@ -30,22 +31,25 @@ src/design-system/
 ### **Import Components**
 ```jsx
 // From main components barrel (PREFERRED)
-import { Typography, Button, Surface } from '@components';
+import { Button, Surface, Icon } from '@components';
 
 // From design system directly
-import { Typography, Button } from '@design-system';
+import { Button, Surface, Icon } from '@design-system';
 ```
 
-### **Typography Components**
+### **Typography Usage**
+Use semantic HTML elements styled by CSS variables from `styles/typography.css`.
 ```jsx
-// Semantic text components
-<Typography variant="h1">Main Heading</Typography>
-<Typography variant="body2" color="secondary">Body text</Typography>
+// Semantic HTML with design system variables
+<h1 style={{
+  fontSize: 'var(--typography-scales-heading-1-font-size)',
+  fontWeight: 'var(--typography-scales-heading-1-font-weight)'
+}}>Main Heading</h1>
 
-// Convenience components
-<Typography.Heading level={2}>Section Title</Typography.Heading>
-<Typography.Body size={1}>Paragraph text</Typography.Body>
-<Typography.Caption>Small text</Typography.Caption>
+<p style={{
+  fontSize: 'var(--typography-scales-body-font-size)',
+  color: 'var(--colors-text-secondary)'
+}}>Body text</p>
 ```
 
 ### **Button Component**
@@ -53,6 +57,7 @@ import { Typography, Button } from '@design-system';
 // Enhanced button with design system integration
 <Button variant="primary" size="lg">Primary Action</Button>
 <Button variant="secondary" disabled>Secondary Action</Button>
+<Button variant="outline" size="sm">Outline Action</Button>
 ```
 
 ### **Design Tokens**
@@ -61,8 +66,8 @@ import { Typography, Button } from '@design-system';
 import { tokens } from '@design-system';
 
 const customStyles = {
-  fontSize: tokens.typography.fontSize.lg,
-  color: tokens.colors.primary[600],
+  // Prefer CSS variables in UI; JS tokens are available for logic/reference
+  color: tokens.colors.interactive.primary,
   spacing: tokens.spacing.component.md
 };
 ```
@@ -72,7 +77,7 @@ const customStyles = {
 ### **Typography System**
 - **Major Third Scale (1.25x)**: Consistent sizing progression
 - **Semantic Variants**: `h1-h6`, `body1-body2`, `caption`, etc.
-- **CSS Utility Classes**: `.text-heading-1`, `.text-body`, `.text-color-primary`
+- **CSS Variables**: Use variables like `--typography-scales-heading-1-font-size`
 
 ### **Color System**
 - **Semantic Colors**: `primary`, `secondary`, `tertiary`, `inverse`
@@ -122,11 +127,13 @@ npm run build        # Full application build
 - `as`: Override HTML element (`div`, `span`, etc.)
 
 ### **Button Props**
-- `variant`: Button style (`primary`, `secondary`, `tertiary`)
-- `size`: Button size (`sm`, `md`, `lg`, `xl`)
+- `variant`: Button style (`primary`, `secondary`, `outline`, `ghost`, `link`, `destructive`, `text`)
+- `size`: Button size (`xs`, `sm`, `md`, `lg`, `xl`)
 - `disabled`: Disabled state
 - `loading`: Loading state with spinner
 - `fullWidth`: Full width button
+ - `icon`: Optional leading/trailing icon (Iconoir)
+ - `iconPosition`: `leading` or `trailing`
 
 ## 🔗 **Integration Notes**
 
@@ -134,3 +141,4 @@ npm run build        # Full application build
 - **Backward Compatibility**: All existing APIs maintained (`EnhancedButton`, etc.)
 - **CSS Variables**: All tokens available as CSS custom properties
 - **Build Integration**: Automatic token regeneration in build process
+ - **Typography Guidance**: Use semantic HTML (`h1`–`h6`, `p`, `small`, `caption`) with token-backed CSS variables; no `Typography` React component is exported.
