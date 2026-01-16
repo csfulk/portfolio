@@ -4,6 +4,7 @@
  */
 
 import { tokens } from '../tokens/index.js';
+import { layoutSpacing } from '../tokens/spacing/semantic.js';
 
 /**
  * Validates that a value is a valid CSS property value
@@ -63,6 +64,121 @@ function flattenTokens(obj, prefix = '--', separator = '-') {
   }
   
   return result;
+}
+
+/**
+ * Generates responsive CSS custom properties with media queries
+ * @param {object} responsiveValue - Object with mobile/tablet/desktop keys
+ * @param {string} cssVarName - The CSS variable name (e.g., '--spacing-section-padding-y')
+ * @returns {string} CSS with media queries or simple value
+ */
+function generateResponsiveCSS(responsiveValue, cssVarName) {
+  // If it's not an object with breakpoints, just return simple CSS
+  if (typeof responsiveValue !== 'object' || responsiveValue === null) {
+    return `  ${cssVarName}: ${responsiveValue};\n`;
+  }
+
+  // Check if it has responsive keys
+  const hasResponsive = 'mobile' in responsiveValue || 'tablet' in responsiveValue || 'desktop' in responsiveValue;
+  
+  if (!hasResponsive) {
+    return `  ${cssVarName}: ${JSON.stringify(responsiveValue)};\n`;
+  }
+
+  let css = '';
+  
+  // Mobile first - set base value
+  if (responsiveValue.mobile) {
+    css += `  ${cssVarName}: ${responsiveValue.mobile};\n`;
+  }
+  
+  return css;
+}
+
+/**
+ * Generates media query overrides for responsive tokens
+ * @param {object} tokens - The flattened token object
+ * @param {object} layoutSpacing - The layoutSpacing tokens with responsive values
+ * @returns {string} Media query CSS
+ */
+function generateResponsiveMediaQueries(layoutSpacing) {
+  let css = '';
+  
+  // Tablet breakpoint (768px)
+  css += '\n@media (min-width: 768px) {\n  :root {\n';
+  
+  // Section spacing
+  if (layoutSpacing.section) {
+    const section = layoutSpacing.section;
+    if (section.paddingY?.tablet) css += `    --spacing-layout-section-padding-y: ${section.paddingY.tablet};\n`;
+    if (section.paddingX?.tablet) css += `    --spacing-layout-section-padding-x: ${section.paddingX.tablet};\n`;
+    if (section.gap?.tablet) css += `    --spacing-layout-section-gap: ${section.gap.tablet};\n`;
+    if (section.contentOffset?.tablet) css += `    --spacing-layout-section-content-offset: ${section.contentOffset.tablet};\n`;
+  }
+  
+  // Container spacing
+  if (layoutSpacing.container) {
+    const container = layoutSpacing.container;
+    if (container.paddingX?.tablet) css += `    --spacing-layout-container-padding-x: ${container.paddingX.tablet};\n`;
+    if (container.marginY?.tablet) css += `    --spacing-layout-container-margin-y: ${container.marginY.tablet};\n`;
+  }
+  
+  // Grid spacing
+  if (layoutSpacing.grid) {
+    const grid = layoutSpacing.grid;
+    if (grid.gap?.tablet) css += `    --spacing-layout-grid-gap: ${grid.gap.tablet};\n`;
+    if (grid.columnGap?.tablet) css += `    --spacing-layout-grid-column-gap: ${grid.columnGap.tablet};\n`;
+    if (grid.rowGap?.tablet) css += `    --spacing-layout-grid-row-gap: ${grid.rowGap.tablet};\n`;
+  }
+  
+  // Navigation spacing
+  if (layoutSpacing.navigation) {
+    const nav = layoutSpacing.navigation;
+    if (nav.height?.tablet) css += `    --spacing-layout-navigation-height: ${nav.height.tablet};\n`;
+    if (nav.paddingX?.tablet) css += `    --spacing-layout-navigation-padding-x: ${nav.paddingX.tablet};\n`;
+    if (nav.itemGap?.tablet) css += `    --spacing-layout-navigation-item-gap: ${nav.itemGap.tablet};\n`;
+  }
+  
+  css += '  }\n}\n';
+  
+  // Desktop breakpoint (1024px)
+  css += '\n@media (min-width: 1024px) {\n  :root {\n';
+  
+  // Section spacing
+  if (layoutSpacing.section) {
+    const section = layoutSpacing.section;
+    if (section.paddingY?.desktop) css += `    --spacing-layout-section-padding-y: ${section.paddingY.desktop};\n`;
+    if (section.paddingX?.desktop) css += `    --spacing-layout-section-padding-x: ${section.paddingX.desktop};\n`;
+    if (section.gap?.desktop) css += `    --spacing-layout-section-gap: ${section.gap.desktop};\n`;
+    if (section.contentOffset?.desktop) css += `    --spacing-layout-section-content-offset: ${section.contentOffset.desktop};\n`;
+  }
+  
+  // Container spacing
+  if (layoutSpacing.container) {
+    const container = layoutSpacing.container;
+    if (container.paddingX?.desktop) css += `    --spacing-layout-container-padding-x: ${container.paddingX.desktop};\n`;
+    if (container.marginY?.desktop) css += `    --spacing-layout-container-margin-y: ${container.marginY.desktop};\n`;
+  }
+  
+  // Grid spacing
+  if (layoutSpacing.grid) {
+    const grid = layoutSpacing.grid;
+    if (grid.gap?.desktop) css += `    --spacing-layout-grid-gap: ${grid.gap.desktop};\n`;
+    if (grid.columnGap?.desktop) css += `    --spacing-layout-grid-column-gap: ${grid.columnGap.desktop};\n`;
+    if (grid.rowGap?.desktop) css += `    --spacing-layout-grid-row-gap: ${grid.rowGap.desktop};\n`;
+  }
+  
+  // Navigation spacing
+  if (layoutSpacing.navigation) {
+    const nav = layoutSpacing.navigation;
+    if (nav.height?.desktop) css += `    --spacing-layout-navigation-height: ${nav.height.desktop};\n`;
+    if (nav.paddingX?.desktop) css += `    --spacing-layout-navigation-padding-x: ${nav.paddingX.desktop};\n`;
+    if (nav.itemGap?.desktop) css += `    --spacing-layout-navigation-item-gap: ${nav.itemGap.desktop};\n`;
+  }
+  
+  css += '  }\n}\n';
+  
+  return css;
 }
 
 /**
@@ -205,6 +321,9 @@ export function generateCSSVariables() {
   
   css += '}\n';
   
+  // Add responsive media queries for mobile-first tokens
+  css += generateResponsiveMediaQueries(layoutSpacing);
+  
   return css;
 }
 
@@ -248,6 +367,7 @@ ${customProperties}
 
 /**
  * Applies design tokens as CSS custom properties to the document root with validation
+ * Includes responsive media queries for mobile-first tokens
  */
 export function applyTokensToDOM() {
   const root = document.documentElement;
@@ -278,6 +398,16 @@ export function applyTokensToDOM() {
         root.style.setProperty(property, value);
       }
     });
+  
+  // Inject responsive media queries via style tag
+  // This is needed because inline styles don't support media queries
+  const existingStyle = document.getElementById('responsive-tokens');
+  if (!existingStyle) {
+    const styleTag = document.createElement('style');
+    styleTag.id = 'responsive-tokens';
+    styleTag.textContent = generateResponsiveMediaQueries(layoutSpacing);
+    document.head.appendChild(styleTag);
+  }
 }
 
 /**

@@ -55,35 +55,84 @@ export const componentSpacing = {
 /**
  * Layout spacing
  * Spacing for layout composition and page structure
+ * Mobile-first responsive values
  */
 export const layoutSpacing = {
-  // Section spacing
+  // Section spacing - responsive breakpoints
   section: {
-    paddingY: spacing['4xl'],
-    paddingX: spacing.lg,
-    gap: spacing['2xl'],
-    contentOffset: spacing['10xl'] // Top offset for section content
+    paddingY: {
+      mobile: spacing.xl,      // ~24px - Comfortable mobile spacing
+      tablet: spacing['2xl'],  // ~31px - Tablet spacing
+      desktop: spacing['4xl']  // ~49px - Full desktop spacing
+    },
+    paddingX: {
+      mobile: spacing.md,      // ~16px - Mobile edge padding
+      tablet: spacing.lg,      // ~20px - Tablet edge padding
+      desktop: spacing.lg      // ~20px - Desktop edge padding
+    },
+    gap: {
+      mobile: spacing.md,      // ~16px - Tighter mobile gap
+      tablet: spacing.lg,      // ~20px - Tablet gap
+      desktop: spacing['2xl']  // ~31px - Desktop gap
+    },
+    contentOffset: {
+      mobile: spacing['3xl'],  // ~39px - Reduced mobile top offset
+      tablet: spacing['5xl'],  // ~47px - Tablet offset
+      desktop: spacing['10xl'] // ~95px - Full desktop offset (original 11.5rem)
+    }
   },
 
   // Container spacing
   container: {
     maxWidth: containers.xl,
-    paddingX: spacing.lg,
-    marginY: spacing.xl
+    paddingX: {
+      mobile: spacing.md,
+      tablet: spacing.lg,
+      desktop: spacing.lg
+    },
+    marginY: {
+      mobile: spacing.lg,
+      tablet: spacing.xl,
+      desktop: spacing.xl
+    }
   },
 
-  // Grid spacing
+  // Grid spacing - responsive
   grid: {
-    gap: spacing.lg,
-    columnGap: spacing.md,
-    rowGap: spacing.xl
+    gap: {
+      mobile: spacing.md,
+      tablet: spacing.lg,
+      desktop: spacing.lg
+    },
+    columnGap: {
+      mobile: spacing.sm,
+      tablet: spacing.md,
+      desktop: spacing.md
+    },
+    rowGap: {
+      mobile: spacing.lg,
+      tablet: spacing.xl,
+      desktop: spacing.xl
+    }
   },
 
-  // Navigation spacing
+  // Navigation spacing - responsive
   navigation: {
-    height: '64px',
-    paddingX: spacing.lg,
-    itemGap: spacing.md
+    height: {
+      mobile: '56px',          // Compact mobile nav
+      tablet: '64px',          // Standard tablet/desktop
+      desktop: '64px'
+    },
+    paddingX: {
+      mobile: spacing.md,      // ~16px mobile padding
+      tablet: spacing.lg,      // ~20px tablet padding
+      desktop: spacing.lg      // ~20px desktop padding
+    },
+    itemGap: {
+      mobile: spacing.sm,      // Tighter mobile spacing
+      tablet: spacing.md,      // Standard spacing
+      desktop: spacing.md
+    }
   }
 };
 

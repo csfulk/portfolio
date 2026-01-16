@@ -5,6 +5,11 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: '0.0.0.0', // Expose to network for mobile testing
+    port: 5173,      // Explicit port
+    strictPort: true // Fail if port is already in use
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

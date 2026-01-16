@@ -1,42 +1,44 @@
-/* Tablet (max-width: 1024px) */
-@media (max-width: 1024px) {
-  /* Font-size handled by typography.css - removed conflicting rule */
+/* Mobile First - Base Styles */
+.hero .content-wrapper {
+  padding-left: var(--spacing-layout-section-padding-x, var(--spacing-md)) !important;
+  gap: var(--spacing-lg) !important;
+}
 
-  section {
-    padding: var(--spacing-md); /* Adjust padding for tablets */
-  }
+.hero {
+  background-image: none !important; /* Hide background on mobile */
+  background-color: var(--surface-0) !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
 
+/* Tablet (min-width: 768px) */
+@media (min-width: 768px) {
   .hero .content-wrapper {
-    padding-left: var(--spacing-4xl); /* Adjust padding for tablets */
+    padding-left: var(--spacing-3xl) !important;
+    gap: var(--spacing-2xl) !important;
+  }
+  
+  .hero {
+    background-image: url('/assets/hero_bg@2x.webp') !important; /* Show background on tablet+ */
   }
 }
 
-/* Mobile (max-width: 768px) */
+/* Desktop (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .hero .content-wrapper {
+    padding-left: var(--horizontal-padding) !important;
+    gap: var(--spacing-3xl) !important;
+  }
+  
+  .hero {
+    background-position: 220px center !important;
+  }
+}
+
+/* Grid Responsive */
 @media (max-width: 768px) {
-  /* Font-size handled by typography.css - removed conflicting rule */
-
-  .grid-2 {
-    grid-template-columns: 1fr; /* Single column for smaller screens */
-  }
-
+  .grid-2,
   .grid-3 {
-    grid-template-columns: 1fr; /* Single column for smaller screens */
-  }
-
-  .hero .content-wrapper {
-    padding-left: var(--spacing-3xl); /* Adjust padding for mobile */
-  }
-}
-
-/* Small Mobile (max-width: 480px) */
-@media (max-width: 480px) {
-  /* Font-size handled by typography.css - removed conflicting rule */
-
-  section {
-    padding: var(--spacing-sm); /* Adjust padding for small screens */
-  }
-
-  .hero .content-wrapper {
-    padding-left: var(--spacing-md); /* Adjust padding for small screens */
+    grid-template-columns: 1fr;
   }
 }

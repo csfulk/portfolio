@@ -1,52 +1,86 @@
 /* Import Responsive Styles */
 @import './responsive.css';
 
-/* Section Layout */
+/* Section Layout - Mobile First */
 
 .section {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start; /* Align columns to the top */
-  min-height: 100vh; /* Minimum height is the full viewport */
+  align-items: flex-start;
+  min-height: auto; /* Auto height on mobile */
   background-color: var(--surfaceSection);
-  padding-bottom: var(--spacing-xl); /* Add spacing below the section */
+  padding-bottom: var(--spacing-layout-section-padding-y, var(--spacing-xl));
 }
 
-/* Section Content */
+/* Section Content - Mobile First (Stack Vertically) */
 .section-content {
   display: flex;
-  flex-direction: row;
-  gap: var(--spacing-lg); /* Space between columns */
+  flex-direction: column-reverse; /* Image first, then text on mobile */
+  gap: var(--spacing-layout-section-gap, var(--spacing-md));
   width: 100%;
-  align-items: flex-start; /* Ensure both columns align at the top */
+  align-items: flex-start;
 }
 
-/* Left Column */
+/* Left Column - Mobile First */
 .section-left {
-  flex: 0 0 40%; /* Left column takes up 40% of the width */
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--spacing-lg); /* Space between items */
-  padding-left: var(--horizontal-padding); /* Use the shared padding variable */
-  padding-right: var(--spacing-lg); /* Add some breathing room on the right */
-  padding-top: var(--spacing-semantic-section-content-offset, 11.5rem); /* Offset content from top */
-  box-sizing: border-box; /* Ensure padding is included in the width */
-  overflow-y: visible; /* Allow the left column to grow dynamically */
+  gap: var(--spacing-md);
+  padding: var(--spacing-layout-section-padding-x, var(--spacing-md));
+  padding-top: var(--spacing-md); /* Reduced top padding on mobile since image is above */
+  box-sizing: border-box;
+  overflow-y: visible;
+  width: 100%;
 }
 
-
-
-/* Right Column */
+/* Right Column - Mobile First (No Sticky) */
 .section-right {
-  flex: 0 0 60%; /* Right column takes up 60% of the width */
+  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align the image at the top */
-  height: 100vh; /* Fix the height of the right column to the viewport */
-  overflow: hidden; /* Prevent content overflow */
-  position: sticky; /* Keep the right column fixed in place */
-  top: 0; /* Stick to the top of the viewport */
+  align-items: flex-start;
+  height: auto; /* Auto height on mobile */
+  overflow: visible;
+  position: relative; /* No sticky on mobile */
+  padding: var(--spacing-layout-section-padding-x, var(--spacing-md));
+  width: 100%;
+}
+
+/* Tablet and Desktop - Side by side layout */
+@media (min-width: 768px) {
+  .section {
+    min-height: 100vh;
+  }
+  
+  .section-content {
+    flex-direction: row;
+    gap: var(--spacing-layout-section-gap, var(--spacing-lg));
+  }
+  
+  .section-left {
+    flex: 0 0 40%;
+    padding-left: var(--horizontal-padding);
+    padding-right: var(--spacing-lg);
+    padding-top: var(--spacing-layout-section-content-offset, var(--spacing-5xl));
+  }
+  
+  .section-right {
+    flex: 0 0 60%;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+/* Desktop - Full spacing restored */
+@media (min-width: 1024px) {
+  .section-left {
+    padding-top: var(--spacing-layout-section-content-offset, 11.5rem);
+  }
 }
 
 .section-logo {

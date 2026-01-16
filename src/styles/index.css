@@ -70,6 +70,19 @@
   font-weight: var(--typography-font-weight-bold);
   letter-spacing: var(--typography-letter-spacing-tight);
   line-height: var(--typography-line-height-normal);
+  font-size: 2rem; /* Mobile: ~32px */
+}
+
+@media (min-width: 768px) {
+  .hero .title {
+    font-size: 3rem; /* Tablet: ~48px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero .title {
+    font-size: 3.815rem; /* Desktop: ~61px */
+  }
 }
 
 .detail-wrapper {
