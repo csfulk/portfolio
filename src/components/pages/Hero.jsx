@@ -16,7 +16,7 @@ const Hero = () => {
           </h5>
 
           <p className="detail">
-            Snapchat | ex: YouTube, Google and Apple
+            Reddit | ex: YouTube, Google and Apple
           </p>
 
           <p className="detail">

@@ -77,3 +77,24 @@ caseStudyButtons.youtube.push({
 
 Check the case studies for serious work.  
 Or reach out for design therapy, war stories, and font pairing advice.
+
+---
+
+## 🔒 Password Gate (optional)
+
+To require a password before opening case study viewers:
+
+Local testing
+- Edit your local .env (gitignored):
+  - VITE_PASSWORD_GATE_ENABLED=true
+  - VITE_SITE_PASSWORD=your-strong-password
+- Restart the dev server after changes (npm run dev).
+
+Production (e.g., Netlify)
+- In the host’s environment settings, add the same vars:
+  - VITE_PASSWORD_GATE_ENABLED=true
+  - VITE_SITE_PASSWORD=your-strong-password
+- Trigger a rebuild/redeploy for the new vars to take effect.
+
+Notes
+- Keep real secrets out of git; share variable names via a .env.example if needed.
