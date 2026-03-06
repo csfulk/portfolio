@@ -178,13 +178,169 @@ const LoginScreen = ({ onAuth }) => {
   );
 };
 
+// ─── Events Tab ────────────────────────────────────────────────────────────
+
+const EventsTab = ({ events, totalEvents }) => {
+  if (!events || events.length === 0) return (
+    <p style={{ color: 'var(--colors-text-secondary, #666)', fontSize: 14, marginTop: 24 }}>
+      No events recorded yet. They will appear here once visitors interact with the portfolio.
+    </p>
+  );
+
+  // Aggregate
+  const byType      = {};
+  const sectionTime = {}; // label → total seconds
+  const caseStudyClicks = {};
+  const projectDurations = {}; // label → [seconds]
+  let pwSuccess = 0, pwFail = 0;
+
+  events.forEach(e => {
+    byType[e.event_type] = (byType[e.event_type] || 0) + 1;
+    if (e.event_type === 'section_view'     && e.label) sectionTime[e.label]  = (sectionTime[e.label] || 0) + (e.value ?? 0);
+    if (e.event_type === 'case_study_click' && e.label) caseStudyClicks[e.label] = (caseStudyClicks[e.label] || 0) + 1;
+    if (e.event_type === 'project_close'    && e.label && e.value) {
+      if (!projectDurations[e.label]) projectDurations[e.label] = [];
+      projectDurations[e.label].push(e.value);
+    }
+    if (e.event_type === 'password_success') pwSuccess++;
+    if (e.event_type === 'password_fail')    pwFail++;
+  });
+
+  const sortedSection = Object.entries(sectionTime).sort(([,a],[,b]) => b - a);
+  const sortedClicks  = Object.entries(caseStudyClicks).sort(([,a],[,b]) => b - a);
+  const maxSection    = sortedSection[0]?.[1] ?? 1;
+  const maxClicks     = sortedClicks[0]?.[1]  ?? 1;
+
+  const avgDuration = (arr) => arr.length
+    ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length)
+    : 0;
+
+  const eventTypeLabels = {
+    section_view:      '📖 Section views',
+    case_study_click:  '🖱️ Case study clicks',
+    project_open:      '📂 Projects opened',
+    project_close:     '📂 Projects closed',
+    password_success:  '🔓 Password success',
+    password_fail:     '🔒 Password fail',
+  };
+
+  return (
+    <div style={{ marginTop: 0 }}>
+      {/* Stat cards */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
+        <StatCard label="Total events" value={totalEvents ?? events.length} />
+        <StatCard label="Section views" value={byType['section_view'] ?? 0} />
+        <StatCard label="Case study clicks" value={byType['case_study_click'] ?? 0} />
+        <StatCard label="Projects opened" value={byType['project_open'] ?? 0} />
+        {(pwSuccess + pwFail) > 0 && (
+          <StatCard label="Password attempts"
+            value={`${pwSuccess}✓ / ${pwFail}✗`}
+            sub={`${Math.round((pwSuccess / (pwSuccess + pwFail)) * 100)}% success`}
+          />
+        )}
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 32 }}>
+
+        {/* Section engagement */}
+        {sortedSection.length > 0 && (
+          <div style={cardStyle}>
+            <h3 style={cardTitle}>📖 Section Engagement (total seconds)</h3>
+            {sortedSection.map(([label, secs]) => (
+              <BarRow key={label} label={label} count={secs} max={maxSection} />
+            ))}
+          </div>
+        )}
+
+        {/* Case study clicks */}
+        {sortedClicks.length > 0 && (
+          <div style={cardStyle}>
+            <h3 style={cardTitle}>🖱️ Case Study Clicks</h3>
+            {sortedClicks.map(([label, count]) => (
+              <BarRow key={label} label={label} count={count} max={maxClicks} />
+            ))}
+          </div>
+        )}
+
+        {/* Project view durations */}
+        {Object.keys(projectDurations).length > 0 && (
+          <div style={cardStyle}>
+            <h3 style={cardTitle}>📂 Avg Time in Project Viewer</h3>
+            {Object.entries(projectDurations)
+              .sort(([,a],[,b]) => avgDuration(b) - avgDuration(a))
+              .map(([title, arr]) => (
+                <BarRow key={title} label={title}
+                  count={`${avgDuration(arr)}s avg (${arr.length} views)`}
+                  max={1} // no bar needed, just labels
+                />
+              ))}
+          </div>
+        )}
+
+        {/* Events by type breakdown */}
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>📊 Events by Type</h3>
+          {Object.entries(byType).sort(([,a],[,b]) => b - a).map(([type, count]) => (
+            <BarRow key={type}
+              label={eventTypeLabels[type] || type}
+              count={count}
+              max={Math.max(...Object.values(byType))}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Recent events table */}
+      <div style={cardStyle}>
+        <h3 style={{ ...cardTitle, marginBottom: 16 }}>
+          🗂️ Recent Events
+          <span style={{ fontWeight: 400, color: 'var(--colors-text-secondary, #666)', marginLeft: 8, fontSize: 13 }}>
+            (latest {events.length})
+          </span>
+        </h3>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <thead>
+              <tr>
+                {['Time', 'Type', 'Label', 'Value', 'Session'].map(h => (
+                  <th key={h} style={thStyle}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((e, i) => (
+                <tr key={e.id ?? i} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--colors-background-secondary, #f8f9fa)' }}>
+                  <td style={tdStyle}>{formatDate(e.created_at)}</td>
+                  <td style={tdStyle}>{eventTypeLabels[e.event_type] || e.event_type}</td>
+                  <td style={tdStyle}>{e.label ?? '—'}</td>
+                  <td style={tdStyle}>{e.value != null ? `${e.value}s` : '—'}</td>
+                  <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 11 }}>
+                    {e.session_id ? e.session_id.slice(0, 12) + '…' : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p style={{ marginTop: 16, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
+        Showing up to 300 most recent events · Powered by Supabase
+      </p>
+    </div>
+  );
+};
+
 // ─── Main Dashboard ────────────────────────────────────────────────────────
 
 const DashboardContent = ({ onLogout }) => {
-  const [visits,  setVisits]  = useState(null);
-  const [total,   setTotal]   = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState(null);
+  const [visits,      setVisits]      = useState(null);
+  const [total,       setTotal]       = useState(null);
+  const [events,      setEvents]      = useState(null);
+  const [totalEvents, setTotalEvents] = useState(null);
+  const [activeTab,   setActiveTab]   = useState('visits');
+  const [loading,     setLoading]     = useState(true);
+  const [error,       setError]       = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -196,9 +352,11 @@ const DashboardContent = ({ onLogout }) => {
       return;
     }
 
-    const [rows, count] = await Promise.all([
+    const [rows, count, evtRows, evtCount] = await Promise.all([
       supabaseClient.getVisits({ limit: 500 }),
       supabaseClient.getTotalCount(),
+      supabaseClient.getEvents({ limit: 300 }),
+      supabaseClient.getEventTotalCount(),
     ]);
 
     if (rows === null) {
@@ -207,6 +365,8 @@ const DashboardContent = ({ onLogout }) => {
       setVisits(rows);
     }
     setTotal(count);
+    setEvents(evtRows);
+    setTotalEvents(evtCount);
     setLoading(false);
   }, []);
 
@@ -265,7 +425,37 @@ const DashboardContent = ({ onLogout }) => {
         </div>
       </div>
 
+      {/* Tab bar */}
+      <div style={{
+        display: 'flex', gap: 0,
+        borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
+        padding: '0 32px',
+        background: 'var(--colors-background-secondary, #f8f9fa)',
+      }}>
+        {[['visits', '🌍 Visits'], ['events', '🖱️ Events']].map(([tab, label]) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              padding: '12px 20px', border: 'none', cursor: 'pointer', fontSize: 13,
+              fontWeight: activeTab === tab ? 700 : 400,
+              background: 'transparent',
+              color: activeTab === tab
+                ? 'var(--colors-text-primary, #000)'
+                : 'var(--colors-text-secondary, #666)',
+              borderBottom: activeTab === tab
+                ? '2px solid var(--colors-accent-primary, #0066cc)'
+                : '2px solid transparent',
+              marginBottom: -1,
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <div style={{ padding: '28px 32px', maxWidth: 1200, margin: '0 auto' }}>
+        {activeTab === 'visits' && <>
 
         {/* Stat cards */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
@@ -363,6 +553,9 @@ const DashboardContent = ({ onLogout }) => {
         <p style={{ marginTop: 16, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
           Showing up to 500 most recent visits · Powered by Supabase
         </p>
+        </>}
+
+        {activeTab === 'events' && <EventsTab events={events} totalEvents={totalEvents} />}
       </div>
     </div>
   );

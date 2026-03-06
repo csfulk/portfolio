@@ -113,6 +113,65 @@ export const supabaseClient = {
       return null;
     }
   },
+
+  // ── Events ───────────────────────────────────────────────────────────────
+
+  /**
+   * Insert a single event row.
+   * @param {Object} row - Matches the events table columns.
+   */
+  async insertEvent(row) {
+    if (!this.isConfigured()) return false;
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events`, {
+        method: 'POST',
+        headers: baseHeaders({ 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(row),
+      });
+      if (!res.ok) console.warn('Supabase event insert error:', res.status, await res.text());
+      return res.ok;
+    } catch (err) {
+      console.warn('Supabase insertEvent failed:', err.message);
+      return false;
+    }
+  },
+
+  /**
+   * Fetch events for the dashboard, most recent first.
+   * @param {{ limit?: number, offset?: number }} opts
+   * @returns {Promise<Object[]|null>}
+   */
+  async getEvents({ limit = 300, offset = 0 } = {}) {
+    if (!this.isConfigured()) return null;
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/events?select=*&order=created_at.desc&limit=${limit}&offset=${offset}`,
+        { headers: baseHeaders() }
+      );
+      return res.ok ? res.json() : null;
+    } catch (err) {
+      console.warn('Supabase getEvents failed:', err.message);
+      return null;
+    }
+  },
+
+  /**
+   * Total event count.
+   * @returns {Promise<number|null>}
+   */
+  async getEventTotalCount() {
+    if (!this.isConfigured()) return null;
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
+        headers: baseHeaders({ 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }),
+      });
+      const cr = res.headers.get('content-range');
+      return cr ? parseInt(cr.split('/')[1], 10) : null;
+    } catch (err) {
+      console.warn('Supabase event count failed:', err.message);
+      return null;
+    }
+  },
 };
 
 export default supabaseClient;

@@ -60,7 +60,7 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
           <div className="privacy-modal__section">
             <p className="privacy-modal__section-intro">
               <strong className="privacy-modal__section-title privacy-modal__section-title--collect">
-                Data that helps me imporve my portfolio:
+                Data that helps me improve my portfolio:
               </strong>
             </p>
             <ul className="privacy-modal__list">
@@ -68,8 +68,12 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
               <li>Resource loading performance (images, scripts)</li>
               <li>Memory usage patterns for optimization</li>
               <li>User interaction response times</li>
-              <li>General location data (country/region) for visitor analytics</li>
+              <li>Location data (country, region, city, postal code) for visitor analytics</li>
+              <li>ISP / network provider</li>
               <li>Referrer information (which site brought you here)</li>
+              <li>Timezone and browser language</li>
+              <li>Screen resolution and browser/OS type</li>
+              <li>Anonymous session identifier</li>
             </ul>
           </div>
           
@@ -81,10 +85,9 @@ const PrivacyDetailsModal = ({ isOpen, onClose }) => {
             </p>
             <ul className="privacy-modal__list">
               <li>Personal identifying information (names, emails)</li>
-              <li>Precise location or GPS coordinates</li>
+              <li>Precise GPS coordinates</li>
               <li>Browsing history outside this portfolio</li>
               <li>Any form inputs or personal content</li>
-              <li>Device identifiers or fingerprinting data</li>
             </ul>
           </div>
         </div>

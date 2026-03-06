@@ -24,6 +24,7 @@ export { serviceManager } from './core/ServiceManager.js';
 export { privacyManager } from './core/PrivacyManager.js';
 export { locationService } from './core/LocationService.js';
 export { supabaseClient } from './core/supabaseClient.js';
+export { eventTracker } from './core/EventTracker.js';
 
 // Plugin System
 export { pluginManager, PluginManager } from './plugins/PluginManager.js';

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../styles/modal.css';
 import FeaturedProjectViewer from '../viewers/ProjectViewer';
 import FigmaEmbedViewer from '../viewers/FigmaEmbedViewer';
+import { eventTracker } from '@services/core/EventTracker.js';
 
 const Modal = ({
   isModalOpen,
@@ -12,6 +13,27 @@ const Modal = ({
   loadViewer,
   loading,
 }) => {
+  // Track project open/close with duration
+  const openTimeRef  = useRef(null);
+  const openTitleRef = useRef(null);
+
+  useEffect(() => {
+    const isProject = isModalOpen && modalContent?.type === 'FeaturedProjectViewer';
+    if (isProject && !openTimeRef.current) {
+      openTimeRef.current  = Date.now();
+      openTitleRef.current = modalContent?.title ?? null;
+      eventTracker.track('project_open', modalContent?.title ?? null);
+    } else if (!isModalOpen && openTimeRef.current) {
+      const seconds = Math.round((Date.now() - openTimeRef.current) / 1000);
+      eventTracker.track('project_close', openTitleRef.current, seconds);
+      openTimeRef.current  = null;
+      openTitleRef.current = null;
+    } else if (!isProject && openTimeRef.current) {
+      openTimeRef.current  = null;
+      openTitleRef.current = null;
+    }
+  }, [isModalOpen, modalContent?.type, modalContent?.title]);
+
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;

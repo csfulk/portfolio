@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import '@styles/PasswordGate.css';
+import { eventTracker } from '@services/core/EventTracker.js';
 
 // Read the password gate toggle from environment variables
 const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';
@@ -26,12 +27,14 @@ const PasswordGate = ({ onAuth }) => {
     const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
 
     if (password === sitePassword) {
+      eventTracker.track('password_success');
       onAuth(password); // Trigger authentication logic with entered password
       setCaption('Authentication successful! Redirecting...'); // Add success message
       setTimeout(() => {
         setCaption(''); // Clear caption after a delay
       }, 2000);
     } else {
+      eventTracker.track('password_fail');
       setCaption('Incorrect password. Please try again.');
       setIsError(true);
       setIsSuccess(false); // Reset success state

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Button } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
+import { eventTracker } from '@services/core/EventTracker.js';
 import '@styles/section.css';
 
 const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
@@ -16,8 +17,31 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
   // Use lazy loading for the section image with 85% visibility threshold
   const { imgRef, isLoaded, isVisible, imageSrc } = useLazyImage(image, 0.9);
 
+  // Section time-on-page tracking
+  const sectionRef  = useRef(null);
+  const enterTimeRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          enterTimeRef.current = Date.now();
+        } else if (enterTimeRef.current !== null) {
+          const seconds = Math.round((Date.now() - enterTimeRef.current) / 1000);
+          if (seconds >= 2) eventTracker.track('section_view', id, seconds);
+          enterTimeRef.current = null;
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [id]);
+
   return (
-    <section id={id} className={`section ${className || ''}`}>
+    <section ref={sectionRef} id={id} className={`section ${className || ''}`}>
       <div className="section-content">
         {/* Left Column */}
         <div className="section-left">
@@ -93,6 +117,7 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                     hoverBackgroundColor="transparent"
                     className="case-study-button"
                     onClick={() => {
+                      eventTracker.track('case_study_click', caseStudy.key);
                       handleCaseStudyClick({
                         type: caseStudy.viewer.type,
                         caseStudyKey: caseStudy.key,
