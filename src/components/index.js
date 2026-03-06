@@ -1,5 +1,6 @@
 // Page Components
-export { default as Hero } from './pages/Hero'
+export { default as Hero }      from './pages/Hero'
+export { default as Dashboard } from './pages/Dashboard'
 
 // Modal Components
 export { Modal, PasswordGate } from './modals'

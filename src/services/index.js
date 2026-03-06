@@ -23,6 +23,7 @@ export { performanceMonitor } from './core/PerformanceMonitor.js';
 export { serviceManager } from './core/ServiceManager.js';
 export { privacyManager } from './core/PrivacyManager.js';
 export { locationService } from './core/LocationService.js';
+export { supabaseClient } from './core/supabaseClient.js';
 
 // Plugin System
 export { pluginManager, PluginManager } from './plugins/PluginManager.js';

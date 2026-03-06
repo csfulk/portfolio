@@ -3,20 +3,19 @@
  * Collects visitor location data for portfolio analytics
  */
 
+import { privacyManager } from './PrivacyManager.js';
+import { supabaseClient } from './supabaseClient.js';
+
 class LocationService {
   constructor() {
     this.locationData = null;
     this.isEnabled = false;
-    this.apis = {
-      // Enhanced IP geolocation APIs with more granular data
-      primary: 'https://ipapi.co/json/',           // Provides postal code, district
-      fallback1: 'https://freegeoip.app/json/',   // Provides zip code
-      fallback2: 'https://ipwhois.app/json/',     // Provides detailed location
-      fallback3: 'https://ip-api.com/json/',      // Provides district, zip, lat/lng
-      fallback4: 'https://api.ipbase.com/v2/info', // Provides neighborhood data
-      // Backup simple API
-      simple: 'https://httpbin.org/ip'
-    };
+    this.apis = [
+      // All three support HTTPS from the browser (free, no API key required)
+      'https://ipapi.co/json/',      // ~30k req/month free — postal code, district
+      'https://ipwho.is/',           // generous free tier — city, region, ISP
+      'https://ipwhois.app/json/',   // backup — country, region, city
+    ];
   }
 
   /**
@@ -284,39 +283,33 @@ class LocationService {
     const locationData = {};
     let successfulAPIs = 0;
 
-    // Try multiple APIs and merge their data for maximum granularity
-    for (const [name, url] of Object.entries(this.apis)) {
-      if (name === 'simple') continue; // Skip simple IP-only API for location
-      
+    // Try each API in order; stop as soon as we have city + postal data
+    for (const url of this.apis) {
       try {
-        console.log(`🔍 Trying ${name} API for location data...`);
-        
+        console.log(`🔍 Trying geo API: ${url}`);
+
         const response = await fetch(url, {
           method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (compatible; PortfolioAnalytics/1.0)'
-          },
-          signal: AbortSignal.timeout(8000) // 8 second timeout
+          headers: { 'Accept': 'application/json' },
+          signal: AbortSignal.timeout(6000),
         });
-        
+
         if (response.ok) {
           const data = await response.json();
-          
-          // Merge data from this API
-          this._mergeLocationData(locationData, data, name);
-          successfulAPIs++;
-          
-          console.log(`✅ ${name} API provided additional location data`);
-          
-          // If we have good granular data, we can stop early
-          if (locationData.postalCode && locationData.city && successfulAPIs >= 2) {
-            break;
+          // Some APIs signal an error inside the JSON body
+          if (data.error === true || data.status === 'fail') {
+            console.warn(`⚠️  ${url} returned an error payload — skipping`);
+            continue;
           }
+          this._mergeLocationData(locationData, data, url);
+          successfulAPIs++;
+          console.log(`✅ Got location data from ${url}`);
+
+          // Stop early once we have enough detail
+          if (locationData.city && locationData.postal) break;
         }
       } catch (error) {
-        console.warn(`❌ ${name} location API failed:`, error.message);
-        continue;
+        console.warn(`❌ Geo API failed (${url}):`, error.message);
       }
     }
 
@@ -385,14 +378,13 @@ class LocationService {
   }
 
   /**
-   * Check if user has given consent for location tracking
+   * Check if user has given consent for location tracking.
+   * Uses the imported singleton directly so this works even before
+   * window.portfolioServices is populated.
    * @private
    */
   _hasConsent() {
-    // Use the same privacy manager consent
-    return window.services?.privacy?.hasPerformanceConsent() || 
-           window.portfolioServices?.privacy?.hasPerformanceConsent() || 
-           false;
+    return privacyManager.hasPerformanceConsent();
   }
 
   /**
@@ -441,22 +433,42 @@ class LocationService {
   }
 
   /**
-   * Send visit data to analytics service
+   * Send visit data to Supabase (and GA if available)
    * @private
    */
   _sendToAnalytics(visitData) {
-    // Send to Google Analytics if configured
+    // Persist to Supabase — the row shape matches the visits table schema
+    const row = {
+      country:       visitData.location?.country      ?? null,
+      country_code:  visitData.location?.countryCode  ?? null,
+      region:        visitData.location?.region        ?? null,
+      city:          visitData.location?.city          ?? null,
+      postal_code:   visitData.location?.postalCode    ?? null,
+      isp:           visitData.location?.isp           ?? null,
+      timezone:      visitData.location?.timezone      ?? null,
+      referrer:      visitData.referrer                || null,
+      page:          visitData.page                   ?? window.location.pathname,
+      user_agent:    visitData.userAgent              ?? null,
+      language:      visitData.language               ?? null,
+      screen_width:  visitData.screen?.width          ?? null,
+      screen_height: visitData.screen?.height         ?? null,
+      session_id:    visitData.sessionId              ?? null,
+    };
+
+    supabaseClient.insertVisit(row).then(ok => {
+      if (ok) console.log('📬 Visit persisted to Supabase');
+    });
+
+    // Optional: also forward to Google Analytics if gtag is present
     if (typeof gtag === 'function') {
       gtag('event', 'portfolio_visit', {
-        country: visitData.location?.country,
-        region: visitData.location?.region,
-        referrer_domain: visitData.referrer ? new URL(visitData.referrer).hostname : 'direct',
-        custom_parameter_location: JSON.stringify(visitData.location)
+        country: row.country,
+        region:  row.region,
+        referrer_domain: row.referrer
+          ? (new URL(row.referrer).hostname)
+          : 'direct',
       });
     }
-
-    // You could also send to other analytics services here
-    // Example: Plausible, Mixpanel, custom analytics endpoint
   }
 
   /**

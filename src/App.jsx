@@ -18,6 +18,7 @@ import {
 } from '@hooks';
 import { PrivacyBanner, PrivacyDetailsModal } from './components/privacy';
 import { ComponentBrowser } from './design-system/componentBrowser';
+import { Dashboard } from '@components';
 import { getCaseStudyImages } from '@data';
 import { initializeServices } from '@services';
 
@@ -77,6 +78,7 @@ const App = () => {
           enablePerformanceMonitoring: true,
           enableImageOptimization: true,
           enableNavigation: true,
+          enableLocationTracking: true,
           config: {
             defaults: {
               performance: {
@@ -128,10 +130,19 @@ const App = () => {
   console.log('Modal State →', modalDebugInfo);
   console.log('Image Stats →', imageOptimization.imageStats);
 
+  // Route: /dashboard
+  if (window.location.pathname === '/dashboard') {
+    return (
+      <ThemeProvider>
+        <Dashboard />
+      </ThemeProvider>
+    );
+  }
+
   // Check for demo mode query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const demoMode = urlParams.get('demo');
-  
+
   // Show Component Browser - unified navigation for all design system tools
   if (demoMode) {
     return (
