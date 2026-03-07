@@ -25,6 +25,7 @@ export { privacyManager } from './core/PrivacyManager.js';
 export { locationService } from './core/LocationService.js';
 export { supabaseClient } from './core/supabaseClient.js';
 export { eventTracker } from './core/EventTracker.js';
+export { visitorIdentity } from './core/visitorIdentity.js';
 
 // Plugin System
 export { pluginManager, PluginManager } from './plugins/PluginManager.js';

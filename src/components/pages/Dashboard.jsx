@@ -331,6 +331,188 @@ const EventsTab = ({ events, totalEvents }) => {
   );
 };
 
+// ─── Journeys Tab ─────────────────────────────────────────────────────────
+
+const EVENT_ICON = {
+  section_view:     '📖',
+  case_study_click: '🖱️',
+  project_open:     '📂',
+  project_close:    '📂',
+  password_success: '🔓',
+  password_fail:    '🔒',
+  visit:            '🌐',
+};
+
+const describeEvent = (item) => {
+  if (item._kind === 'visit') {
+    const ref = item.referrer ? cleanReferrer(item.referrer) : 'Direct';
+    const loc = [item.city, item.country].filter(Boolean).join(', ') || 'Unknown location';
+    return `Arrived · ${loc} · via ${ref}`;
+  }
+  switch (item.event_type) {
+    case 'section_view':     return `Read "${item.label || 'section'}" · ${item.value ?? 0}s`;
+    case 'case_study_click': return `Opened case study: ${item.label || '—'}`;
+    case 'project_open':     return `Opened project: ${item.label || '—'}`;
+    case 'project_close':    return `Closed "${item.label || '—'}" · ${item.value ?? 0}s in viewer`;
+    case 'password_success': return 'Unlocked the portfolio ✅';
+    case 'password_fail':    return 'Failed password attempt';
+    default:                 return `${item.event_type}${item.label ? ` · ${item.label}` : ''}`;
+  }
+};
+
+const fmtDelta = (ms) => {
+  if (ms < 0 || ms == null) return '';
+  if (ms < 60000) return `${Math.round(ms / 1000)}s later`;
+  return `${Math.round(ms / 60000)}m later`;
+};
+
+const JourneysTab = ({ visits, events }) => {
+  if (!visits && !events) return (
+    <p style={{ color: 'var(--colors-text-secondary, #666)', fontSize: 14, marginTop: 24 }}>
+      No data yet.
+    </p>
+  );
+
+  // Group all rows by visitor_id (fallback: session_id)
+  const byVisitor = {};
+
+  const addItem = (key, alias, item) => {
+    if (!byVisitor[key]) byVisitor[key] = { alias: alias || key, sessions: new Set(), items: [] };
+    if (item.session_id) byVisitor[key].sessions.add(item.session_id);
+    byVisitor[key].items.push(item);
+  };
+
+  (visits || []).forEach(v => {
+    const key = v.visitor_id || v.session_id || 'unknown';
+    addItem(key, v.visitor_alias, { ...v, _kind: 'visit' });
+  });
+
+  (events || []).forEach(e => {
+    const key = e.visitor_id || e.session_id || 'unknown';
+    addItem(key, e.visitor_alias, { ...e, _kind: 'event' });
+  });
+
+  // Sort visitors by most recent activity
+  const visitors = Object.entries(byVisitor)
+    .map(([key, data]) => {
+      const sorted = [...data.items].sort((a, b) =>
+        new Date(a.created_at) - new Date(b.created_at)
+      );
+      const lastActivity = sorted[sorted.length - 1]?.created_at;
+      const latestVisit = [...sorted].reverse().find(i => i._kind === 'visit');
+      return { key, ...data, items: sorted, lastActivity, latestVisit };
+    })
+    .sort((a, b) => new Date(b.lastActivity) - new Date(a.lastActivity))
+    .slice(0, 60);
+
+  if (visitors.length === 0) return (
+    <p style={{ color: 'var(--colors-text-secondary, #666)', fontSize: 14, marginTop: 24 }}>
+      Journeys will appear here once visitors interact with the portfolio.
+      New visits will include a visitor alias — existing rows without <code>visitor_id</code> will
+      group by session instead.
+    </p>
+  );
+
+  return (
+    <div style={{ marginTop: 0 }}>
+      <p style={{ fontSize: 13, color: 'var(--colors-text-secondary, #666)', marginBottom: 24 }}>
+        {visitors.length} visitor{visitors.length !== 1 ? 's' : ''} · sorted by most recent activity
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {visitors.map(({ key, alias, sessions, items, latestVisit }) => {
+          const loc = [latestVisit?.city, latestVisit?.country].filter(Boolean).join(', ');
+
+          return (
+            <div key={key} style={cardStyle}>
+              {/* Visitor header */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+                <div>
+                  <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--colors-text-primary, #000)' }}>
+                    {alias && alias !== key ? alias : '✦ Anonymous'}
+                  </span>
+                  {loc && (
+                    <span style={{ fontSize: 13, color: 'var(--colors-text-secondary, #666)', marginLeft: 10 }}>
+                      {countryFlag(latestVisit?.country_code)} {loc}
+                    </span>
+                  )}
+                  {latestVisit?.isp && (
+                    <span style={{ fontSize: 12, color: 'var(--colors-text-tertiary, #999)', marginLeft: 10 }}>
+                      · {latestVisit.isp}
+                    </span>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  <span style={badgeStyle}>{sessions.size} session{sessions.size !== 1 ? 's' : ''}</span>
+                  <span style={badgeStyle}>{items.length} step{items.length !== 1 ? 's' : ''}</span>
+                  {latestVisit?.referrer && (
+                    <span style={{ ...badgeStyle, background: '#e8f0ff', color: '#0066cc' }}>
+                      via {cleanReferrer(latestVisit.referrer)}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div style={{ borderLeft: '2px solid var(--colors-border-primary, #e0e0e0)', paddingLeft: 16, marginLeft: 4 }}>
+                {items.map((item, i) => {
+                  const prev = items[i - 1];
+                  const deltaMs = prev
+                    ? new Date(item.created_at) - new Date(prev.created_at)
+                    : null;
+                  const icon = item._kind === 'visit'
+                    ? EVENT_ICON.visit
+                    : (EVENT_ICON[item.event_type] || '•');
+                  const isAlert = item.event_type === 'password_fail';
+                  const isArrival = item._kind === 'visit';
+
+                  return (
+                    <div key={i} style={{ position: 'relative', marginBottom: 12 }}>
+                      {/* Timeline dot */}
+                      <div style={{
+                        position: 'absolute', left: -22, top: 4,
+                        width: 10, height: 10, borderRadius: '50%',
+                        background: isArrival
+                          ? 'var(--colors-accent-primary, #0066cc)'
+                          : isAlert ? '#e53e3e'
+                          : 'var(--colors-border-primary, #ccc)',
+                        border: '2px solid var(--colors-background-secondary, #f8f9fa)',
+                      }} />
+
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 13 }}>{icon}</span>
+                        <span style={{
+                          fontSize: 13,
+                          color: isAlert ? '#e53e3e' : 'var(--colors-text-primary, #000)',
+                          fontWeight: isArrival ? 600 : 400,
+                        }}>
+                          {describeEvent(item)}
+                        </span>
+                        <span style={{ fontSize: 11, color: 'var(--colors-text-tertiary, #999)', flexShrink: 0 }}>
+                          {formatDate(item.created_at)}
+                        </span>
+                        {deltaMs != null && deltaMs > 0 && deltaMs < 3600000 && (
+                          <span style={{ fontSize: 11, color: 'var(--colors-text-tertiary, #bbb)' }}>
+                            (+{fmtDelta(deltaMs)})
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p style={{ marginTop: 16, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
+        Showing up to 60 most recent visitors · alias resets on cache clear
+      </p>
+    </div>
+  );
+};
+
 // ─── Main Dashboard ────────────────────────────────────────────────────────
 
 const DashboardContent = ({ onLogout }) => {
@@ -432,7 +614,7 @@ const DashboardContent = ({ onLogout }) => {
         padding: '0 32px',
         background: 'var(--colors-background-secondary, #f8f9fa)',
       }}>
-        {[['visits', '🌍 Visits'], ['events', '🖱️ Events']].map(([tab, label]) => (
+        {[['visits', '🌍 Visits'], ['events', '🖱️ Events'], ['journeys', '🧭 Journeys']].map(([tab, label]) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -556,6 +738,7 @@ const DashboardContent = ({ onLogout }) => {
         </>}
 
         {activeTab === 'events' && <EventsTab events={events} totalEvents={totalEvents} />}
+        {activeTab === 'journeys' && <JourneysTab visits={visits} events={events} />}
       </div>
     </div>
   );
@@ -595,6 +778,16 @@ const tdStyle = {
   padding: '9px 12px',
   borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
   color: 'var(--colors-text-primary, #000)', verticalAlign: 'middle',
+};
+
+const badgeStyle = {
+  display: 'inline-block',
+  padding: '2px 8px',
+  borderRadius: 10,
+  fontSize: 11,
+  fontWeight: 600,
+  background: 'var(--colors-border-primary, #e0e0e0)',
+  color: 'var(--colors-text-secondary, #666)',
 };
 
 // ─── Root export ───────────────────────────────────────────────────────────

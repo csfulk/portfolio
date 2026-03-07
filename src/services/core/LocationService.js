@@ -5,6 +5,7 @@
 
 import { privacyManager } from './PrivacyManager.js';
 import { supabaseClient } from './supabaseClient.js';
+import { visitorIdentity } from './visitorIdentity.js';
 
 class LocationService {
   constructor() {
@@ -453,6 +454,7 @@ class LocationService {
       screen_width:  visitData.screen?.width          ?? null,
       screen_height: visitData.screen?.height         ?? null,
       session_id:    visitData.sessionId              ?? null,
+      ...visitorIdentity.fields,
     };
 
     supabaseClient.insertVisit(row).then(ok => {

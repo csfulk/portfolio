@@ -12,6 +12,7 @@
  */
 
 import { supabaseClient } from './supabaseClient.js';
+import { visitorIdentity } from './visitorIdentity.js';
 
 class EventTracker {
   /** Reuses the same session ID as LocationService */
@@ -40,6 +41,7 @@ class EventTracker {
       label:      label ?? null,
       value:      value ?? null,
       meta:       meta  ?? null,
+      ...visitorIdentity.fields,
     });
   }
 }
