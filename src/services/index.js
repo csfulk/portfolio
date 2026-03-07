@@ -116,12 +116,19 @@ export async function initializeServices(options = {}) {
       // Initialize location tracking
       await locationService.initialize();
       
-      // Track initial page visit
-      locationService.trackVisit({
-        page: window.location.pathname,
-        title: document.title,
-        type: 'initial_load'
-      });
+      // Track initial page visit — deduplicated per tab session so that
+      // refreshes within the same sessionStorage context don't create
+      // duplicate "Arrived" rows. A new tab or a fresh browser session
+      // will always get a new session_id and therefore log correctly.
+      const visitKey = 'portfolio_visit_logged';
+      if (!sessionStorage.getItem(visitKey)) {
+        sessionStorage.setItem(visitKey, '1');
+        locationService.trackVisit({
+          page: window.location.pathname,
+          title: document.title,
+          type: 'initial_load'
+        });
+      }
     }
 
     // Initialize plugins
