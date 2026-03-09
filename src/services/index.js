@@ -44,7 +44,16 @@ export { ServiceManager } from './core/ServiceManager.js';
  * @param {Object} options - Initialization options
  * @returns {Object} Initialized services
  */
+let _initPromise = null;
+
 export async function initializeServices(options = {}) {
+  // Guard against React StrictMode double-invoke and accidental re-calls
+  if (_initPromise) return _initPromise;
+  _initPromise = _doInit(options);
+  return _initPromise;
+}
+
+async function _doInit(options = {}) {
   const {
     config = {},
     plugins = [],

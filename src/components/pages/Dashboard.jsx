@@ -585,10 +585,6 @@ const DashboardContent = ({ onLogout }) => {
     </div>
   );
 
-  const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
-  const maxC    = stats.topCountries[0]?.[1] ?? 1;
-  const maxCity = stats.topCities[0]?.[1]    ?? 1;
-
   // Filter out owner rows when hideOwner is on
   const filteredVisits = hideOwner && visits
     ? visits.filter(v => v.visitor_id !== myVisitorId)
@@ -596,6 +592,10 @@ const DashboardContent = ({ onLogout }) => {
   const filteredEvents = hideOwner && events
     ? events.filter(e => e.visitor_id !== myVisitorId)
     : events;
+
+  const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
+  const maxC    = stats.topCountries[0]?.[1] ?? 1;
+  const maxCity = stats.topCities[0]?.[1]    ?? 1;
 
   return (
     <div style={{
