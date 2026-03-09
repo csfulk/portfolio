@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabaseClient } from '@services/core/supabaseClient.js';
+import { visitorIdentity } from '@services/core/visitorIdentity.js';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -524,6 +525,17 @@ const DashboardContent = ({ onLogout }) => {
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
 
+  // Owner device controls
+  const [isOwner,     setIsOwnerState] = useState(() => visitorIdentity.isOwner);
+  const [hideOwner,   setHideOwner]    = useState(true);
+  const myVisitorId = visitorIdentity.id;
+
+  const toggleOwner = () => {
+    const next = !isOwner;
+    visitorIdentity.setOwner(next);
+    setIsOwnerState(next);
+  };
+
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -573,9 +585,17 @@ const DashboardContent = ({ onLogout }) => {
     </div>
   );
 
-  const stats   = visits ? summarize(visits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
+  const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
   const maxC    = stats.topCountries[0]?.[1] ?? 1;
   const maxCity = stats.topCities[0]?.[1]    ?? 1;
+
+  // Filter out owner rows when hideOwner is on
+  const filteredVisits = hideOwner && visits
+    ? visits.filter(v => v.visitor_id !== myVisitorId)
+    : visits;
+  const filteredEvents = hideOwner && events
+    ? events.filter(e => e.visitor_id !== myVisitorId)
+    : events;
 
   return (
     <div style={{
@@ -597,7 +617,33 @@ const DashboardContent = ({ onLogout }) => {
             colt.fyi analytics
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+          {/* Owner device toggle */}
+          <button
+            onClick={toggleOwner}
+            title={isOwner ? 'This device is marked as yours — tracking suppressed. Click to unmark.' : 'Mark this device as yours to suppress tracking'}
+            style={{
+              ...btnStyle, fontSize: 12,
+              background: isOwner ? '#e8f5e9' : 'transparent',
+              color: isOwner ? '#2e7d32' : 'var(--colors-text-secondary, #666)',
+              border: `1px solid ${isOwner ? '#a5d6a7' : 'var(--colors-border-primary, #e0e0e0)'}`,
+            }}
+          >
+            {isOwner ? '🙈 My device (tracking off)' : '👤 Mark as my device'}
+          </button>
+          {/* Hide/show my rows */}
+          <button
+            onClick={() => setHideOwner(h => !h)}
+            title="Toggle visibility of your own visits in the dashboard"
+            style={{
+              ...btnStyle, fontSize: 12,
+              background: 'transparent',
+              color: 'var(--colors-text-secondary, #666)',
+              border: '1px solid var(--colors-border-primary, #e0e0e0)',
+            }}
+          >
+            {hideOwner ? '🔍 Showing real visitors' : '👁️ Showing all (incl. you)'}
+          </button>
           <button onClick={load} style={{ ...btnStyle, fontSize: 13 }}>↻ Refresh</button>
           <button onClick={onLogout} style={{ ...btnStyle, background: 'transparent',
             border: '1px solid var(--colors-border-primary, #e0e0e0)',
@@ -642,6 +688,7 @@ const DashboardContent = ({ onLogout }) => {
         {/* Stat cards */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
           <StatCard label="Total visits" value={total ?? visits?.length ?? 0} />
+          <StatCard label="Filtered visits" value={filteredVisits?.length ?? 0} sub={hideOwner ? 'excl. your devices' : 'all devices'} />
           <StatCard label="Unique countries" value={stats.topCountries.length} />
           <StatCard label="Unique cities" value={stats.topCities.length} />
           <StatCard label="Last visit" value={stats.lastVisit ? formatDate(stats.lastVisit) : '—'} />
@@ -657,7 +704,7 @@ const DashboardContent = ({ onLogout }) => {
               ? <p style={emptyMsg}>No data yet</p>
               : stats.topCountries.map(([name, count]) => (
                   <BarRow key={name} label={name} count={count} max={maxC} flag={countryFlag(
-                    visits?.find(v => v.country === name)?.country_code
+                    filteredVisits?.find(v => v.country === name)?.country_code
                   )} />
                 ))}
           </div>
@@ -688,7 +735,7 @@ const DashboardContent = ({ onLogout }) => {
           <h3 style={{ ...cardTitle, marginBottom: 16 }}>
             📋 Recent Visits
             <span style={{ fontWeight: 400, color: 'var(--colors-text-secondary, #666)', marginLeft: 8, fontSize: 13 }}>
-              (latest {visits?.length ?? 0})
+              (latest {filteredVisits?.length ?? 0})
             </span>
           </h3>
           <div style={{ overflowX: 'auto' }}>
@@ -701,7 +748,7 @@ const DashboardContent = ({ onLogout }) => {
                 </tr>
               </thead>
               <tbody>
-                {(visits ?? []).map((v, i) => (
+                {(filteredVisits ?? []).map((v, i) => (
                   <tr key={v.id ?? i} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--colors-background-secondary, #f8f9fa)' }}>
                     <td style={tdStyle}>{formatDate(v.created_at)}</td>
                     <td style={tdStyle}>
@@ -720,7 +767,7 @@ const DashboardContent = ({ onLogout }) => {
                     </td>
                   </tr>
                 ))}
-                {(visits?.length ?? 0) === 0 && (
+                {(filteredVisits?.length ?? 0) === 0 && (
                   <tr>
                     <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', padding: '32px 0', color: 'var(--colors-text-secondary, #666)' }}>
                       No visits recorded yet. Visits will appear here once someone lands on your portfolio.
@@ -737,8 +784,8 @@ const DashboardContent = ({ onLogout }) => {
         </p>
         </>}
 
-        {activeTab === 'events' && <EventsTab events={events} totalEvents={totalEvents} />}
-        {activeTab === 'journeys' && <JourneysTab visits={visits} events={events} />}
+        {activeTab === 'events' && <EventsTab events={filteredEvents} totalEvents={filteredEvents?.length ?? 0} />}
+        {activeTab === 'journeys' && <JourneysTab visits={filteredVisits} events={filteredEvents} />}
       </div>
     </div>
   );

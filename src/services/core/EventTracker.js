@@ -34,6 +34,7 @@ class EventTracker {
    */
   track(eventType, label = null, value = null, meta = null) {
     if (!supabaseClient.isConfigured()) return;
+    if (visitorIdentity.isOwner) return; // suppress owner device tracking
 
     supabaseClient.insertEvent({
       session_id: this._sessionId(),

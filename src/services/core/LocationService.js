@@ -438,6 +438,7 @@ class LocationService {
    * @private
    */
   _sendToAnalytics(visitData) {
+    if (visitorIdentity.isOwner) return; // suppress owner device tracking
     // Persist to Supabase — the row shape matches the visits table schema
     const row = {
       country:       visitData.location?.country      ?? null,

@@ -102,6 +102,19 @@ class VisitorIdentity {
   get fields() {
     return { visitor_id: this.id, visitor_alias: this.alias };
   }
+
+  /**
+   * Returns true if this device has been marked as the portfolio owner.
+   * When true, LocationService and EventTracker will skip all logging.
+   */
+  get isOwner() {
+    try { return localStorage.getItem('portfolio_owner') === 'true'; } catch { return false; }
+  }
+
+  /** Mark or unmark this device as the owner. */
+  setOwner(value) {
+    try { localStorage.setItem('portfolio_owner', value ? 'true' : 'false'); } catch {}
+  }
 }
 
 export const visitorIdentity = new VisitorIdentity();
