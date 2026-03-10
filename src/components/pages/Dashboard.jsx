@@ -403,10 +403,10 @@ const JourneysTab = ({ visits, events }) => {
   const visitors = Object.entries(byVisitor)
     .map(([key, data]) => {
       const sorted = [...data.items].sort((a, b) =>
-        new Date(a.created_at) - new Date(b.created_at)
+        new Date(b.created_at) - new Date(a.created_at)
       );
-      const lastActivity = sorted[sorted.length - 1]?.created_at;
-      const latestVisit = [...sorted].reverse().find(i => i._kind === 'visit');
+      const lastActivity = sorted[0]?.created_at;
+      const latestVisit = sorted.find(i => i._kind === 'visit');
       return { key, ...data, items: sorted, lastActivity, latestVisit };
     })
     .sort((a, b) => new Date(b.lastActivity) - new Date(a.lastActivity))
@@ -484,9 +484,9 @@ const JourneysTab = ({ visits, events }) => {
               {/* Timeline */}
               <div style={{ borderLeft: '2px solid var(--colors-border-primary, #e0e0e0)', paddingLeft: 16, marginLeft: 4 }}>
                 {items.map((item, i) => {
-                  const prev = items[i - 1];
-                  const deltaMs = prev
-                    ? new Date(item.created_at) - new Date(prev.created_at)
+                  const next = items[i + 1];
+                  const deltaMs = next
+                    ? new Date(item.created_at) - new Date(next.created_at)
                     : null;
                   const icon = item._kind === 'visit'
                     ? EVENT_ICON.visit
