@@ -422,7 +422,23 @@ const JourneysTab = ({ visits, events }) => {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {visitors.map(({ key, alias, sessions, items, latestVisit }) => {
-          const loc = [latestVisit?.city, latestVisit?.country].filter(Boolean).join(', ');
+          // Build the richest location string available
+          const locParts = [
+            latestVisit?.city,
+            latestVisit?.region && latestVisit.region !== latestVisit.city ? latestVisit.region : null,
+            latestVisit?.postal_code ? `(${latestVisit.postal_code})` : null,
+            latestVisit?.country,
+          ].filter(Boolean);
+          const loc = locParts.join(', ');
+
+          // Extra detail line: timezone + screen size + language
+          const details = [
+            latestVisit?.timezone,
+            latestVisit?.language,
+            latestVisit?.screen_width && latestVisit?.screen_height
+              ? `${latestVisit.screen_width}×${latestVisit.screen_height}`
+              : null,
+          ].filter(Boolean).join(' · ');
 
           return (
             <div key={key} style={cardStyle}>
@@ -441,6 +457,11 @@ const JourneysTab = ({ visits, events }) => {
                     <span style={{ fontSize: 12, color: 'var(--colors-text-tertiary, #999)', marginLeft: 10 }}>
                       · {latestVisit.isp}
                     </span>
+                  )}
+                  {details && (
+                    <div style={{ fontSize: 11, color: 'var(--colors-text-tertiary, #bbb)', marginTop: 3 }}>
+                      {details}
+                    </div>
                   )}
                 </div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
