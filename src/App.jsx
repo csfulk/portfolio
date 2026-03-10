@@ -21,6 +21,7 @@ import { ComponentBrowser } from './design-system/componentBrowser';
 import { Dashboard } from '@components';
 import { getCaseStudyImages } from '@data';
 import { initializeServices } from '@services';
+import { eventTracker } from '@services/core/EventTracker.js';
 
 // Development only - privacy test utilities
 if (import.meta.env.DEV) {
@@ -181,8 +182,8 @@ const App = () => {
         {/* Privacy Components - EU GDPR Compliance */}
         {privacy.showBanner && (
           <PrivacyBanner
-            onAccept={privacy.onBannerAccept}
-            onDecline={privacy.onBannerDecline}
+            onAccept={(method) => { eventTracker.track('privacy_consent', 'accept', null, { method }); privacy.onBannerAccept(method); }}
+            onDecline={(method) => { eventTracker.track('privacy_consent', 'decline', null, { method }); privacy.onBannerDecline(method); }}
             onShowDetails={privacy.onBannerShowDetails}
             autoAcceptDelay={8000}
           />

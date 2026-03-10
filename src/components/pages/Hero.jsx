@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@components';
 import { scrollToSection } from '@scripts';
+import { eventTracker } from '@services/core/EventTracker.js';
 
 const Hero = () => {
   return (
@@ -29,7 +30,7 @@ const Hero = () => {
             variant="primary"
             size="lg"
             fontWeight="medium"
-            onClick={() => scrollToSection('.first-section')} // Use the utility function
+            onClick={() => { eventTracker.track('hero_cta', 'case_studies'); scrollToSection('.first-section'); }}
           >
             Case Studies
           </Button>
@@ -38,7 +39,7 @@ const Hero = () => {
             variant="secondary"
             size="lg"
             fontWeight="medium"
-            onClick={() => window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank')}
+            onClick={() => { eventTracker.track('hero_cta', 'resume'); window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank'); }}
           >
             Open Resume
           </Button>

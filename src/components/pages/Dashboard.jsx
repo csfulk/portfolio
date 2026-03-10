@@ -223,6 +223,8 @@ const EventsTab = ({ events, totalEvents }) => {
     project_close:     '📂 Projects closed',
     password_success:  '🔓 Password success',
     password_fail:     '🔒 Password fail',
+    hero_cta:          '🎯 Hero CTA click',
+    privacy_consent:   '🍪 Privacy consent',
   };
 
   return (
@@ -341,6 +343,8 @@ const EVENT_ICON = {
   project_close:    '📂',
   password_success: '🔓',
   password_fail:    '🔒',
+  hero_cta:         '🎯',
+  privacy_consent:  '🍪',
   visit:            '🌐',
 };
 
@@ -352,7 +356,9 @@ const describeEvent = (item) => {
   }
   switch (item.event_type) {
     case 'section_view':     return `Read "${item.label || 'section'}" · ${item.value ?? 0}s`;
-    case 'case_study_click': return `Opened case study: ${item.label || '—'}`;
+    case 'case_study_click': return `Clicked case study button: ${item.label || '—'}`;
+    case 'hero_cta':         return `Clicked "${item.label}" CTA`;
+    case 'privacy_consent':  return `Privacy consent: ${item.label}`;
     case 'project_open':     return `Opened project: ${item.label || '—'}`;
     case 'project_close':    return `Closed "${item.label || '—'}" · ${item.value ?? 0}s in viewer`;
     case 'password_success': return 'Unlocked the portfolio ✅';
