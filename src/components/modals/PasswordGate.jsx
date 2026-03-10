@@ -117,11 +117,13 @@ const PasswordGate = ({ onAuth }) => {
             disabled={isLocked}
             className={`password-input ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''} ${isLocked ? 'locked' : ''}`}
           />
-          <span className={`password-caption ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
-            {caption}
-          </span>
         </div>
       </form>
+      {caption ? (
+        <p className={`password-caption-below ${isLocked ? 'lockout' : ''} ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
+          {caption}
+        </p>
+      ) : null}
       <p className="small-text">
         Don’t have a password? <a href="mailto:hello@colt.fyi">Say hello</a>, and I can send you one.
       </p>
