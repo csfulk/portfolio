@@ -6,6 +6,9 @@ import { eventTracker } from '@services/core/EventTracker.js';
 // Read the password gate toggle from environment variables
 const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';
 
+const LOCKOUT_AFTER  = 5;   // failures before each lockout
+const LOCKOUT_SECS   = 60;  // lockout duration in seconds
+const REDIRECT_URL   = 'https://www.google.com';
 
 const PasswordGate = ({ onAuth }) => {
   // If password gate is disabled, render nothing (should never be shown)
@@ -14,7 +17,10 @@ const PasswordGate = ({ onAuth }) => {
   const [password, setPassword] = useState('');
   const [caption, setCaption] = useState('');
   const [isError, setIsError] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false); // New state for success
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [failCount, setFailCount] = useState(0);
+  const [lockedUntil, setLockedUntil] = useState(null);
+  const [countdown, setCountdown] = useState(0);
   const inputRef = useRef(null);
 
   // Focus the input field when the component mounts
@@ -22,22 +28,58 @@ const PasswordGate = ({ onAuth }) => {
     inputRef.current?.focus();
   }, []);
 
+  // Countdown timer during lockout
+  useEffect(() => {
+    if (!lockedUntil) return;
+    const interval = setInterval(() => {
+      const remaining = Math.ceil((lockedUntil - Date.now()) / 1000);
+      if (remaining <= 0) {
+        setLockedUntil(null);
+        setCountdown(0);
+        setCaption('');
+        inputRef.current?.focus();
+      } else {
+        setCountdown(remaining);
+        setCaption(`Too many attempts — try again in ${remaining}s`);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, [lockedUntil]);
+
+  const isLocked = lockedUntil !== null;
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isLocked) return;
+
     const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
 
     if (password === sitePassword) {
       eventTracker.track('password_success');
-      onAuth(password); // Trigger authentication logic with entered password
-      setCaption('Authentication successful! Redirecting...'); // Add success message
-      setTimeout(() => {
-        setCaption(''); // Clear caption after a delay
-      }, 2000);
+      onAuth(password);
+      setCaption('Authentication successful! Redirecting...');
+      setTimeout(() => setCaption(''), 2000);
     } else {
       eventTracker.track('password_fail');
-      setCaption('Incorrect password. Please try again.');
-      setIsError(true);
-      setIsSuccess(false); // Reset success state
+      const newCount = failCount + 1;
+      setFailCount(newCount);
+
+      if (newCount % LOCKOUT_AFTER === 0) {
+        const lockoutNum = newCount / LOCKOUT_AFTER;
+        if (lockoutNum >= 2) {
+          // 2nd lockout — redirect away
+          window.location.href = REDIRECT_URL;
+          return;
+        }
+        // 1st lockout — 60s cooldown
+        setLockedUntil(Date.now() + LOCKOUT_SECS * 1000);
+        setIsError(true);
+        setIsSuccess(false);
+      } else {
+        setCaption('Incorrect password. Please try again.');
+        setIsError(true);
+        setIsSuccess(false);
+      }
     }
   };
 
@@ -69,10 +111,11 @@ const PasswordGate = ({ onAuth }) => {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Enter password"
+            placeholder={isLocked ? 'Locked…' : 'Enter password'}
             value={password}
             onChange={handleInputChange}
-            className={`password-input ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}
+            disabled={isLocked}
+            className={`password-input ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''} ${isLocked ? 'locked' : ''}`}
           />
           <span className={`password-caption ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
             {caption}
