@@ -8,7 +8,7 @@ const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'fa
 
 const LOCKOUT_AFTER  = 5;   // failures before each lockout
 const LOCKOUT_SECS   = 60;  // lockout duration in seconds
-const REDIRECT_URL   = 'https://www.google.com';
+const REDIRECT_URL   = 'https://www.linkedin.com/in/coltfulk/';
 
 const PasswordGate = ({ onAuth }) => {
   // If password gate is disabled, render nothing (should never be shown)
