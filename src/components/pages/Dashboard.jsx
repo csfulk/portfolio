@@ -179,25 +179,24 @@ const LoginScreen = ({ onAuth }) => {
   );
 };
 
-// ─── Events Tab ────────────────────────────────────────────────────────────
+// ─── Stats Tab ──────────────────────────────────────────────────────────────
 
-const EventsTab = ({ events, totalEvents }) => {
-  if (!events || events.length === 0) return (
-    <p style={{ color: 'var(--colors-text-secondary, #666)', fontSize: 14, marginTop: 24 }}>
-      No events recorded yet. They will appear here once visitors interact with the portfolio.
-    </p>
-  );
+const StatsTab = ({ visits, total, events, totalEvents, filteredVisits }) => {
+  // ── Visit aggregates
+  const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
+  const maxC    = stats.topCountries[0]?.[1] ?? 1;
+  const maxCity = stats.topCities[0]?.[1]    ?? 1;
 
-  // Aggregate
-  const byType      = {};
-  const sectionTime = {}; // label → total seconds
-  const caseStudyClicks = {};
-  const projectDurations = {}; // label → [seconds]
+  // ── Event aggregates
+  const byType           = {};
+  const sectionTime      = {};
+  const caseStudyClicks  = {};
+  const projectDurations = {};
   let pwSuccess = 0, pwFail = 0;
 
-  events.forEach(e => {
+  (events || []).forEach(e => {
     byType[e.event_type] = (byType[e.event_type] || 0) + 1;
-    if (e.event_type === 'section_view'     && e.label) sectionTime[e.label]  = (sectionTime[e.label] || 0) + (e.value ?? 0);
+    if (e.event_type === 'section_view'     && e.label) sectionTime[e.label]     = (sectionTime[e.label] || 0) + (e.value ?? 0);
     if (e.event_type === 'case_study_click' && e.label) caseStudyClicks[e.label] = (caseStudyClicks[e.label] || 0) + 1;
     if (e.event_type === 'project_close'    && e.label && e.value) {
       if (!projectDurations[e.label]) projectDurations[e.label] = [];
@@ -211,10 +210,7 @@ const EventsTab = ({ events, totalEvents }) => {
   const sortedClicks  = Object.entries(caseStudyClicks).sort(([,a],[,b]) => b - a);
   const maxSection    = sortedSection[0]?.[1] ?? 1;
   const maxClicks     = sortedClicks[0]?.[1]  ?? 1;
-
-  const avgDuration = (arr) => arr.length
-    ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length)
-    : 0;
+  const avgDuration   = (arr) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : 0;
 
   const eventTypeLabels = {
     section_view:      '📖 Section views',
@@ -223,18 +219,22 @@ const EventsTab = ({ events, totalEvents }) => {
     project_close:     '📂 Projects closed',
     password_success:  '🔓 Password success',
     password_fail:     '🔒 Password fail',
-    hero_cta:          '🎯 Hero CTA click',
+    hero_cta:          '🎯 Hero CTA clicks',
     privacy_consent:   '🍪 Privacy consent',
   };
 
   return (
     <div style={{ marginTop: 0 }}>
-      {/* Stat cards */}
+
+      {/* ── Combined stat cards */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-        <StatCard label="Total events" value={totalEvents ?? events.length} />
-        <StatCard label="Section views" value={byType['section_view'] ?? 0} />
+        <StatCard label="Total visits"      value={total ?? filteredVisits?.length ?? 0} />
+        <StatCard label="Unique countries"  value={stats.topCountries.length} />
+        <StatCard label="Last visit"        value={stats.lastVisit ? formatDate(stats.lastVisit) : '—'} />
+        <StatCard label="Total events"      value={totalEvents ?? events?.length ?? 0} />
         <StatCard label="Case study clicks" value={byType['case_study_click'] ?? 0} />
-        <StatCard label="Projects opened" value={byType['project_open'] ?? 0} />
+        <StatCard label="Hero CTA clicks"   value={byType['hero_cta'] ?? 0} />
+        <StatCard label="Projects opened"   value={byType['project_open'] ?? 0} />
         {(pwSuccess + pwFail) > 0 && (
           <StatCard label="Password attempts"
             value={`${pwSuccess}✓ / ${pwFail}✗`}
@@ -243,9 +243,38 @@ const EventsTab = ({ events, totalEvents }) => {
         )}
       </div>
 
+      {/* ── Geographic breakdown */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 32 }}>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>🌍 Top Countries</h3>
+          {stats.topCountries.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.topCountries.map(([name, count]) => (
+                <BarRow key={name} label={name} count={count} max={maxC} flag={countryFlag(
+                  filteredVisits?.find(v => v.country === name)?.country_code
+                )} />
+              ))}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>🏙️ Top Cities</h3>
+          {stats.topCities.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.topCities.map(([name, count]) => (
+                <BarRow key={name} label={name} count={count} max={maxCity} />
+              ))}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>🔗 Top Referrers</h3>
+          {stats.topReferrers.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.topReferrers.map(([ref, count]) => (
+                <BarRow key={ref} label={ref} count={count} max={stats.topReferrers[0][1]} />
+              ))}
+        </div>
+      </div>
 
-        {/* Section engagement */}
+      {/* ── Engagement breakdown */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 16 }}>
         {sortedSection.length > 0 && (
           <div style={cardStyle}>
             <h3 style={cardTitle}>📖 Section Engagement (total seconds)</h3>
@@ -254,8 +283,6 @@ const EventsTab = ({ events, totalEvents }) => {
             ))}
           </div>
         )}
-
-        {/* Case study clicks */}
         {sortedClicks.length > 0 && (
           <div style={cardStyle}>
             <h3 style={cardTitle}>🖱️ Case Study Clicks</h3>
@@ -264,8 +291,6 @@ const EventsTab = ({ events, totalEvents }) => {
             ))}
           </div>
         )}
-
-        {/* Project view durations */}
         {Object.keys(projectDurations).length > 0 && (
           <div style={cardStyle}>
             <h3 style={cardTitle}>📂 Avg Time in Project Viewer</h3>
@@ -274,61 +299,27 @@ const EventsTab = ({ events, totalEvents }) => {
               .map(([title, arr]) => (
                 <BarRow key={title} label={title}
                   count={`${avgDuration(arr)}s avg (${arr.length} views)`}
-                  max={1} // no bar needed, just labels
+                  max={1}
                 />
               ))}
           </div>
         )}
-
-        {/* Events by type breakdown */}
-        <div style={cardStyle}>
-          <h3 style={cardTitle}>📊 Events by Type</h3>
-          {Object.entries(byType).sort(([,a],[,b]) => b - a).map(([type, count]) => (
-            <BarRow key={type}
-              label={eventTypeLabels[type] || type}
-              count={count}
-              max={Math.max(...Object.values(byType))}
-            />
-          ))}
-        </div>
+        {Object.keys(byType).length > 0 && (
+          <div style={cardStyle}>
+            <h3 style={cardTitle}>📊 Events by Type</h3>
+            {Object.entries(byType).sort(([,a],[,b]) => b - a).map(([type, count]) => (
+              <BarRow key={type}
+                label={eventTypeLabels[type] || type}
+                count={count}
+                max={Math.max(...Object.values(byType))}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Recent events table */}
-      <div style={cardStyle}>
-        <h3 style={{ ...cardTitle, marginBottom: 16 }}>
-          🗂️ Recent Events
-          <span style={{ fontWeight: 400, color: 'var(--colors-text-secondary, #666)', marginLeft: 8, fontSize: 13 }}>
-            (latest {events.length})
-          </span>
-        </h3>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-            <thead>
-              <tr>
-                {['Time', 'Type', 'Label', 'Value', 'Session'].map(h => (
-                  <th key={h} style={thStyle}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((e, i) => (
-                <tr key={e.id ?? i} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--colors-background-secondary, #f8f9fa)' }}>
-                  <td style={tdStyle}>{formatDate(e.created_at)}</td>
-                  <td style={tdStyle}>{eventTypeLabels[e.event_type] || e.event_type}</td>
-                  <td style={tdStyle}>{e.label ?? '—'}</td>
-                  <td style={tdStyle}>{e.value != null ? `${e.value}s` : '—'}</td>
-                  <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 11 }}>
-                    {e.session_id ? e.session_id.slice(0, 12) + '…' : '—'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <p style={{ marginTop: 16, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
-        Showing up to 300 most recent events · Powered by Supabase
+      <p style={{ marginTop: 8, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
+        Showing up to 500 most recent visits &amp; events · Powered by Supabase
       </p>
     </div>
   );
@@ -548,7 +539,7 @@ const DashboardContent = ({ onLogout }) => {
   const [total,       setTotal]       = useState(null);
   const [events,      setEvents]      = useState(null);
   const [totalEvents, setTotalEvents] = useState(null);
-  const [activeTab,   setActiveTab]   = useState('visits');
+  const [activeTab,   setActiveTab]   = useState('journeys');
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
 
@@ -576,7 +567,7 @@ const DashboardContent = ({ onLogout }) => {
     const [rows, count, evtRows, evtCount] = await Promise.all([
       supabaseClient.getVisits({ limit: 500 }),
       supabaseClient.getTotalCount(),
-      supabaseClient.getEvents({ limit: 300 }),
+      supabaseClient.getEvents({ limit: 500 }),
       supabaseClient.getEventTotalCount(),
     ]);
 
@@ -619,10 +610,6 @@ const DashboardContent = ({ onLogout }) => {
   const filteredEvents = hideOwner && events
     ? events.filter(e => e.visitor_id !== myVisitorId)
     : events;
-
-  const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
-  const maxC    = stats.topCountries[0]?.[1] ?? 1;
-  const maxCity = stats.topCities[0]?.[1]    ?? 1;
 
   return (
     <div style={{
@@ -687,7 +674,7 @@ const DashboardContent = ({ onLogout }) => {
         padding: '0 32px',
         background: 'var(--colors-background-secondary, #f8f9fa)',
       }}>
-        {[['visits', '🌍 Visits'], ['events', '🖱️ Events'], ['journeys', '🧭 Journeys']].map(([tab, label]) => (
+        {[['stats', '📊 Stats'], ['journeys', '🧭 Journeys']].map(([tab, label]) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -710,108 +697,15 @@ const DashboardContent = ({ onLogout }) => {
       </div>
 
       <div style={{ padding: '28px 32px', maxWidth: 1200, margin: '0 auto' }}>
-        {activeTab === 'visits' && <>
-
-        {/* Stat cards */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-          <StatCard label="Total visits" value={total ?? visits?.length ?? 0} />
-          <StatCard label="Filtered visits" value={filteredVisits?.length ?? 0} sub={hideOwner ? 'excl. your devices' : 'all devices'} />
-          <StatCard label="Unique countries" value={stats.topCountries.length} />
-          <StatCard label="Unique cities" value={stats.topCities.length} />
-          <StatCard label="Last visit" value={stats.lastVisit ? formatDate(stats.lastVisit) : '—'} />
-        </div>
-
-        {/* Charts row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 32 }}>
-
-          {/* Top countries */}
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>🌍 Top Countries</h3>
-            {stats.topCountries.length === 0
-              ? <p style={emptyMsg}>No data yet</p>
-              : stats.topCountries.map(([name, count]) => (
-                  <BarRow key={name} label={name} count={count} max={maxC} flag={countryFlag(
-                    filteredVisits?.find(v => v.country === name)?.country_code
-                  )} />
-                ))}
-          </div>
-
-          {/* Top cities */}
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>🏙️ Top Cities</h3>
-            {stats.topCities.length === 0
-              ? <p style={emptyMsg}>No data yet</p>
-              : stats.topCities.map(([name, count]) => (
-                  <BarRow key={name} label={name} count={count} max={maxCity} />
-                ))}
-          </div>
-
-          {/* Top referrers */}
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>🔗 Top Referrers</h3>
-            {stats.topReferrers.length === 0
-              ? <p style={emptyMsg}>No data yet</p>
-              : stats.topReferrers.map(([ref, count]) => (
-                  <BarRow key={ref} label={ref} count={count} max={stats.topReferrers[0][1]} />
-                ))}
-          </div>
-        </div>
-
-        {/* Recent visits table */}
-        <div style={cardStyle}>
-          <h3 style={{ ...cardTitle, marginBottom: 16 }}>
-            📋 Recent Visits
-            <span style={{ fontWeight: 400, color: 'var(--colors-text-secondary, #666)', marginLeft: 8, fontSize: 13 }}>
-              (latest {filteredVisits?.length ?? 0})
-            </span>
-          </h3>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-              <thead>
-                <tr>
-                  {['Time', 'Location', 'City', 'ISP', 'Referrer', 'Language', 'Screen'].map(h => (
-                    <th key={h} style={thStyle}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {(filteredVisits ?? []).map((v, i) => (
-                  <tr key={v.id ?? i} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--colors-background-secondary, #f8f9fa)' }}>
-                    <td style={tdStyle}>{formatDate(v.created_at)}</td>
-                    <td style={tdStyle}>
-                      {countryFlag(v.country_code)}&nbsp;
-                      {v.country ?? '—'}
-                      {v.region && v.region !== v.country ? `, ${v.region}` : ''}
-                    </td>
-                    <td style={tdStyle}>{v.city ?? '—'}</td>
-                    <td style={{ ...tdStyle, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {v.isp ?? '—'}
-                    </td>
-                    <td style={tdStyle}>{cleanReferrer(v.referrer)}</td>
-                    <td style={tdStyle}>{v.language ?? '—'}</td>
-                    <td style={{ ...tdStyle, whiteSpace: 'nowrap' }}>
-                      {v.screen_width && v.screen_height ? `${v.screen_width}×${v.screen_height}` : '—'}
-                    </td>
-                  </tr>
-                ))}
-                {(filteredVisits?.length ?? 0) === 0 && (
-                  <tr>
-                    <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', padding: '32px 0', color: 'var(--colors-text-secondary, #666)' }}>
-                      No visits recorded yet. Visits will appear here once someone lands on your portfolio.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <p style={{ marginTop: 16, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
-          Showing up to 500 most recent visits · Powered by Supabase
-        </p>
-        </>}
-
-        {activeTab === 'events' && <EventsTab events={filteredEvents} totalEvents={filteredEvents?.length ?? 0} />}
+        {activeTab === 'stats' && (
+          <StatsTab
+            visits={visits}
+            total={total}
+            events={filteredEvents}
+            totalEvents={totalEvents}
+            filteredVisits={filteredVisits}
+          />
+        )}
         {activeTab === 'journeys' && <JourneysTab visits={filteredVisits} events={filteredEvents} />}
       </div>
     </div>
