@@ -27,10 +27,79 @@ const formatDate = (iso) => {
   });
 };
 
-const cleanReferrer = (ref) => {
-  if (!ref) return 'Direct';
-  try { return new URL(ref).hostname.replace('www.', ''); } catch { return ref; }
+const KNOWN_ATS = [
+  { pattern: /greenhouse\.io/,        name: 'Greenhouse' },
+  { pattern: /lever\.co/,             name: 'Lever' },
+  { pattern: /ashbyhq\.com/,          name: 'Ashby' },
+  { pattern: /workday\.com/,          name: 'Workday' },
+  { pattern: /myworkdayjobs\.com/,    name: 'Workday' },
+  { pattern: /icims\.com/,            name: 'iCIMS' },
+  { pattern: /smartrecruiters\.com/,  name: 'SmartRecruiters' },
+  { pattern: /jobvite\.com/,          name: 'Jobvite' },
+  { pattern: /taleo\.net/,            name: 'Taleo' },
+];
+
+// Returns { label, icon, detail, isRecruiter, full }
+const parseReferrer = (ref) => {
+  if (!ref) return { label: 'Direct', icon: '🔗', isRecruiter: false, detail: null };
+  let url;
+  try { url = new URL(ref); } catch { return { label: ref, icon: '🔗', isRecruiter: false, detail: null }; }
+  const host = url.hostname.replace(/^www\./, '');
+  const path = url.pathname;
+
+  // ── LinkedIn
+  if (host.includes('linkedin.com')) {
+    if (path.includes('/messaging'))
+      return { label: 'LinkedIn DM',      icon: '💼', isRecruiter: true,  detail: 'direct message', full: ref };
+    if (path.includes('/jobs'))
+      return { label: 'LinkedIn Jobs',    icon: '💼', isRecruiter: true,  detail: 'job listing', full: ref };
+    if (path.includes('/company/')) {
+      const co = path.split('/company/')[1]?.split('/')[0]?.replace(/-/g, ' ');
+      return { label: 'LinkedIn Company', icon: '💼', isRecruiter: true,  detail: co || 'company page', full: ref };
+    }
+    if (path.includes('/in/')) {
+      const slug = path.split('/in/')[1]?.split('/')[0];
+      return { label: 'LinkedIn Profile', icon: '💼', isRecruiter: true,  detail: slug ? `/in/${slug}` : 'profile', full: ref };
+    }
+    if (path.includes('/feed'))
+      return { label: 'LinkedIn Feed',    icon: '💼', isRecruiter: false, detail: 'post or share', full: ref };
+    return   { label: 'LinkedIn',         icon: '💼', isRecruiter: false, detail: null, full: ref };
+  }
+
+  // ── ATS platforms
+  for (const ats of KNOWN_ATS) {
+    if (ats.pattern.test(host)) {
+      const parts = path.split('/').filter(Boolean);
+      const co = parts.find(p => p && !['jobs','job','apply','wday','d'].includes(p) && !/^[0-9a-f-]{8,}$/i.test(p));
+      return { label: ats.name, icon: '🏢', isRecruiter: true, detail: co?.replace(/-/g, ' ') || 'job listing', full: ref };
+    }
+  }
+
+  // ── Search engines
+  if (/google\./i.test(host))    return { label: 'Google Search', icon: '🔍', isRecruiter: false, detail: 'organic search', full: ref };
+  if (/bing\.com/i.test(host))   return { label: 'Bing Search',   icon: '🔍', isRecruiter: false, detail: 'organic search', full: ref };
+  if (/duckduckgo/i.test(host))  return { label: 'DuckDuckGo',    icon: '🔍', isRecruiter: false, detail: 'organic search', full: ref };
+  if (/yahoo\.com/i.test(host))  return { label: 'Yahoo Search',  icon: '🔍', isRecruiter: false, detail: 'organic search', full: ref };
+
+  // ── Social & portfolio
+  if (/twitter\.com|t\.co|x\.com/i.test(host))
+    return { label: 'Twitter / X', icon: '🐦', isRecruiter: false, detail: null, full: ref };
+  if (/github\.com/i.test(host)) {
+    const parts = path.split('/').filter(Boolean);
+    return { label: 'GitHub', icon: '🐙', isRecruiter: false, detail: parts.length >= 2 ? `${parts[0]}/${parts[1]}` : null, full: ref };
+  }
+  if (/dribbble\.com/i.test(host)) return { label: 'Dribbble', icon: '🏀', isRecruiter: false, detail: null, full: ref };
+  if (/behance\.net/i.test(host))  return { label: 'Behance',  icon: '🎨', isRecruiter: false, detail: null, full: ref };
+  if (/reddit\.com/i.test(host)) {
+    const sub = path.match(/\/r\/([^/]+)/)?.[1];
+    return { label: 'Reddit', icon: '🤖', isRecruiter: false, detail: sub ? `r/${sub}` : null, full: ref };
+  }
+
+  return { label: host, icon: '🔗', isRecruiter: false, detail: null, full: ref };
 };
+
+// Stats bar chart shim — keeps cleanReferrer() working with no other changes
+const cleanReferrer = (ref) => parseReferrer(ref).label;
 
 const summarize = (visits) => {
   const countries = {};
@@ -341,9 +410,10 @@ const EVENT_ICON = {
 
 const describeEvent = (item) => {
   if (item._kind === 'visit') {
-    const ref = item.referrer ? cleanReferrer(item.referrer) : 'Direct';
+    const ref = parseReferrer(item.referrer);
     const loc = [item.city, item.country].filter(Boolean).join(', ') || 'Unknown location';
-    return `Arrived · ${loc} · via ${ref}`;
+    const refStr = ref.detail ? `${ref.icon} ${ref.label} · ${ref.detail}` : `${ref.icon} ${ref.label}`;
+    return `Arrived · ${loc} · via ${refStr}`;
   }
   switch (item.event_type) {
     case 'section_view':     return `Read "${item.label || 'section'}" · ${item.value ?? 0}s`;
@@ -464,11 +534,21 @@ const JourneysTab = ({ visits, events }) => {
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   <span style={badgeStyle}>{sessions.size} session{sessions.size !== 1 ? 's' : ''}</span>
                   <span style={badgeStyle}>{items.length} step{items.length !== 1 ? 's' : ''}</span>
-                  {latestVisit?.referrer && (
-                    <span style={{ ...badgeStyle, background: '#e8f0ff', color: '#0066cc' }}>
-                      via {cleanReferrer(latestVisit.referrer)}
-                    </span>
-                  )}
+                  {(() => {
+                    if (!latestVisit?.referrer) return null;
+                    const ref = parseReferrer(latestVisit.referrer);
+                    const bg  = ref.isRecruiter ? '#fff3cd' : '#e8f0ff';
+                    const fg  = ref.isRecruiter ? '#7d4e00' : '#0066cc';
+                    const txt = [ref.icon, ref.label, ref.detail].filter(Boolean).join(' · ');
+                    return (
+                      <span
+                        style={{ ...badgeStyle, background: bg, color: fg }}
+                        title={ref.full || ref.label}
+                      >
+                        {txt}
+                      </span>
+                    );
+                  })()}
                 </div>
               </div>
 
