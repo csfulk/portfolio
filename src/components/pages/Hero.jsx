@@ -39,7 +39,7 @@ const Hero = () => {
             variant="secondary"
             size="lg"
             fontWeight="medium"
-            onClick={() => { eventTracker.track('hero_cta', 'resume'); window.open('/assets/resume/Colt_Fulk_Resume_2025.pdf', '_blank'); }}
+            onClick={() => { eventTracker.track('hero_cta', 'resume'); window.open('/assets/resume/Colt_Fulk_Resume_2026.pdf', '_blank'); }}
           >
             Open Resume
           </Button>
