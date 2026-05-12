@@ -41,7 +41,7 @@ const Hero = () => {
             fontWeight="medium"
             onClick={() => { eventTracker.track('hero_cta', 'resume'); window.open('/resume.pdf', '_blank'); }}
           >
-            Open Resume
+            View Resume
           </Button>
         </div>
       </div>
