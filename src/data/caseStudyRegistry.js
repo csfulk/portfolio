@@ -85,7 +85,7 @@ export const caseStudyRegistry = {
     enabled: true,
     section: 'youtube',
     button: {
-      text: 'Simplifying Movies & TV Customer Journeys',
+      text: 'Unifying Core Experiences with Essential Metadata',
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
