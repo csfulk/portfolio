@@ -85,7 +85,7 @@ export const caseStudyRegistry = {
     enabled: true,
     section: 'youtube',
     button: {
-      text: 'Unifying Core Experiences with Essential Metadata',
+      text: 'Movies & TV: Scaling Core Experiences',
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
@@ -216,7 +216,14 @@ export const getEnabledCaseStudies = () => {
 export const getCaseStudiesBySection = (section) => {
   return Object.entries(caseStudyRegistry)
     .filter(([_, caseStudy]) => caseStudy.section === section && caseStudy.enabled)
-    .map(([key, caseStudy]) => ({ key, ...caseStudy }));
+    .map(([key, caseStudy]) => ({ key, ...caseStudy }))
+    .sort((a, b) => {
+      if (section === 'youtube') {
+        if (a.key === 'youtube-movies-shows') return -1;
+        if (b.key === 'youtube-movies-shows') return 1;
+      }
+      return 0;
+    });
 };
 
 /**
