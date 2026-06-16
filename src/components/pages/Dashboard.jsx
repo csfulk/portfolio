@@ -747,6 +747,21 @@ const DashboardContent = ({ onLogout }) => {
         </div>
       </div>
 
+      {/* Owner status strip */}
+      <div style={{
+        padding: '6px 32px',
+        background: isOwner ? '#e8f5e9' : '#fff8e1',
+        borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
+        display: 'flex', gap: 16, alignItems: 'center', fontSize: 12,
+        color: 'var(--colors-text-secondary, #555)',
+      }}>
+        <span style={{ fontWeight: 600 }}>
+          {isOwner ? '🙈 This device: not tracked' : '⚠️ This device: being tracked'}
+        </span>
+        <span>·</span>
+        <span>{hideOwner ? '🔍 Your rows: hidden from stats' : '👁️ Your rows: visible in stats'}</span>
+      </div>
+
       {/* Tab bar */}
       <div style={{
         display: 'flex', gap: 0,
@@ -780,9 +795,9 @@ const DashboardContent = ({ onLogout }) => {
         {activeTab === 'stats' && (
           <StatsTab
             visits={visits}
-            total={total}
+            total={hideOwner ? (filteredVisits?.length ?? 0) : total}
             events={filteredEvents}
-            totalEvents={totalEvents}
+            totalEvents={hideOwner ? (filteredEvents?.length ?? 0) : totalEvents}
             filteredVisits={filteredVisits}
           />
         )}
