@@ -12,9 +12,9 @@ const Hero = () => {
         </h1>
         
         <div className='detail-wrapper'>
-          <h5 className="role subtitle">
-            Sr. Product & UX Design Systems Lead
-          </h5>
+          <h4 className="role subtitle">
+            Product & Design Systems Lead
+          </h4>
 
           <p className="detail">
             Reddit | ex: YouTube, Google and Apple

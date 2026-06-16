@@ -85,7 +85,7 @@ export const caseStudyRegistry = {
     enabled: true,
     section: 'youtube',
     button: {
-      text: 'Movies & TV: Scaling Core Experiences',
+      text: 'Movies & TV: Unifying & Scaling Core Experience',
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
@@ -95,7 +95,7 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/HMJDmH6COAz8LDbreNfDw8/Unifying-Core-Experiences-with-Essential-Metadata?node-id=1-88&viewport=-95%2C-25%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+      embedUrl: 'https://embed.figma.com/deck/3LTgOAAvTjpOfY96s0RZnp/Simplifying-Core-User-Journeys-with-UXR---Eng-Collaboration?node-id=103-8015&viewport=-95%2C-25%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
