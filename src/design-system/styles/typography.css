@@ -12,15 +12,39 @@
 }
 
 @media (max-width: 1024px) {
-  :root { font-size: 16px; }
+  :root { font-size: 14px; }
 }
 
 @media (max-width: 768px) {
-  :root { font-size: 16px; }
+  :root { font-size: 14px; }
+
+  h1 {
+    font-size: calc(var(--typography-scales-heading-1-font-size) * 0.68);
+  }
+
+  h2 {
+    font-size: calc(var(--typography-scales-heading-2-font-size) * 0.72);
+  }
+
+  h3 {
+    font-size: calc(var(--typography-scales-heading-3-font-size) * 0.78);
+  }
 }
 
 @media (max-width: 480px) {
-  :root { font-size: 16px; }
+  :root { font-size: 14px; }
+
+  h1 {
+    font-size: calc(var(--typography-scales-heading-1-font-size) * 0.58);
+  }
+
+  h2 {
+    font-size: calc(var(--typography-scales-heading-2-font-size) * 0.62);
+  }
+
+  h3 {
+    font-size: calc(var(--typography-scales-heading-3-font-size) * 0.68);
+  }
 }
 
 /* Typography Reset & Base Styles */
