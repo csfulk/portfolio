@@ -140,11 +140,10 @@ const App = () => {
     );
   }
 
-  // Check for demo mode query parameter
+  // Route: /demo (also supports legacy ?demo query param)
   const urlParams = new URLSearchParams(window.location.search);
-  const demoMode = urlParams.get('demo');
+  const demoMode = window.location.pathname === '/demo' || urlParams.get('demo');
 
-  // Show Component Browser - unified navigation for all design system tools
   if (demoMode) {
     return (
       <ThemeProvider>
