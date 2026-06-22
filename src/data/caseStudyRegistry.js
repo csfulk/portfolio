@@ -23,6 +23,24 @@ export const caseStudyRegistry = {
     }
   },
   
+  'snapchat-accessibility': {
+    enabled: true,
+    section: 'snapchat',
+    button: {
+      text: 'Addressing Core Accessibility Challenges',
+      icon: {
+        unauthenticated: 'Lock',
+        authenticated: 'Emoji',
+        hover: 'EmojiSingRightNote',
+        active: 'EmojiSingLeftNote'
+      }
+    },
+    viewer: {
+      type: 'FigmaEmbedViewer',
+      embedUrl: 'https://embed.figma.com/deck/HlWuUXXvHABY8w7cm6Sfy2/Snapchat--Addressing-Core-Accessibility-Challenges?node-id=1-17124&viewport=-171%2C-185%2C0.98&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+    }
+  },
+
   'snapchat-history-perception': {
     enabled: true,
     section: 'snapchat',
