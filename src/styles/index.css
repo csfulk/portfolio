@@ -85,7 +85,7 @@
 
 .role {
   color: var(--textPrimary);
-  font-weight: var(--typography-font-weight-medium);
+  font-weight: var(--typography-font-weight-semibold);
 }
 
 .detail {
