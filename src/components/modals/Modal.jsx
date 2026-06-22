@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import '../../styles/modal.css';
 import FeaturedProjectViewer from '../viewers/ProjectViewer';
 import FigmaEmbedViewer from '../viewers/FigmaEmbedViewer';
+import HtmlEmbedViewer from '../viewers/HtmlEmbedViewer';
 import { eventTracker } from '@services/core/EventTracker.js';
 
 const Modal = ({
@@ -83,6 +84,15 @@ const Modal = ({
     return (
       <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
         <FigmaEmbedViewer embedUrl={modalContent.embedUrl} onClose={closeModal} />
+      </div>
+    );
+  }
+
+  // Handle HtmlEmbedViewer (self-contained HTML presentations, e.g. Keynote exports)
+  if (modalContent && modalContent.type === 'HtmlEmbedViewer') {
+    return (
+      <div className={`modal-overlay ${isModalOpen ? 'visible' : ''}`} onClick={closeModal}>
+        <HtmlEmbedViewer url={modalContent.url} title={modalContent.title} onClose={closeModal} />
       </div>
     );
   }

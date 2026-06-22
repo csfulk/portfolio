@@ -45,6 +45,15 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
         });
         break;
       }
+      case 'HtmlEmbedViewer': {
+        // Open a self-contained HTML presentation (e.g. exported Keynote deck)
+        authenticateAndOpenViewer({
+          type: 'HtmlEmbedViewer',
+          url: action.url,
+          title: action.title,
+        });
+        break;
+      }
       default:
         console.error('Unknown action type in handleCaseStudyClick:', action.type);
     }

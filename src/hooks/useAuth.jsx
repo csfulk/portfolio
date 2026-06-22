@@ -17,6 +17,12 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
           type: 'FigmaEmbedViewer',
           embedUrl: viewerProps.embedUrl,
         });
+      } else if (viewerProps.type === 'HtmlEmbedViewer') {
+        setModalContent({
+          type: 'HtmlEmbedViewer',
+          url: viewerProps.url,
+          title: viewerProps.title,
+        });
       } else {
         setModalContent({
           type: 'FeaturedProjectViewer',
@@ -43,6 +49,12 @@ const useAuth = ({ startTransition, completeTransition, setModalContent, setExpa
                 setModalContent({
                   type: 'FigmaEmbedViewer',
                   embedUrl: pendingViewerPropsRef.current.embedUrl,
+                });
+              } else if (pendingViewerPropsRef.current.type === 'HtmlEmbedViewer') {
+                setModalContent({
+                  type: 'HtmlEmbedViewer',
+                  url: pendingViewerPropsRef.current.url,
+                  title: pendingViewerPropsRef.current.title,
                 });
               } else {
                 setModalContent({

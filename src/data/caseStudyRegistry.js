@@ -55,8 +55,8 @@ export const caseStudyRegistry = {
       }
     },
     viewer: {
-      type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/xMLIEH8e4KGIyxoTUUCFO6/Strategic-Redesign-of-YouTube-on-TV?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+      type: 'HtmlEmbedViewer',
+      url: '/assets/keynoteHTML/youtube_strategic_redesign/index.html'
     }
   },
 
@@ -85,7 +85,7 @@ export const caseStudyRegistry = {
     enabled: true,
     section: 'youtube',
     button: {
-      text: 'Movies & TV: Unifying & Scaling Core Experience',
+      text: 'Scaling Movies & TV with UXR & Eng',
       icon: {
         unauthenticated: 'Lock',
         authenticated: 'Emoji',
@@ -94,10 +94,12 @@ export const caseStudyRegistry = {
       }
     },
     viewer: {
-      type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/3LTgOAAvTjpOfY96s0RZnp/Simplifying-Core-User-Journeys-with-UXR---Eng-Collaboration?node-id=103-8015&viewport=-95%2C-25%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
+      type: 'HtmlEmbedViewer',
+      url: '/assets/keynoteHTML/movies_tv_unifying_core_experiences/index.html'
     }
   },
+
+  
 
   'youtube-design-systems': {
     enabled: false, // DISABLED per your request
