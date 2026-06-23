@@ -22,7 +22,7 @@ In 2018, I also led the design system for YouTube on TV. That system still power
     logo: 'assets/snapchat_logo_colt.fulk.webp',
     title: 'Design Systems & Platform Cohesion at Snapchat',
     subtitle: 'Full-time, February 2024 to Present',
-    description: `At Snapchat, I’ve led the evolution of our design system—introducing a unified color primitive and token framework that established light and dark mode parity, elevated accessibility, and reinforced visual consistency across platforms.
+    description: `At Snapchat, I led the evolution of the design system—introducing a unified color primitive and token framework that established light and dark mode parity, elevated accessibility, and reinforced visual consistency across platforms.
 
 I also led end-to-end design for Snapchat’s first iPad launch, reimagining key experiences for larger screens while maintaining the playful familiarity of mobile. The launch drove measurable growth and received coverage from The Verge, TechCrunch, and Vanity Fair.
 
