@@ -86,3 +86,147 @@
 .nav-item .icon-linkedin {
   color: var(--textNeutralPrimary); /* Set to white or any desired color */
 }
+
+/* ------------------------------------------------------------------ */
+/* Mobile hamburger + left drawer (≤768px)                            */
+/* ------------------------------------------------------------------ */
+
+/* Desktop default: no mobile chrome rendered. */
+.nav-hamburger,
+.mobile-nav-backdrop,
+.mobile-nav-drawer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Collapse the horizontal bar into a single hamburger. */
+  .navigation .nav-list.left,
+  .navigation .nav-list.right {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--colors-text-inverse);
+    cursor: pointer;
+  }
+
+  /* Backdrop: fades in behind the drawer, tap to close. */
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: var(--surfaceOverlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 900;
+  }
+
+  .mobile-nav-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Left slide-in drawer. */
+  .mobile-nav-drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(80vw, 320px);
+    box-sizing: border-box;
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    gap: var(--spacing-lg);
+    overflow-y: auto;
+    background: var(--colors-surface-modal);
+    color: var(--colors-text-inverse);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1001;
+  }
+
+  .mobile-nav-drawer.open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-close {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--colors-text-inverse);
+    cursor: pointer;
+  }
+
+  /* Section links: large tap targets. */
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    padding: var(--spacing-sm) 0;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: var(--typography-scales-heading-5-font-size);
+    color: var(--colors-text-inverse);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link:active {
+    color: var(--colors-text-secondary);
+  }
+
+  /* Footer: Select Projects + LinkedIn, pinned below the links. */
+  .mobile-nav-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--colors-interactive-outline);
+  }
+
+  .mobile-nav-linkedin {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-height: 44px;
+    color: var(--colors-text-inverse);
+    text-decoration: none;
+  }
+
+  .mobile-nav-linkedin:hover {
+    color: var(--colors-text-secondary);
+  }
+
+  .mobile-nav-linkedin .icon-linkedin {
+    color: inherit;
+  }
+}
+
+/* Respect reduced-motion preferences. */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .mobile-nav-backdrop,
+  .mobile-nav-drawer {
+    transition: none;
+  }
+}

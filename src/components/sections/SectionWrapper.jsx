@@ -17,6 +17,14 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
   // Use lazy loading for the section image with 85% visibility threshold
   const { imgRef, isLoaded, isVisible, imageSrc } = useLazyImage(image, 0.9);
 
+  // Second lazy-load instance bound to the mobile-only copy of the image, rendered
+  // inside the text column directly under the title. Only the variant that is visible
+  // at the current breakpoint actually fetches — the display:none one never intersects.
+  // Uses a low visibility threshold (vs 0.9 desktop): on the compact mobile stack the
+  // lower sections never reach 90% visibility before the page bottom, so require only a
+  // sliver to trigger the load.
+  const { imgRef: mobileImgRef, isLoaded: mobileLoaded, imageSrc: mobileSrc } = useLazyImage(image, 0.01);
+
   // Section time-on-page tracking
   const sectionRef  = useRef(null);
   const enterTimeRef = useRef(null);
@@ -54,6 +62,21 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
             <h3 className="section-title">
               {title}
             </h3>
+          )}
+          {/* Mobile-only image: sits directly under the title. Hidden >768px via CSS;
+              the desktop image lives in .section-right. */}
+          {image && (
+            <div className="section-image-mobile">
+              <img
+                ref={mobileImgRef}
+                src={mobileSrc || ''}
+                alt={title}
+                className={`section-image ${mobileLoaded ? 'loaded' : 'loading'}`}
+                style={{
+                  visibility: mobileSrc ? 'var(--visibility-visible)' : 'var(--visibility-hidden)'
+                }}
+              />
+            </div>
           )}
           {subtitle && (
             <p className="section-subtitle">

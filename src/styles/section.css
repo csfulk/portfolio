@@ -208,6 +208,11 @@
   color: var(--colors-text-inverse);
 }
 
+/* Mobile-only copy of the section image (rendered under the title); shown ≤768px. */
+.section-image-mobile {
+  display: none;
+}
+
 /* Image - Lazy loading with fade-in effect */
 .section-image {
   width: 100%; /* Image fills the full width of the column */
@@ -256,6 +261,13 @@
     padding-bottom: var(--spacing-2xl);
   }
 
+  /* Add breathing room between stacked sections on mobile (~50px). Use padding, not
+     margin, so the gap renders in the section's own dark background instead of the
+     white body background showing through. */
+  .section + .section {
+    padding-top: var(--spacing-4xl);
+  }
+
   .section-content {
     flex-direction: column;
     gap: var(--spacing-xl);
@@ -269,15 +281,20 @@
     padding-top: var(--spacing-semantic-section-content-offset, var(--spacing-lg));
   }
 
+  /* Desktop image column is replaced by the in-flow mobile copy under the title. */
   .section-right {
-    flex: 1 1 auto;
-    width: 100%;
-    height: auto;
-    position: relative;
-    top: auto;
-    overflow: visible;
-    padding: 0 var(--horizontal-padding);
-    box-sizing: border-box;
+    display: none;
+  }
+
+  .section-image-mobile {
+    display: block;
+    overflow: hidden; /* clip the overflowing bottom of the image */
+  }
+
+  /* Crop 40px off the bottom of the image: the negative margin shrinks the wrapper so
+     the image's bottom 40px overflows, which overflow:hidden then clips. */
+  .section-image-mobile .section-image {
+    margin-bottom: -40px;
   }
 
   .section-image {
