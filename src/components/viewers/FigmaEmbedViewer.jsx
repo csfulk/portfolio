@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Icon } from '@components';
 
 const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
   const [contentVisible, setContentVisible] = useState(false);
@@ -27,21 +28,23 @@ const FigmaEmbedViewer = ({ embedUrl, onClose }) => {
     >
       <button
         className="close-button"
-        style={{ 
-          position: 'absolute', 
-          top: 'var(--spacing-xl)', 
-          right: 'var(--spacing-3xl)', 
-          fontSize: 'var(--typography-scales-heading-2-font-size)', 
-          background: 'none', 
-          border: 'none', 
-          color: 'var(--colors-text-inverse)', 
-          cursor: 'pointer', 
-          zIndex: 'var(--z-index-tooltip)' 
+        style={{
+          position: 'absolute',
+          top: 'var(--spacing-xl)',
+          right: 'var(--spacing-3xl)',
+          display: 'var(--display-flex)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'none',
+          border: 'none',
+          color: 'var(--colors-text-inverse)',
+          cursor: 'pointer',
+          zIndex: 'var(--z-index-tooltip)'
         }}
         onClick={onClose}
         aria-label="Close dialog"
       >
-        ×
+        <Icon name="Xmark" size="xl" strokeWidth={2} aria-label="Close dialog" />
       </button>
       <div
         className={`image-container${contentVisible ? ' visible' : ''}`}
