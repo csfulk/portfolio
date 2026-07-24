@@ -45,6 +45,7 @@
 
 .nav-list {
   display: flex;
+  align-items: center; /* Vertically center nav items, buttons, and icons */
   gap: var(--spacing-xl); /* 1rem */
   list-style: none;
   margin: 0;
@@ -67,6 +68,8 @@
 }
 
 .nav-item {
+  display: flex;
+  align-items: center; /* Center the icon/anchor within each item */
   cursor: pointer;
   color: var(--surface-0);
   text-decoration: none;

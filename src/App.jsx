@@ -155,7 +155,10 @@ const App = () => {
   return (
     <ThemeProvider>
       <>
-        <Navigation />
+        <Navigation
+          handleCaseStudyClick={viewer.handleCaseStudyClick}
+          authenticated={authenticated}
+        />
         <Hero />
         <Suspense fallback={<div>Loading sections...</div>}>
           {sectionsData.map((section) => (
