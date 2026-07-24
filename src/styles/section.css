@@ -291,9 +291,14 @@
     overflow: hidden; /* clip the overflowing bottom of the image */
   }
 
-  /* Crop 40px off the bottom of the image: the negative margin shrinks the wrapper so
-     the image's bottom 40px overflows, which overflow:hidden then clips. */
   .section-image-mobile .section-image {
+    /* Always visible — the desktop .section-image starts at opacity:0 and only fades in
+       via a JS-added .loaded class; the mobile copy has no such class, so force it
+       visible to guarantee it shows on all devices. */
+    opacity: 1;
+    transform: none;
+    /* Crop 40px off the bottom: the negative margin shrinks the wrapper so the image's
+       bottom 40px overflows, which overflow:hidden (on the wrapper) then clips. */
     margin-bottom: -40px;
   }
 
