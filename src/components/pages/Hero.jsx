@@ -13,11 +13,11 @@ const Hero = () => {
         
         <div className='detail-wrapper'>
           <h4 className="role subtitle">
-            Product & Design Systems Lead
+            Product & Design Systems
           </h4>
 
           <p className="detail">
-            Reddit | ex: YouTube, Google and Apple
+            Google | ex: Reddit, YouTube and Apple
           </p>
 
           <p className="detail">
