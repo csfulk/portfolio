@@ -44,6 +44,18 @@ function baseHeaders(extra = {}) {
   };
 }
 
+/**
+ * Build PostgREST filter query params shared by visit/event reads.
+ * @param {{ since?: string, ownerFilter?: 'all'|'exclude'|'only' }} opts
+ */
+function filterParams({ since, ownerFilter = 'exclude' } = {}) {
+  let q = '';
+  if (since) q += `&created_at=gte.${encodeURIComponent(since)}`;
+  if (ownerFilter === 'exclude') q += '&is_owner=eq.false';
+  else if (ownerFilter === 'only') q += '&is_owner=eq.true';
+  return q;
+}
+
 export const supabaseClient = {
   /** Returns true only when both env vars are present */
   isConfigured() {
@@ -82,11 +94,11 @@ export const supabaseClient = {
    * @param {{ limit?: number, offset?: number }} opts
    * @returns {Promise<Object[]|null>}
    */
-  async getVisits({ limit = 500, offset = 0 } = {}) {
+  async getVisits({ limit = 500, offset = 0, since, ownerFilter } = {}) {
     if (!this.isConfigured()) return null;
     try {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/visits?select=*&order=created_at.desc&limit=${limit}&offset=${offset}`,
+        `${SUPABASE_URL}/rest/v1/visits?select=*&order=created_at.desc&limit=${limit}&offset=${offset}${filterParams({ since, ownerFilter })}`,
         { headers: baseHeaders() }
       );
       return res.ok ? res.json() : null;
@@ -100,10 +112,10 @@ export const supabaseClient = {
    * Returns the total visit count via the PostgREST range header.
    * @returns {Promise<number|null>}
    */
-  async getTotalCount() {
+  async getTotalCount({ since, ownerFilter } = {}) {
     if (!this.isConfigured()) return null;
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/visits?select=id&limit=1`, {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/visits?select=id${filterParams({ since, ownerFilter })}&limit=1`, {
         headers: baseHeaders({ 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }),
       });
       const cr = res.headers.get('content-range'); // e.g. "0-0/1234"
@@ -141,11 +153,11 @@ export const supabaseClient = {
    * @param {{ limit?: number, offset?: number }} opts
    * @returns {Promise<Object[]|null>}
    */
-  async getEvents({ limit = 300, offset = 0 } = {}) {
+  async getEvents({ limit = 300, offset = 0, since, ownerFilter } = {}) {
     if (!this.isConfigured()) return null;
     try {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/events?select=*&order=created_at.desc&limit=${limit}&offset=${offset}`,
+        `${SUPABASE_URL}/rest/v1/events?select=*&order=created_at.desc&limit=${limit}&offset=${offset}${filterParams({ since, ownerFilter })}`,
         { headers: baseHeaders() }
       );
       return res.ok ? res.json() : null;
@@ -159,10 +171,10 @@ export const supabaseClient = {
    * Total event count.
    * @returns {Promise<number|null>}
    */
-  async getEventTotalCount() {
+  async getEventTotalCount({ since, ownerFilter } = {}) {
     if (!this.isConfigured()) return null;
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id${filterParams({ since, ownerFilter })}&limit=1`, {
         headers: baseHeaders({ 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }),
       });
       const cr = res.headers.get('content-range');

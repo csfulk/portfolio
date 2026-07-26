@@ -4,6 +4,10 @@ import FeaturedProjectViewer from '../viewers/ProjectViewer';
 import FigmaEmbedViewer from '../viewers/FigmaEmbedViewer';
 import HtmlEmbedViewer from '../viewers/HtmlEmbedViewer';
 import { eventTracker } from '@services/core/EventTracker.js';
+import { analyticsTransport } from '@services/core/analyticsTransport.js';
+
+// All viewer types count as an opened "project" for time-in-content tracking.
+const VIEWER_TYPES = new Set(['FeaturedProjectViewer', 'FigmaEmbedViewer', 'HtmlEmbedViewer']);
 
 const Modal = ({
   isModalOpen,
@@ -19,11 +23,11 @@ const Modal = ({
   const openTitleRef = useRef(null);
 
   useEffect(() => {
-    const isProject = isModalOpen && modalContent?.type === 'FeaturedProjectViewer';
+    const isProject = isModalOpen && VIEWER_TYPES.has(modalContent?.type);
     if (isProject && !openTimeRef.current) {
       openTimeRef.current  = Date.now();
-      openTitleRef.current = modalContent?.title ?? null;
-      eventTracker.track('project_open', modalContent?.title ?? null);
+      openTitleRef.current = modalContent?.title ?? modalContent?.type ?? null;
+      eventTracker.track('project_open', openTitleRef.current);
     } else if (!isModalOpen && openTimeRef.current) {
       const seconds = Math.round((Date.now() - openTimeRef.current) / 1000);
       eventTracker.track('project_close', openTitleRef.current, seconds);
@@ -34,6 +38,17 @@ const Modal = ({
       openTitleRef.current = null;
     }
   }, [isModalOpen, modalContent?.type, modalContent?.title]);
+
+  // Recover project_close if the tab is closed/hidden while a viewer is open.
+  useEffect(() => {
+    return analyticsTransport.onBeforeFlush(() => {
+      if (!openTimeRef.current) return;
+      const seconds = Math.round((Date.now() - openTimeRef.current) / 1000);
+      eventTracker.track('project_close', openTitleRef.current, seconds);
+      openTimeRef.current  = null;
+      openTitleRef.current = null;
+    });
+  }, []);
 
   useEffect(() => {
     const html = document.documentElement;

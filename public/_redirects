@@ -1,4 +1,10 @@
 /resume.pdf /assets/resume/Colt-Fulk-Resume-2026.pdf 200!
   Content-Disposition: attachment; filename=Colt-Fulk-Resume-2026.pdf
 
+# Analytics ingestion — same-origin proxy to the Supabase `ingest` edge function.
+# Same-origin means no CORS and, crucially, not ad-blockable (blockers commonly
+# drop *.supabase.co). The function is deployed with verify_jwt=false so it's
+# publicly callable without an apikey. Must sit ABOVE the SPA catch-all.
+/api/collect  https://lhkvuqqeitfdztmttzax.supabase.co/functions/v1/ingest  200!
+
 /* /index.html 200

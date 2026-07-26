@@ -1,6 +1,7 @@
 /**
  * Event Tracker
- * Logs user interaction events to the Supabase `events` table.
+ * Records user-interaction events. Delivery is handled by analyticsTransport
+ * (queue + retry + sendBeacon) → the `ingest` edge function → Supabase `events`.
  *
  * Event types used across the app:
  *   section_view      — visitor spent time on a section (label=sectionId, value=seconds)
@@ -9,22 +10,17 @@
  *   project_close     — project viewer closed         (label=projectTitle, value=seconds open)
  *   password_success  — portfolio password correct
  *   password_fail     — incorrect password attempt
+ *   hero_cta          — hero call-to-action clicked
+ *   privacy_consent   — consent accept/decline
+ *
+ * Owner traffic is NOT suppressed here — owner events are sent and tagged
+ * server-side (is_owner) so the owner can verify tracking works, while the
+ * dashboard excludes them from real-visitor stats by default.
  */
 
-import { supabaseClient } from './supabaseClient.js';
-import { visitorIdentity } from './visitorIdentity.js';
+import { analyticsTransport } from './analyticsTransport.js';
 
 class EventTracker {
-  /** Reuses the same session ID as LocationService */
-  _sessionId() {
-    let id = sessionStorage.getItem('portfolio_session_id');
-    if (!id) {
-      id = Date.now().toString(36) + Math.random().toString(36).slice(2);
-      sessionStorage.setItem('portfolio_session_id', id);
-    }
-    return id;
-  }
-
   /**
    * Track an event.
    * @param {string}      eventType  One of the event type constants above
@@ -33,16 +29,13 @@ class EventTracker {
    * @param {Object|null} meta       Any extra JSON data
    */
   track(eventType, label = null, value = null, meta = null) {
-    if (!supabaseClient.isConfigured()) return;
-    if (visitorIdentity.isOwner) return; // suppress owner device tracking
-
-    supabaseClient.insertEvent({
-      session_id: this._sessionId(),
+    if (!analyticsTransport.isConfigured()) return;
+    analyticsTransport.enqueueEvent({
       event_type: eventType,
-      label:      label ?? null,
-      value:      value ?? null,
-      meta:       meta  ?? null,
-      ...visitorIdentity.fields,
+      label: label ?? null,
+      value: value ?? null,
+      meta: meta ?? null,
+      client_ts: Date.now(),
     });
   }
 }

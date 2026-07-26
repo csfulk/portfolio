@@ -11,13 +11,13 @@ import { privacyManager } from './core/PrivacyManager.js';
 import { pluginManager } from './plugins/PluginManager.js';
 import { imageService } from './core/ImageService.js';
 import { navigationService } from './core/NavigationService.js';
-import { analyticsService } from './core/AnalyticsService.js';
 import { locationService } from './core/LocationService.js';
+import { ownerToken } from './core/ownerToken.js';
+import { analyticsTransport } from './core/analyticsTransport.js';
 
 // Re-export services for external use
 export { imageService } from './core/ImageService.js';
 export { navigationService } from './core/NavigationService.js';
-export { analyticsService } from './core/AnalyticsService.js';
 export { configManager } from './core/ConfigManager.js';
 export { performanceMonitor } from './core/PerformanceMonitor.js';
 export { serviceManager } from './core/ServiceManager.js';
@@ -26,15 +26,15 @@ export { locationService } from './core/LocationService.js';
 export { supabaseClient } from './core/supabaseClient.js';
 export { eventTracker } from './core/EventTracker.js';
 export { visitorIdentity } from './core/visitorIdentity.js';
+export { ownerToken } from './core/ownerToken.js';
+export { analyticsTransport } from './core/analyticsTransport.js';
 
 // Plugin System
 export { pluginManager, PluginManager } from './plugins/PluginManager.js';
-export { analyticsPlugin } from './plugins/analyticsPlugin.js';
 
 // Service Classes (for custom instances)
 export { ImageService } from './core/ImageService.js';
 export { NavigationService } from './core/NavigationService.js';
-export { AnalyticsService } from './core/AnalyticsService.js';
 export { ConfigManager } from './core/ConfigManager.js';
 export { PerformanceMonitor } from './core/PerformanceMonitor.js';
 export { ServiceManager } from './core/ServiceManager.js';
@@ -57,7 +57,6 @@ async function _doInit(options = {}) {
   const {
     config = {},
     plugins = [],
-    enableAnalytics = true,
     enablePerformanceMonitoring = true,
     enableImageOptimization = true,
     enableNavigation = true,
@@ -67,6 +66,12 @@ async function _doInit(options = {}) {
   console.log('Initializing service layer with privacy compliance...');
 
   try {
+    // Owner self-identification: capture & strip any ?owner=<token> from the URL
+    // so subsequent requests are tagged server-side. Bind the reliable analytics
+    // transport (queue + retry + sendBeacon flush on tab-close, replay pending).
+    ownerToken.bootstrap();
+    analyticsTransport.init();
+
     // Initialize configuration first
     await configManager.load({
       defaults: config.defaults || {},
@@ -106,13 +111,6 @@ async function _doInit(options = {}) {
       serviceManager.register('navigation', navigationService, { 
         singleton: true, 
         dependencies: ['config'] 
-      });
-    }
-
-    if (enableAnalytics) {
-      serviceManager.register('analytics', analyticsService, { 
-        singleton: true, 
-        dependencies: ['config', 'performance'] 
       });
     }
 
@@ -158,7 +156,6 @@ async function _doInit(options = {}) {
 
     if (enableImageOptimization) services.images = imageService;
     if (enableNavigation) services.navigation = navigationService;
-    if (enableAnalytics) services.analytics = analyticsService;
     if (enableLocationTracking) services.location = locationService;
 
     // Make services globally available for development/debugging
