@@ -8,10 +8,30 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabaseClient } from '@services/core/supabaseClient.js';
 import { ownerToken } from '@services/core/ownerToken.js';
+import { getCaseStudyByKey } from '@data';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 const DEVICE_EMOJI = { desktop: '🖥️', mobile: '📱', tablet: '📲', unknown: '❓' };
+
+// Friendly names for tracked buttons/CTAs on the Interactions tab.
+const HERO_LABELS = { case_studies: '🎬 View Case Studies', resume: '📄 Résumé' };
+const CTA_TYPE_ICON = { hero_cta: '🎯', case_study_click: '🖱️', project_open: '📂' };
+
+const prettify = (s) => (s || '')
+  .split(/[-_]/).filter(Boolean)
+  .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+  .join(' ');
+
+// Turn a raw (event_type, label) into a human button name.
+const interactionLabel = (type, label) => {
+  switch (type) {
+    case 'hero_cta':         return HERO_LABELS[label] || `Hero · ${label || '—'}`;
+    case 'case_study_click': return getCaseStudyByKey(label)?.button?.text || prettify(label) || '—';
+    case 'project_open':     return label || 'Untitled project';
+    default:                 return label || type;
+  }
+};
 
 // Convert a date-range key to an ISO cutoff (or undefined for "all time").
 const rangeToIso = (range) => {
@@ -694,6 +714,79 @@ const JourneysTab = ({ visits, events }) => {
   );
 };
 
+// ─── Interactions Tab (per-button / per-CTA clicks) ──────────────────────────
+
+const CTA_TYPES = ['hero_cta', 'case_study_click', 'project_open'];
+
+const InteractionsTab = ({ events }) => {
+  const evts = events || [];
+
+  // Aggregate per (event_type, label): total clicks, unique visitors, last click.
+  const groups = {};
+  let heroTotal = 0, caseTotal = 0, projTotal = 0, pwOk = 0, pwFail = 0;
+
+  evts.forEach(e => {
+    if (e.event_type === 'hero_cta')          heroTotal++;
+    if (e.event_type === 'case_study_click')  caseTotal++;
+    if (e.event_type === 'project_open')      projTotal++;
+    if (e.event_type === 'password_success')  pwOk++;
+    if (e.event_type === 'password_fail')     pwFail++;
+    if (!CTA_TYPES.includes(e.event_type)) return;
+
+    const k = `${e.event_type}::${e.label ?? ''}`;
+    if (!groups[k]) groups[k] = { type: e.event_type, label: e.label, count: 0, visitors: new Set(), last: null };
+    groups[k].count += 1;
+    groups[k].visitors.add(e.visitor_id || e.session_id);
+    if (!groups[k].last || e.created_at > groups[k].last) groups[k].last = e.created_at;
+  });
+
+  const rows = Object.values(groups)
+    .map(g => ({ ...g, visitors: g.visitors.size }))
+    .sort((a, b) => b.count - a.count);
+  const maxCount = rows[0]?.count ?? 1;
+
+  return (
+    <div style={{ marginTop: 0 }}>
+      {/* Summary totals */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
+        <StatCard label="Hero CTA clicks"   value={heroTotal} />
+        <StatCard label="Case study clicks" value={caseTotal} />
+        <StatCard label="Projects opened"   value={projTotal} />
+        {(pwOk + pwFail) > 0 && (
+          <StatCard label="Password attempts" value={`${pwOk}✓ / ${pwFail}✗`} />
+        )}
+      </div>
+
+      {/* Ranked leaderboard of every button / CTA */}
+      <div style={cardStyle}>
+        <h3 style={cardTitle}>🖱️ Buttons &amp; CTAs — ranked by clicks</h3>
+        {rows.length === 0
+          ? <p style={emptyMsg}>No button clicks in this range yet.</p>
+          : rows.map(r => (
+              <BarRow
+                key={`${r.type}::${r.label}`}
+                flag={CTA_TYPE_ICON[r.type]}
+                label={
+                  <span>
+                    {interactionLabel(r.type, r.label)}
+                    <span style={{ color: 'var(--colors-text-tertiary, #999)' }}>
+                      {' · '}{r.visitors} visitor{r.visitors !== 1 ? 's' : ''}
+                    </span>
+                  </span>
+                }
+                count={r.count}
+                max={maxCount}
+              />
+            ))}
+      </div>
+
+      <p style={{ marginTop: 12, fontSize: 11, color: 'var(--colors-text-tertiary, #999)', textAlign: 'center' }}>
+        Clicks respect the Range / Owner / Device filters above · “visitors” = distinct people who clicked
+      </p>
+    </div>
+  );
+};
+
 // ─── Main Dashboard ────────────────────────────────────────────────────────
 
 const DashboardContent = ({ onLogout }) => {
@@ -859,7 +952,7 @@ const DashboardContent = ({ onLogout }) => {
         padding: '0 32px',
         background: 'var(--colors-background-secondary, #f8f9fa)',
       }}>
-        {[['stats', '📊 Stats'], ['journeys', '🧭 Journeys']].map(([tab, label]) => (
+        {[['stats', '📊 Stats'], ['interactions', '🖱️ Interactions'], ['journeys', '🧭 Journeys']].map(([tab, label]) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -890,6 +983,7 @@ const DashboardContent = ({ onLogout }) => {
             filteredVisits={filteredVisits}
           />
         )}
+        {activeTab === 'interactions' && <InteractionsTab events={filteredEvents} />}
         {activeTab === 'journeys' && <JourneysTab visits={filteredVisits} events={filteredEvents} />}
       </div>
     </div>
