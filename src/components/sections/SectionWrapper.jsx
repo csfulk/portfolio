@@ -3,19 +3,36 @@ import { Button } from '@components';
 import { scrollToSection } from '@scripts';
 import { useExpandable, useLazyImage } from '@hooks';
 import { eventTracker } from '@services/core/EventTracker.js';
+import { analyticsTransport } from '@services/core/analyticsTransport.js';
 import '@styles/section.css';
 
-const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
-  if (!section) {
-    console.error('Section data is undefined');
-    return null;
-  }
+// Module-level active-section tracker shared across all section instances. The
+// IntersectionObserver only logs `section_view` on scroll-OUT, so the section a
+// visitor is on at tab-close would otherwise never be recorded. A single
+// before-unload hook flushes the in-progress dwell of whichever section is active.
+let activeSection = null; // { id, enterTime }
+let sectionUnloadHookRegistered = false;
 
-  const { id, className, logo, title, subtitle, description, bulletPoints = [], image, caseStudies = [] } = section;
-  const { isExpanded, isTruncated, isInitiallyTruncated, toggleExpand, descriptionRef } = useExpandable(description);
-  
+function registerSectionUnloadHook() {
+  if (sectionUnloadHookRegistered) return;
+  sectionUnloadHookRegistered = true;
+  analyticsTransport.onBeforeFlush(() => {
+    if (!activeSection) return;
+    const seconds = Math.round((Date.now() - activeSection.enterTime) / 1000);
+    if (seconds >= 2) {
+      eventTracker.track('section_view', activeSection.id, seconds);
+      // Reset the timer so returning to a backgrounded tab doesn't double-count.
+      activeSection.enterTime = Date.now();
+    }
+  });
+}
+
+const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
+  const { id, className, logo, title, subtitle, description, bulletPoints = [], image, caseStudies = [] } = section || {};
+  const { isExpanded, isInitiallyTruncated, toggleExpand, descriptionRef } = useExpandable(description);
+
   // Use lazy loading for the section image with 85% visibility threshold
-  const { imgRef, isLoaded, isVisible, imageSrc } = useLazyImage(image, 0.9);
+  const { imgRef, isLoaded, imageSrc } = useLazyImage(image, 0.9);
 
   // Mobile-only copy of the image renders directly under the title (the desktop image
   // lives in .section-right, hidden on mobile). It uses the browser's native lazy
@@ -25,20 +42,20 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
   // so a cached image that loads before any handler runs can never end up hidden.
 
   // Section time-on-page tracking
-  const sectionRef  = useRef(null);
-  const enterTimeRef = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+    registerSectionUnloadHook();
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          enterTimeRef.current = Date.now();
-        } else if (enterTimeRef.current !== null) {
-          const seconds = Math.round((Date.now() - enterTimeRef.current) / 1000);
+          activeSection = { id, enterTime: Date.now() };
+        } else if (activeSection && activeSection.id === id) {
+          const seconds = Math.round((Date.now() - activeSection.enterTime) / 1000);
           if (seconds >= 2) eventTracker.track('section_view', id, seconds);
-          enterTimeRef.current = null;
+          activeSection = null;
         }
       },
       { threshold: 0.3 }
@@ -46,6 +63,11 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
     observer.observe(el);
     return () => observer.disconnect();
   }, [id]);
+
+  if (!section) {
+    console.error('Section data is undefined');
+    return null;
+  }
 
   return (
     <section ref={sectionRef} id={id} className={`section ${className || ''}`}>

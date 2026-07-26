@@ -1,0 +1,9 @@
+# Supabase project config.
+# project ref: lhkvuqqeitfdztmttzax  (https://lhkvuqqeitfdztmttzax.supabase.co)
+project_id = "lhkvuqqeitfdztmttzax"
+
+# The analytics ingestion endpoint. Anonymous site visitors have no Supabase
+# JWT, so JWT verification must be OFF — the function does its own validation
+# (payload shape/size caps, owner-token check) and writes with the service role.
+[functions.ingest]
+verify_jwt = false

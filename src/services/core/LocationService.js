@@ -4,19 +4,12 @@
  */
 
 import { privacyManager } from './PrivacyManager.js';
-import { supabaseClient } from './supabaseClient.js';
-import { visitorIdentity } from './visitorIdentity.js';
+import { analyticsTransport } from './analyticsTransport.js';
 
 class LocationService {
   constructor() {
     this.locationData = null;
     this.isEnabled = false;
-    this.apis = [
-      // All three support HTTPS from the browser (free, no API key required)
-      'https://ipapi.co/json/',      // ~30k req/month free — postal code, district
-      'https://ipwho.is/',           // generous free tier — city, region, ISP
-      'https://ipwhois.app/json/',   // backup — country, region, city
-    ];
   }
 
   /**
@@ -27,16 +20,11 @@ class LocationService {
       console.log('Location tracking disabled - no consent');
       return false;
     }
-
-    try {
-      this.isEnabled = true;
-      await this._detectLocation();
-      console.log('✅ Location service initialized');
-      return true;
-    } catch (error) {
-      console.warn('Location detection failed:', error);
-      return false;
-    }
+    // Geo is now derived SERVER-SIDE (from the real request IP) in the `ingest`
+    // edge function — the client no longer calls IP-geo APIs. We only keep the
+    // consent gate here so a declining visitor produces no visit row.
+    this.isEnabled = true;
+    return true;
   }
 
   /**
@@ -97,33 +85,19 @@ class LocationService {
    * @param {Object} pageData - Page information
    */
   trackVisit(pageData = {}) {
-    if (!this.isEnabled || !this.locationData) return;
+    if (!this.isEnabled) return; // consent-gated in initialize()
 
-    const visitData = {
-      ...pageData,
-      location: this.getAnalyticsData(),
-      userAgent: navigator.userAgent,
-      referrer: document.referrer,
-      language: navigator.language,
-      screen: {
-        width: screen.width,
-        height: screen.height
-      },
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      },
-      timestamp: Date.now(),
-      sessionId: this._getSessionId()
-    };
-
-    // Store visit data locally
-    this._storeVisit(visitData);
-
-    // Send to analytics if configured
-    this._sendToAnalytics(visitData);
-
-    console.log('📍 Visit tracked with location:', this.getAnalyticsData());
+    // Client-only fields; the server adds geo (from real IP) + device/browser/os
+    // (from the User-Agent header) + owner tagging before writing the visit row.
+    analyticsTransport.enqueueVisit({
+      referrer: document.referrer || null,
+      page: pageData.page ?? window.location.pathname,
+      language: navigator.language || null,
+      screen_width: screen.width,
+      screen_height: screen.height,
+      viewport_width: window.innerWidth,
+      viewport_height: window.innerHeight,
+    });
   }
 
   /**
@@ -171,7 +145,7 @@ class LocationService {
         try {
           const domain = new URL(visit.referrer).hostname;
           referrers[domain] = (referrers[domain] || 0) + 1;
-        } catch (e) {
+        } catch {
           referrers['direct'] = (referrers['direct'] || 0) + 1;
         }
       } else {
@@ -277,108 +251,6 @@ class LocationService {
   }
 
   /**
-   * Detect visitor location with enhanced granularity
-   * @private
-   */
-  async _detectLocation() {
-    const locationData = {};
-    let successfulAPIs = 0;
-
-    // Try each API in order; stop as soon as we have city + postal data
-    for (const url of this.apis) {
-      try {
-        console.log(`🔍 Trying geo API: ${url}`);
-
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(6000),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          // Some APIs signal an error inside the JSON body
-          if (data.error === true || data.status === 'fail') {
-            console.warn(`⚠️  ${url} returned an error payload — skipping`);
-            continue;
-          }
-          this._mergeLocationData(locationData, data, url);
-          successfulAPIs++;
-          console.log(`✅ Got location data from ${url}`);
-
-          // Stop early once we have enough detail
-          if (locationData.city && locationData.postal) break;
-        }
-      } catch (error) {
-        console.warn(`❌ Geo API failed (${url}):`, error.message);
-      }
-    }
-
-    // Use merged data or fallback
-    if (successfulAPIs > 0) {
-      this.locationData = locationData;
-      console.log(`📍 Location detected via ${successfulAPIs} APIs with granularity:`, {
-        country: !!locationData.country_name,
-        region: !!locationData.region,
-        city: !!locationData.city,
-        postalCode: !!locationData.postal,
-        neighborhood: !!(locationData.neighbourhood || locationData.neighborhood)
-      });
-    } else {
-      // If all APIs fail, create minimal location data
-      this.locationData = {
-        country_name: 'Unknown',
-        country_code: 'XX',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        language: navigator.language,
-        source: 'browser-fallback'
-      };
-      console.log('📍 Using fallback location detection');
-    }
-  }
-
-  /**
-   * Merge location data from different APIs
-   * @private
-   */
-  _mergeLocationData(target, source, apiName) {
-    // Country data
-    target.country_name = target.country_name || source.country_name || source.country;
-    target.country_code = target.country_code || source.country_code || source.countryCode;
-    
-    // Regional data
-    target.region = target.region || source.region || source.region_name || source.regionName;
-    target.region_code = target.region_code || source.region_code || source.regionCode;
-    
-    // City/local data
-    target.city = target.city || source.city;
-    target.district = target.district || source.district;
-    target.county = target.county || source.county;
-    
-    // Postal/ZIP code (key for granular tracking)
-    target.postal = target.postal || source.postal || source.zip || source.zipcode || source.zip_code;
-    
-    // Neighborhood data (most granular)
-    target.neighbourhood = target.neighbourhood || source.neighbourhood || source.neighborhood;
-    target.suburb = target.suburb || source.suburb;
-    
-    // Network/ISP data
-    target.org = target.org || source.org || source.isp || source.organization;
-    target.asn = target.asn || source.asn;
-    
-    // Coordinates (for distance calculations)
-    target.latitude = target.latitude || source.latitude || source.lat;
-    target.longitude = target.longitude || source.longitude || source.lon || source.lng;
-    
-    // Time zone
-    target.timezone = target.timezone || source.timezone;
-    
-    // Keep track of API sources
-    target.sources = target.sources || [];
-    target.sources.push(apiName);
-  }
-
-  /**
    * Check if user has given consent for location tracking.
    * Uses the imported singleton directly so this works even before
    * window.portfolioServices is populated.
@@ -430,47 +302,6 @@ class LocationService {
     } catch (error) {
       console.warn('Failed to parse stored visits:', error);
       return [];
-    }
-  }
-
-  /**
-   * Send visit data to Supabase (and GA if available)
-   * @private
-   */
-  _sendToAnalytics(visitData) {
-    if (visitorIdentity.isOwner) return; // suppress owner device tracking
-    // Persist to Supabase — the row shape matches the visits table schema
-    const row = {
-      country:       visitData.location?.country      ?? null,
-      country_code:  visitData.location?.countryCode  ?? null,
-      region:        visitData.location?.region        ?? null,
-      city:          visitData.location?.city          ?? null,
-      postal_code:   visitData.location?.postalCode    ?? null,
-      isp:           visitData.location?.isp           ?? null,
-      timezone:      visitData.location?.timezone      ?? null,
-      referrer:      visitData.referrer                || null,
-      page:          visitData.page                   ?? window.location.pathname,
-      user_agent:    visitData.userAgent              ?? null,
-      language:      visitData.language               ?? null,
-      screen_width:  visitData.screen?.width          ?? null,
-      screen_height: visitData.screen?.height         ?? null,
-      session_id:    visitData.sessionId              ?? null,
-      ...visitorIdentity.fields,
-    };
-
-    supabaseClient.insertVisit(row).then(ok => {
-      if (ok) console.log('📬 Visit persisted to Supabase');
-    });
-
-    // Optional: also forward to Google Analytics if gtag is present
-    if (typeof gtag === 'function') {
-      gtag('event', 'portfolio_visit', {
-        country: row.country,
-        region:  row.region,
-        referrer_domain: row.referrer
-          ? (new URL(row.referrer).hostname)
-          : 'direct',
-      });
     }
   }
 

@@ -5,11 +5,20 @@
  * Reads from Supabase (requires VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY).
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabaseClient } from '@services/core/supabaseClient.js';
-import { visitorIdentity } from '@services/core/visitorIdentity.js';
+import { ownerToken } from '@services/core/ownerToken.js';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
+
+const DEVICE_EMOJI = { desktop: '🖥️', mobile: '📱', tablet: '📲', unknown: '❓' };
+
+// Convert a date-range key to an ISO cutoff (or undefined for "all time").
+const rangeToIso = (range) => {
+  const now = Date.now();
+  const map = { '24h': 864e5, '7d': 7 * 864e5, '30d': 30 * 864e5 };
+  return map[range] ? new Date(now - map[range]).toISOString() : undefined;
+};
 
 const countryFlag = (code) => {
   if (!code || code.length !== 2) return '🌍';
@@ -101,27 +110,47 @@ const parseReferrer = (ref) => {
 // Stats bar chart shim — keeps cleanReferrer() working with no other changes
 const cleanReferrer = (ref) => parseReferrer(ref).label;
 
-const summarize = (visits) => {
-  const countries = {};
-  const cities    = {};
-  const referrers = {};
-  let lastVisit   = null;
-
+// One representative (most-recent) visit per session, so a session with several
+// visit rows doesn't inflate geo/device counts. Country/city/referrer/device
+// breakdowns are all counted per unique session.
+const dedupeBySession = (visits) => {
+  const bySession = {};
   visits.forEach(v => {
-    if (v.country)  countries[v.country]              = (countries[v.country]  || 0) + 1;
-    if (v.city)     cities[`${v.city}, ${v.region || v.country || ''}`] = (cities[`${v.city}, ${v.region || v.country || ''}`] || 0) + 1;
-    const ref = cleanReferrer(v.referrer);
-    referrers[ref] = (referrers[ref] || 0) + 1;
-    if (!lastVisit || v.created_at > lastVisit) lastVisit = v.created_at;
+    const k = v.session_id || `row-${v.id}`;
+    if (!bySession[k] || (v.created_at || '') > (bySession[k].created_at || '')) bySession[k] = v;
+  });
+  return Object.values(bySession);
+};
+
+const summarize = (visits) => {
+  const sessions = dedupeBySession(visits);
+  const countries = {}, cities = {}, referrers = {}, devices = {}, browsers = {}, oses = {};
+  let lastVisit = null;
+
+  sessions.forEach(v => {
+    if (v.country) countries[v.country] = (countries[v.country] || 0) + 1;
+    if (v.city) {
+      const key = `${v.city}, ${v.region || v.country || ''}`;
+      cities[key] = (cities[key] || 0) + 1;
+    }
+    referrers[cleanReferrer(v.referrer)] = (referrers[cleanReferrer(v.referrer)] || 0) + 1;
+    const dev = v.device_type || 'unknown';
+    devices[dev] = (devices[dev] || 0) + 1;
+    if (v.browser) browsers[v.browser] = (browsers[v.browser] || 0) + 1;
+    if (v.os) oses[v.os] = (oses[v.os] || 0) + 1;
+    if (!lastVisit || (v.created_at || '') > lastVisit) lastVisit = v.created_at;
   });
 
-  const sorted = (obj) =>
-    Object.entries(obj).sort(([, a], [, b]) => b - a);
+  const sorted = (obj) => Object.entries(obj).sort(([, a], [, b]) => b - a);
 
   return {
+    sessionCount: sessions.length,
     topCountries: sorted(countries).slice(0, 8),
     topCities:    sorted(cities).slice(0, 8),
     topReferrers: sorted(referrers).slice(0, 6),
+    devices:      sorted(devices),
+    browsers:     sorted(browsers).slice(0, 6),
+    oses:         sorted(oses).slice(0, 6),
     lastVisit,
   };
 };
@@ -167,6 +196,30 @@ const BarRow = ({ label, count, max, flag }) => {
     </div>
   );
 };
+
+const Segmented = ({ label, options, value, onChange }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.4, color: 'var(--colors-text-tertiary, #999)' }}>
+      {label}
+    </span>
+    <div style={{ display: 'inline-flex', border: '1px solid var(--colors-border-primary, #e0e0e0)', borderRadius: 8, overflow: 'hidden' }}>
+      {options.map(([val, lbl]) => (
+        <button
+          key={val}
+          onClick={() => onChange(val)}
+          style={{
+            padding: '5px 11px', fontSize: 12, border: 'none', cursor: 'pointer',
+            background: value === val ? 'var(--colors-accent-primary, #0066cc)' : 'transparent',
+            color: value === val ? '#fff' : 'var(--colors-text-secondary, #666)',
+            fontWeight: value === val ? 600 : 400,
+          }}
+        >
+          {lbl}
+        </button>
+      ))}
+    </div>
+  </div>
+);
 
 // ─── Login Screen ──────────────────────────────────────────────────────────
 
@@ -250,7 +303,7 @@ const LoginScreen = ({ onAuth }) => {
 
 // ─── Stats Tab ──────────────────────────────────────────────────────────────
 
-const StatsTab = ({ visits, total, events, totalEvents, filteredVisits }) => {
+const StatsTab = ({ total, events, totalEvents, filteredVisits }) => {
   // ── Visit aggregates
   const stats   = filteredVisits ? summarize(filteredVisits) : { topCountries: [], topCities: [], topReferrers: [], lastVisit: null };
   const maxC    = stats.topCountries[0]?.[1] ?? 1;
@@ -298,6 +351,7 @@ const StatsTab = ({ visits, total, events, totalEvents, filteredVisits }) => {
       {/* ── Combined stat cards */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
         <StatCard label="Total visits"      value={total ?? filteredVisits?.length ?? 0} />
+        <StatCard label="Sessions"          value={stats.sessionCount} sub="unique session ids" />
         <StatCard label="Unique countries"  value={stats.topCountries.length} />
         <StatCard label="Last visit"        value={stats.lastVisit ? formatDate(stats.lastVisit) : '—'} />
         <StatCard label="Total events"      value={totalEvents ?? events?.length ?? 0} />
@@ -338,6 +392,34 @@ const StatsTab = ({ visits, total, events, totalEvents, filteredVisits }) => {
             ? <p style={emptyMsg}>No data yet</p>
             : stats.topReferrers.map(([ref, count]) => (
                 <BarRow key={ref} label={ref} count={count} max={stats.topReferrers[0][1]} />
+              ))}
+        </div>
+      </div>
+
+      {/* ── Device breakdown (by unique session) */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 32 }}>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>🖥️ Device Type</h3>
+          {stats.devices.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.devices.map(([name, count]) => (
+                <BarRow key={name} label={`${DEVICE_EMOJI[name] || ''} ${name}`} count={count} max={stats.devices[0][1]} />
+              ))}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>🌐 Browser</h3>
+          {stats.browsers.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.browsers.map(([name, count]) => (
+                <BarRow key={name} label={name} count={count} max={stats.browsers[0][1]} />
+              ))}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={cardTitle}>💻 Operating System</h3>
+          {stats.oses.length === 0
+            ? <p style={emptyMsg}>No data yet</p>
+            : stats.oses.map(([name, count]) => (
+                <BarRow key={name} label={name} count={count} max={stats.oses[0][1]} />
               ))}
         </div>
       </div>
@@ -623,16 +705,15 @@ const DashboardContent = ({ onLogout }) => {
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
 
-  // Owner device controls
-  const [isOwner,     setIsOwnerState] = useState(() => visitorIdentity.isOwner);
-  const [hideOwner,   setHideOwner]    = useState(true);
-  const myVisitorId = visitorIdentity.id;
+  // Filters: dateRange + ownerFilter are applied SERVER-SIDE (via Supabase
+  // query params); deviceFilter is applied client-side to the fetched rows.
+  const [dateRange,    setDateRange]    = useState('30d');
+  const [ownerFilter,  setOwnerFilter]  = useState('exclude');
+  const [deviceFilter, setDeviceFilter] = useState('all');
+  const [copied,       setCopied]       = useState(false);
 
-  const toggleOwner = () => {
-    const next = !isOwner;
-    visitorIdentity.setOwner(next);
-    setIsOwnerState(next);
-  };
+  const myToken = ownerToken.get();
+  const since = useMemo(() => rangeToIso(dateRange), [dateRange]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -644,11 +725,12 @@ const DashboardContent = ({ onLogout }) => {
       return;
     }
 
+    const opts = { since, ownerFilter };
     const [rows, count, evtRows, evtCount] = await Promise.all([
-      supabaseClient.getVisits({ limit: 500 }),
-      supabaseClient.getTotalCount(),
-      supabaseClient.getEvents({ limit: 500 }),
-      supabaseClient.getEventTotalCount(),
+      supabaseClient.getVisits({ limit: 500, ...opts }),
+      supabaseClient.getTotalCount(opts),
+      supabaseClient.getEvents({ limit: 500, ...opts }),
+      supabaseClient.getEventTotalCount(opts),
     ]);
 
     if (rows === null) {
@@ -660,9 +742,18 @@ const DashboardContent = ({ onLogout }) => {
     setEvents(evtRows);
     setTotalEvents(evtCount);
     setLoading(false);
-  }, []);
+  }, [since, ownerFilter]);
 
   useEffect(() => { load(); }, [load]);
+
+  const copyOwnerLink = () => {
+    if (!myToken) return;
+    try {
+      navigator.clipboard.writeText(`${window.location.origin}/?owner=${encodeURIComponent(myToken)}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch { /* clipboard blocked */ }
+  };
 
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -683,13 +774,16 @@ const DashboardContent = ({ onLogout }) => {
     </div>
   );
 
-  // Filter out owner rows when hideOwner is on
-  const filteredVisits = hideOwner && visits
-    ? visits.filter(v => v.visitor_id !== myVisitorId)
-    : visits;
-  const filteredEvents = hideOwner && events
-    ? events.filter(e => e.visitor_id !== myVisitorId)
-    : events;
+  // Owner + date filtering already happened server-side (is_owner / created_at).
+  // Apply the device filter client-side; events inherit their visitor's device
+  // via the matching visit rows.
+  let filteredVisits = visits || [];
+  let filteredEvents = events || [];
+  if (deviceFilter !== 'all') {
+    filteredVisits = filteredVisits.filter(v => (v.device_type || 'unknown') === deviceFilter);
+    const keys = new Set(filteredVisits.map(v => v.visitor_id || v.session_id));
+    filteredEvents = filteredEvents.filter(e => keys.has(e.visitor_id || e.session_id));
+  }
 
   return (
     <div style={{
@@ -712,32 +806,6 @@ const DashboardContent = ({ onLogout }) => {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-          {/* Owner device toggle */}
-          <button
-            onClick={toggleOwner}
-            title={isOwner ? 'This device is marked as yours — tracking suppressed. Click to unmark.' : 'Mark this device as yours to suppress tracking'}
-            style={{
-              ...btnStyle, fontSize: 12,
-              background: isOwner ? '#e8f5e9' : 'transparent',
-              color: isOwner ? '#2e7d32' : 'var(--colors-text-secondary, #666)',
-              border: `1px solid ${isOwner ? '#a5d6a7' : 'var(--colors-border-primary, #e0e0e0)'}`,
-            }}
-          >
-            {isOwner ? '🙈 My device (tracking off)' : '👤 Mark as my device'}
-          </button>
-          {/* Hide/show my rows */}
-          <button
-            onClick={() => setHideOwner(h => !h)}
-            title="Toggle visibility of your own visits in the dashboard"
-            style={{
-              ...btnStyle, fontSize: 12,
-              background: 'transparent',
-              color: 'var(--colors-text-secondary, #666)',
-              border: '1px solid var(--colors-border-primary, #e0e0e0)',
-            }}
-          >
-            {hideOwner ? '🔍 Showing real visitors' : '👁️ Showing all (incl. you)'}
-          </button>
           <button onClick={load} style={{ ...btnStyle, fontSize: 13 }}>↻ Refresh</button>
           <button onClick={onLogout} style={{ ...btnStyle, background: 'transparent',
             border: '1px solid var(--colors-border-primary, #e0e0e0)',
@@ -747,19 +815,41 @@ const DashboardContent = ({ onLogout }) => {
         </div>
       </div>
 
-      {/* Owner status strip */}
+      {/* Owner verification strip */}
       <div style={{
-        padding: '6px 32px',
-        background: isOwner ? '#e8f5e9' : '#fff8e1',
+        padding: '8px 32px',
+        background: myToken ? '#e8f5e9' : '#fff8e1',
         borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
-        display: 'flex', gap: 16, alignItems: 'center', fontSize: 12,
+        display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', fontSize: 12,
         color: 'var(--colors-text-secondary, #555)',
       }}>
-        <span style={{ fontWeight: 600 }}>
-          {isOwner ? '🙈 This device: not tracked' : '⚠️ This device: being tracked'}
-        </span>
-        <span>·</span>
-        <span>{hideOwner ? '🔍 Your rows: hidden from stats' : '👁️ Your rows: visible in stats'}</span>
+        {myToken ? (
+          <>
+            <span style={{ fontWeight: 600 }}>
+              ✅ This device carries the owner token — your traffic is tagged (is_owner) and excluded by default.
+            </span>
+            <button onClick={copyOwnerLink} style={pillBtn}>{copied ? '✓ Copied' : '🔗 Copy owner link'}</button>
+            <button onClick={() => setOwnerFilter('only')} style={pillBtn}>👁 View only my device</button>
+          </>
+        ) : (
+          <span style={{ fontWeight: 600 }}>
+            ⚠️ This device has no owner token. Visit <code>/?owner=&lt;token&gt;</code> once to tag your traffic so it stays out of the stats.
+          </span>
+        )}
+      </div>
+
+      {/* Filters */}
+      <div style={{
+        display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap',
+        padding: '12px 32px',
+        borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
+      }}>
+        <Segmented label="Range" value={dateRange} onChange={setDateRange}
+          options={[['24h', '24h'], ['7d', '7d'], ['30d', '30d'], ['all', 'All']]} />
+        <Segmented label="Owner" value={ownerFilter} onChange={setOwnerFilter}
+          options={[['exclude', 'Exclude'], ['all', 'All'], ['only', 'Only me']]} />
+        <Segmented label="Device" value={deviceFilter} onChange={setDeviceFilter}
+          options={[['all', 'All'], ['desktop', '🖥️'], ['mobile', '📱'], ['tablet', '📲']]} />
       </div>
 
       {/* Tab bar */}
@@ -794,10 +884,9 @@ const DashboardContent = ({ onLogout }) => {
       <div style={{ padding: '28px 32px', maxWidth: 1200, margin: '0 auto' }}>
         {activeTab === 'stats' && (
           <StatsTab
-            visits={visits}
-            total={hideOwner ? (filteredVisits?.length ?? 0) : total}
+            total={deviceFilter === 'all' ? (total ?? filteredVisits.length) : filteredVisits.length}
             events={filteredEvents}
-            totalEvents={hideOwner ? (filteredEvents?.length ?? 0) : totalEvents}
+            totalEvents={deviceFilter === 'all' ? (totalEvents ?? filteredEvents.length) : filteredEvents.length}
             filteredVisits={filteredVisits}
           />
         )}
@@ -830,17 +919,10 @@ const emptyMsg = {
   margin: 0, fontSize: 13, color: 'var(--colors-text-secondary, #666)',
 };
 
-const thStyle = {
-  textAlign: 'left', padding: '8px 12px',
-  borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
-  fontSize: 12, fontWeight: 600, textTransform: 'uppercase',
-  color: 'var(--colors-text-secondary, #666)', whiteSpace: 'nowrap',
-};
-
-const tdStyle = {
-  padding: '9px 12px',
-  borderBottom: '1px solid var(--colors-border-primary, #e0e0e0)',
-  color: 'var(--colors-text-primary, #000)', verticalAlign: 'middle',
+const pillBtn = {
+  padding: '3px 10px', fontSize: 12, cursor: 'pointer',
+  background: 'transparent', color: 'var(--colors-text-secondary, #555)',
+  border: '1px solid var(--colors-border-primary, #cfcfcf)', borderRadius: 12,
 };
 
 const badgeStyle = {
