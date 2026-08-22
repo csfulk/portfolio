@@ -1,0 +1,4 @@
+# Force the resume to download rather than render inline.
+# This belongs in _headers — a header line inside _redirects is a parse error.
+/assets/resume/Colt-Fulk-Resume-2026.pdf
+  Content-Disposition: attachment; filename=Colt-Fulk-Resume-2026.pdf

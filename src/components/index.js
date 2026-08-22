@@ -1,6 +1,7 @@
 // Page Components
 export { default as Hero }      from './pages/Hero'
 export { default as Dashboard } from './pages/Dashboard'
+export { default as Nedry } from './pages/Nedry'
 
 // Modal Components
 export { Modal, PasswordGate } from './modals'

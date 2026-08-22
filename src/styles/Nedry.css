@@ -1,0 +1,143 @@
+/* Easter egg page — reached by submitting the decoy password planted in the bundle.
+ *
+ * Deliberately a one-off Jurassic Park homage rather than a themed page: the
+ * palette is hardcoded (not tokenised) and pinned to light, so it stays white
+ * even for visitors whose system is set to dark. Spacing/type scales still come
+ * from the design system so it sits on the same rhythm as the rest of the site. */
+
+.nedry-page {
+  box-sizing: border-box;
+  overflow-x: hidden;
+  --jp-red:    #cf0a2c;  /* logo red */
+  --jp-amber:  #f5a623;  /* amber / mosquito resin */
+  --jp-ink:    #14110f;
+  --jp-muted:  #5a5450;
+  --jp-paper:  #ffffff;
+
+  color-scheme: light;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: calc(var(--spacing-3xl) + 14px) var(--spacing-lg);
+  background: var(--jp-paper);
+  color: var(--jp-ink);
+  text-align: center;
+}
+
+/* Park-signage caution banding, top and bottom. */
+.nedry-page::before,
+.nedry-page::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--jp-amber) 0 16px,
+    var(--jp-ink)   16px 32px
+  );
+  z-index: 1;
+}
+.nedry-page::before { top: 0; }
+.nedry-page::after  { bottom: 0; }
+
+.nedry-image {
+  /* The artwork is portrait, so cap it by HEIGHT — sizing by width alone pushes
+     the headline and copy below the fold on a normal laptop viewport. */
+  max-height: 34vh;
+  max-width: min(300px, 74vw);
+  width: auto;
+  height: auto;
+  border: 3px solid var(--jp-ink);
+  border-radius: 2px;
+  box-shadow: 0 0 0 6px var(--jp-paper), 0 18px 44px rgba(20, 17, 15, 0.28);
+}
+
+.nedry-title {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: clamp(1.6rem, 4.4vw, var(--typography-scales-heading-2-font-size));
+  font-weight: var(--typography-font-weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin: 0;
+  max-width: min(20ch, 100%);
+  color: var(--jp-ink);
+}
+
+/* The line everyone quotes — in the red. */
+.nedry-title em {
+  display: block;
+  font-style: normal;
+  color: var(--jp-red);
+}
+
+.nedry-rule {
+  width: min(220px, 60vw);
+  height: 4px;
+  border: 0;
+  margin: 0;
+  background: var(--jp-red);
+}
+
+.nedry-body {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: var(--typography-font-size-md);
+  line-height: var(--typography-line-height-relaxed);
+  color: var(--jp-muted);
+  margin: 0;
+  max-width: min(52ch, 100%);
+}
+
+.nedry-body a {
+  color: var(--jp-red);
+  text-underline-offset: 3px;
+}
+
+.nedry-actions {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-sm);
+}
+
+.nedry-link {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--jp-ink);
+  text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-lg);
+  border: 2px solid var(--jp-ink);
+  border-radius: 2px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nedry-link:hover {
+  background: var(--jp-ink);
+  color: var(--jp-paper);
+}
+
+.nedry-link.primary {
+  background: var(--jp-red);
+  border-color: var(--jp-red);
+  color: var(--jp-paper);
+}
+
+.nedry-link.primary:hover {
+  background: #a80822;
+  border-color: #a80822;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nedry-link { transition: none; }
+}

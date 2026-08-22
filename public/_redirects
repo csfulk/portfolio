@@ -1,5 +1,4 @@
 /resume.pdf /assets/resume/Colt-Fulk-Resume-2026.pdf 200!
-  Content-Disposition: attachment; filename=Colt-Fulk-Resume-2026.pdf
 
 # Analytics ingestion — same-origin proxy to the Supabase `ingest` edge function.
 # Same-origin means no CORS and, crucially, not ad-blockable (blockers commonly

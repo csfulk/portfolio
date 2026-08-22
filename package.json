@@ -8,7 +8,8 @@
     "build": "npm run build:tokens && vite build",
     "build:tokens": "node scripts/build-tokens.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:netlify": "netlify dev"
   },
   "dependencies": {
     "iconoir-react": "^7.11.0",

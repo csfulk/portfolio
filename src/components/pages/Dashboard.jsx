@@ -6,7 +6,6 @@
  */
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { supabaseClient } from '@services/core/supabaseClient.js';
 import { ownerToken } from '@services/core/ownerToken.js';
 import { getCaseStudyByKey } from '@data';
 
@@ -247,19 +246,30 @@ const LoginScreen = ({ onAuth }) => {
   const [pw, setPw]       = useState('');
   const [error, setError] = useState('');
 
-  const submit = (e) => {
+  const [busy, setBusy] = useState(false);
+
+  // Verified by netlify/functions/login.mjs against DASHBOARD_PASSWORD, which
+  // never reaches the browser. Success sets an HttpOnly session cookie.
+  const submit = async (e) => {
     e.preventDefault();
-    const expected = import.meta.env.VITE_DASHBOARD_PASSWORD;
-    if (!expected) {
-      setError('VITE_DASHBOARD_PASSWORD is not set.');
-      return;
-    }
-    if (pw === expected) {
-      sessionStorage.setItem('dashboard_auth', '1');
-      onAuth();
-    } else {
-      setError('Wrong password.');
+    if (busy) return;
+    setBusy(true);
+    setError('');
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ password: pw, scope: 'admin' }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.ok) { onAuth(); return; }
+      setError(res.status === 429 ? 'Too many attempts — wait a moment.' : 'Wrong password.');
       setPw('');
+    } catch {
+      setError('Could not reach the server.');
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -812,28 +822,35 @@ const DashboardContent = ({ onLogout }) => {
     setLoading(true);
     setError(null);
 
-    if (!supabaseClient.isConfigured()) {
-      setError('Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
-      setLoading(false);
-      return;
-    }
+    // Reads go through /api/analytics: the service-role key stays on the server
+    // and anon no longer has SELECT on visits/events.
+    const params = new URLSearchParams({ limit: '500', ownerFilter });
+    if (since) params.set('since', since);
 
-    const opts = { since, ownerFilter };
-    const [rows, count, evtRows, evtCount] = await Promise.all([
-      supabaseClient.getVisits({ limit: 500, ...opts }),
-      supabaseClient.getTotalCount(opts),
-      supabaseClient.getEvents({ limit: 500, ...opts }),
-      supabaseClient.getEventTotalCount(opts),
-    ]);
-
-    if (rows === null) {
-      setError('Could not connect to Supabase. Check your env vars and RLS policies.');
-    } else {
-      setVisits(rows);
+    try {
+      const res = await fetch(`/api/analytics?${params}`, { credentials: 'same-origin' });
+      if (res.status === 401) {
+        setError('Session expired. Reload and sign in again.');
+        setLoading(false);
+        return;
+      }
+      if (!res.ok) {
+        setError('Could not load analytics.');
+        setLoading(false);
+        return;
+      }
+      const { visits: rows, visitTotal, events: evtRows, eventTotal } = await res.json();
+      if (rows === null) {
+        setError('Analytics query failed upstream.');
+      } else {
+        setVisits(rows);
+      }
+      setTotal(visitTotal);
+      setEvents(evtRows);
+      setTotalEvents(eventTotal);
+    } catch {
+      setError('Could not reach the server.');
     }
-    setTotal(count);
-    setEvents(evtRows);
-    setTotalEvents(evtCount);
     setLoading(false);
   }, [since, ownerFilter]);
 
@@ -1032,15 +1049,24 @@ const badgeStyle = {
 // ─── Root export ───────────────────────────────────────────────────────────
 
 const Dashboard = () => {
-  const [authed, setAuthed] = useState(
-    () => sessionStorage.getItem('dashboard_auth') === '1'
-  );
+  // null while the session check is in flight, so we don't flash the login form
+  const [authed, setAuthed] = useState(null);
 
-  const logout = () => {
-    sessionStorage.removeItem('dashboard_auth');
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/session', { credentials: 'same-origin' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled) setAuthed(Boolean(d?.admin)); })
+      .catch(() => { if (!cancelled) setAuthed(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const logout = async () => {
+    await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
     setAuthed(false);
   };
 
+  if (authed === null) return null;
   if (!authed) return <LoginScreen onAuth={() => setAuthed(true)} />;
   return <DashboardContent onLogout={logout} />;
 };

@@ -1,0 +1,28 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Netlify Functions 2.0 (export default + config.path) needs >= 20.12.2.
+# Kept in sync with .nvmrc.
+[build.environment]
+  NODE_VERSION = "20.19.6"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[edge_functions]]
+  path = "/assets/keynoteHTML/*"
+  function = "protect"
+
+[[edge_functions]]
+  path = "/assets/yt_case_study_00/*"
+  function = "protect"
+
+[[edge_functions]]
+  path = "/assets/yt_case_study_03/*"
+  function = "protect"
+
+[[edge_functions]]
+  path = "/assets/apple_case_study_02/*"
+  function = "protect"

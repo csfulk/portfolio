@@ -3,24 +3,29 @@ import React, { useState, useRef, useEffect } from 'react';
 import '@styles/PasswordGate.css';
 import { eventTracker } from '@services/core/EventTracker.js';
 
-// Read the password gate toggle from environment variables
-const PASSWORD_GATE_ENABLED = import.meta.env.VITE_PASSWORD_GATE_ENABLED !== 'false';
-
 const LOCKOUT_AFTER  = 5;   // failures before each lockout
 const LOCKOUT_SECS   = 60;  // lockout duration in seconds
 const REDIRECT_URL   = 'https://www.linkedin.com/in/coltfulk/';
 
-const PasswordGate = ({ onAuth }) => {
-  // If password gate is disabled, render nothing (should never be shown)
-  if (!PASSWORD_GATE_ENABLED) return null;
+/**
+ * DECOY — deliberately the only password-shaped string in the bundle.
+ *
+ * The real check now happens in netlify/functions/login.mjs against SITE_PASSWORD,
+ * which never reaches the browser. Anyone who inspects the JS looking for a
+ * credential finds this instead; submitting it lands them on /nedry rather than
+ * granting access. Comments are stripped at build time, so the shipped bundle
+ * shows only the bare comparison — which is exactly the bait.
+ */
+const SITE_PASSWORD = 'LemonDrops';
 
+const PasswordGate = ({ onAuth }) => {
   const [password, setPassword] = useState('');
   const [caption, setCaption] = useState('');
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
   const [failCount, setFailCount] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(null);
-  const [countdown, setCountdown] = useState(0);
   const inputRef = useRef(null);
 
   // Focus the input field when the component mounts
@@ -35,11 +40,9 @@ const PasswordGate = ({ onAuth }) => {
       const remaining = Math.ceil((lockedUntil - Date.now()) / 1000);
       if (remaining <= 0) {
         setLockedUntil(null);
-        setCountdown(0);
         setCaption('');
         inputRef.current?.focus();
       } else {
-        setCountdown(remaining);
         setCaption(`Too many attempts — try again in ${remaining}s`);
       }
     }, 500);
@@ -48,55 +51,110 @@ const PasswordGate = ({ onAuth }) => {
 
   const isLocked = lockedUntil !== null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isLocked) return;
+  // Live validation. The browser no longer knows the password, so the green
+  // state comes from a debounced server probe instead of a local comparison.
+  // Probes issue no cookie and don't count toward the lockout.
+  useEffect(() => {
+    if (isLocked || !password) { setIsSuccess(false); return; }
+    if (password.length < 3) { setIsSuccess(false); return; }
 
-    const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
-
-    if (password === sitePassword) {
-      eventTracker.track('password_success');
-      onAuth(password);
-      setCaption('Authentication successful! Redirecting...');
-      setTimeout(() => setCaption(''), 2000);
-    } else {
-      eventTracker.track('password_fail');
-      const newCount = failCount + 1;
-      setFailCount(newCount);
-
-      if (newCount % LOCKOUT_AFTER === 0) {
-        const lockoutNum = newCount / LOCKOUT_AFTER;
-        if (lockoutNum >= 2) {
-          // 2nd lockout — redirect away
-          window.location.href = REDIRECT_URL;
-          return;
-        }
-        // 1st lockout — 60s cooldown
-        setLockedUntil(Date.now() + LOCKOUT_SECS * 1000);
-        setIsError(true);
-        setIsSuccess(false);
-      } else {
-        setCaption('Incorrect password. Please try again.');
-        setIsError(true);
-        setIsSuccess(false);
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          credentials: 'same-origin',
+          signal: controller.signal,
+          body: JSON.stringify({ password, scope: 'site', probe: true }),
+        });
+        if (!res.ok) return;                       // 429 or similar — stay neutral
+        const { match } = await res.json();
+        setIsSuccess(Boolean(match));
+        if (match) setCaption('Press Enter');
+      } catch {
+        /* aborted or offline — leave the field as-is */
       }
+    }, 250);
+
+    return () => { clearTimeout(timer); controller.abort(); };
+  }, [password, isLocked]);
+
+  const registerFailure = () => {
+    const newCount = failCount + 1;
+    setFailCount(newCount);
+    setIsError(true);
+    setIsSuccess(false);
+
+    if (newCount % LOCKOUT_AFTER === 0) {
+      if (newCount / LOCKOUT_AFTER >= 2) {
+        window.location.href = REDIRECT_URL;
+        return;
+      }
+      setLockedUntil(Date.now() + LOCKOUT_SECS * 1000);
+    } else {
+      setCaption('Incorrect password. Please try again.');
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isLocked || isChecking) return;
+
+    if (password === SITE_PASSWORD) {
+      eventTracker.track('easter_egg_nedry');
+      window.location.href = '/nedry';
+      return;
+    }
+
+    setIsChecking(true);
+    setCaption('Checking…');
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ password, scope: 'site' }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (data?.decoy) {
+        eventTracker.track('easter_egg_nedry');
+        window.location.href = '/nedry';
+        return;
+      }
+
+      if (res.ok && data?.ok) {
+        eventTracker.track('password_success');
+        setIsError(false);
+        setIsSuccess(true);
+        setCaption('Authentication successful! Redirecting...');
+        await onAuth(password);
+        setTimeout(() => setCaption(''), 2000);
+        return;
+      }
+
+      if (res.status === 429) {
+        setCaption('Too many attempts — please wait a moment.');
+        setIsError(true);
+        return;
+      }
+
+      eventTracker.track('password_fail');
+      registerFailure();
+    } catch {
+      setCaption('Could not reach the server. Please try again.');
+      setIsError(true);
+    } finally {
+      setIsChecking(false);
     }
   };
 
   const handleInputChange = (e) => {
-    const inputPassword = e.target.value;
-    const sitePassword = import.meta.env.VITE_SITE_PASSWORD;
-
-    setPassword(inputPassword);
+    setPassword(e.target.value);
     setIsError(false);
-
-    if (inputPassword === sitePassword) {
-      setCaption('Press Enter');
-      setIsSuccess(true); // Set success state
-    } else {
-      setCaption('Press Enter');
-      setIsSuccess(false); // Reset success state
-    }
+    setCaption('Press Enter');
   };
 
   return (
@@ -114,7 +172,7 @@ const PasswordGate = ({ onAuth }) => {
             placeholder={isLocked ? 'Locked…' : 'Enter password'}
             value={password}
             onChange={handleInputChange}
-            disabled={isLocked}
+            disabled={isLocked || isChecking}
             className={`password-input ${isError ? 'error' : ''} ${isSuccess ? 'success' : ''} ${isLocked ? 'locked' : ''}`}
           />
           {!isLocked && (
