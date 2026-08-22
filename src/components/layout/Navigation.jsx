@@ -12,8 +12,6 @@ import { eventTracker } from '@services/core/EventTracker.js';
 // Lock while gated, then the emoji set once the password gate is unlocked.
 const selectProjects = {
   key: 'select-projects',
-  embedUrl:
-    'https://embed.figma.com/deck/4u9UmVjECH20l1Q7xQSw82/Colt-Fulk---Select-Projects?node-id=2-1341&viewport=-95%2C-25%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
   icon: {
     unauthenticated: 'Lock',
     authenticated: 'Emoji',
@@ -62,8 +60,7 @@ export const Navigation = ({ handleCaseStudyClick, authenticated }) => {
     eventTracker.track('case_study_click', selectProjects.key);
     handleCaseStudyClick({
       type: 'FigmaEmbedViewer',
-      caseStudyKey: selectProjects.key,
-      embedUrl: selectProjects.embedUrl
+      caseStudyKey: selectProjects.key
     });
   };
 

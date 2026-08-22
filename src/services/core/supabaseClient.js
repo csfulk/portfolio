@@ -1,4 +1,16 @@
 /**
+ * NOTE (security): the read helpers below (getVisits, getTotalCount, getEvents,
+ * getEventTotalCount) no longer work from the browser. As of the RLS lockdown
+ * migration, the anon/publishable key has no SELECT on visits/events — that key
+ * ships in the client bundle, so anyone could otherwise read every visitor row.
+ * The dashboard reads through /api/analytics instead, which requires an admin
+ * session and uses the service-role key server-side.
+ *
+ * insertVisit/insertEvent are likewise unused: ingestion goes through
+ * /api/collect -> the Supabase `ingest` edge function, which writes with the
+ * service-role key.
+ */
+/**
  * Supabase REST Client
  * Thin wrapper around the PostgREST API — no npm package needed.
  *

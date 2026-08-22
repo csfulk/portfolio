@@ -18,7 +18,7 @@ import {
 } from '@hooks';
 import { PrivacyBanner, PrivacyDetailsModal } from './components/privacy';
 import { ComponentBrowser } from './design-system/componentBrowser';
-import { Dashboard } from '@components';
+import { Dashboard, Nedry } from '@components';
 import { getCaseStudyImages } from '@data';
 import { initializeServices } from '@services';
 import { eventTracker } from '@services/core/EventTracker.js';
@@ -117,19 +117,30 @@ const App = () => {
     '/assets/section_02_colt.fulk.apple.webp',
     '/assets/section_04_colt.fulk.figma.webp',
     '/assets/password.laugh2.gif',
-    ...caseStudyCriticalImages
+    // Case-study imagery is edge-gated, so preloading it while unauthenticated
+    // would only produce 404s. Hold it until a session exists.
+    ...(authenticated ? caseStudyCriticalImages : [])
   ];
   
   // Enhanced image optimization with performance monitoring
   const imageOptimization = useImageOptimization({
     criticalImages,
-    lazyImages: caseStudyAllImages,
+    lazyImages: authenticated ? caseStudyAllImages : [],
     logProgress: false // Set to true for debugging
   });
 
   // Console log modal state for debugging (remove in production)
   console.log('Modal State →', modalDebugInfo);
   console.log('Image Stats →', imageOptimization.imageStats);
+
+  // Route: /nedry — easter egg, reached by submitting the decoy password
+  if (window.location.pathname === '/nedry') {
+    return (
+      <ThemeProvider>
+        <Nedry />
+      </ThemeProvider>
+    );
+  }
 
   // Route: /dashboard
   if (window.location.pathname === '/dashboard') {

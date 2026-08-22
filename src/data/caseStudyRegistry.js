@@ -19,7 +19,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/7bhyglnKVQY3YoEjzvviyp/Snapchat-Design-Systems?node-id=247-2576&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
   
@@ -37,7 +36,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/HlWuUXXvHABY8w7cm6Sfy2/Snapchat--Addressing-Core-Accessibility-Challenges?node-id=1-17124&viewport=-171%2C-185%2C0.98&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
@@ -55,7 +53,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/wADARTo2BiOXWSqNBf0mJQ/Elevating-Design-Through-History---Perception?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
@@ -155,7 +152,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
@@ -173,7 +169,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-95%2C-35%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share'
     }
   },
 
@@ -213,7 +208,6 @@ export const caseStudyRegistry = {
     },
     viewer: {
       type: 'FigmaEmbedViewer',
-      embedUrl: 'https://embed.figma.com/proto/TFOcvXbwsCU33FQqBkNMWO/Colt-Fulk?page-id=737%3A4564&node-id=738-4584&p=f&viewport=-378%2C384%2C0.26&scaling=contain&content-scaling=fixed&embed-host=share'
     }
   }
 };
