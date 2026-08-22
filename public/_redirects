@@ -6,11 +6,4 @@
 # publicly callable without an apikey. Must sit ABOVE the SPA catch-all.
 /api/collect  https://lhkvuqqeitfdztmttzax.supabase.co/functions/v1/ingest  200!
 
-# Auth + gated content endpoints (Netlify Functions). Declared explicitly so the
-# SPA catch-all below cannot shadow them.
-/api/login       /.netlify/functions/login        200!
-/api/logout      /.netlify/functions/logout       200!
-/api/session     /.netlify/functions/session      200!
-/api/case-study  /.netlify/functions/case-study   200!
-
 /* /index.html 200
