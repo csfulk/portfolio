@@ -38,10 +38,15 @@ export function useCaseStudyViewer({ authenticateAndOpenViewer }) {
         break;
       }
       case 'FigmaEmbedViewer': {
-        // Directly open the Figma embed modal (no authentication assumed needed, but you can add it if you want)
+        // The embed URL is held server-side, so the key is what has to survive
+        // this hop — useAuth trades it for a URL once a session exists.
+        if (!action.caseStudyKey) {
+          console.error('FigmaEmbedViewer action is missing caseStudyKey:', action);
+          return;
+        }
         authenticateAndOpenViewer({
           type: 'FigmaEmbedViewer',
-          embedUrl: action.embedUrl,
+          caseStudyKey: action.caseStudyKey,
         });
         break;
       }

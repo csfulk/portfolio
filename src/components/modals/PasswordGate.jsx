@@ -130,7 +130,18 @@ const PasswordGate = ({ onAuth }) => {
         setIsError(false);
         setIsSuccess(true);
         setCaption('Authentication successful! Redirecting...');
-        await onAuth(password);
+
+        // onAuth resolves false when the session is good but the content behind
+        // it couldn't be fetched. The gate stays on screen in that case, so it
+        // has to drop the success caption instead of leaving it hanging.
+        const opened = await onAuth(password);
+        if (opened === false) {
+          setIsSuccess(false);
+          setIsError(true);
+          setCaption('Signed in, but that deck could not be loaded. Please try again.');
+          return;
+        }
+
         setTimeout(() => setCaption(''), 2000);
         return;
       }

@@ -83,7 +83,10 @@ const useAuth = ({ startTransition, setModalContent, setExpanded }) => {
             } else {
               console.error('setExpanded is not a function. Ensure it is passed correctly from useModal.');
             }
-            await openResolved(pendingViewerPropsRef.current);
+            // Reported back to the gate: if the content can't be resolved the
+            // modal stays put, so the gate has to say why rather than sit on
+            // "Redirecting…" forever.
+            return openResolved(pendingViewerPropsRef.current);
           }}
           onClose={() => setModalContent(null)}
         />
