@@ -139,7 +139,11 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                 // Handle both old string format and new interactive object format
                 const iconConfig = caseStudy.button.icon;
                 const isInteractiveIcon = typeof iconConfig === 'object' && iconConfig !== null;
-                
+                // Placeholder entries stay visible so the section still advertises the
+                // work, but they carry no viewer — no click handler, no auth-dependent
+                // icon swap, and Button blocks the click via `disabled`.
+                const comingSoon = Boolean(caseStudy.comingSoon);
+
                 return (
                   <Button
                     key={caseStudy.key}
@@ -147,19 +151,20 @@ const SectionWrapper = ({ section, handleCaseStudyClick, authenticated }) => {
                     size="md"
                     variant="ghost"
                     fontWeight="medium"
-                    icon={isInteractiveIcon 
+                    disabled={comingSoon}
+                    icon={isInteractiveIcon
                       ? (authenticated ? iconConfig.authenticated : iconConfig.unauthenticated)
                       : iconConfig
                     }
-                    iconHover={isInteractiveIcon && authenticated ? iconConfig.hover : undefined}
-                    iconActive={isInteractiveIcon && authenticated ? iconConfig.active : undefined}
+                    iconHover={!comingSoon && isInteractiveIcon && authenticated ? iconConfig.hover : undefined}
+                    iconActive={!comingSoon && isInteractiveIcon && authenticated ? iconConfig.active : undefined}
                     iconPosition="leading"
                     paddingX="0"
                     color="var(--colors-text-inverse)"
                     hoverColor="var(--colors-text-secondary)"
                     hoverBackgroundColor="transparent"
                     className="case-study-button"
-                    onClick={() => {
+                    onClick={comingSoon ? undefined : () => {
                       eventTracker.track('case_study_click', caseStudy.key);
                       handleCaseStudyClick({
                         type: caseStudy.viewer.type,

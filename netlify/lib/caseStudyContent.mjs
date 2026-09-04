@@ -12,6 +12,11 @@ export const CASE_STUDY_EMBEDS = {
   'snapchat-history-perception': 'https://embed.figma.com/deck/wADARTo2BiOXWSqNBf0mJQ/Elevating-Design-Through-History---Perception?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
   'apple-dev-docs-figma': 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
   'apple-dev-docs': 'https://embed.figma.com/deck/VUYfRxLN6Is3JehNitrn2e/Apple-Developer-Documentation-Design-System?node-id=1-42&viewport=-95%2C-35%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
+  // TODO(reddit): swap in the real deck URL once the Reddit Pro acquisition deck is
+  // published. Until then the button is rendered disabled (`comingSoon` in
+  // src/data/caseStudyRegistry.js), so nothing in the UI reaches this placeholder.
+  // Keeping the entry here means shipping the deck is a one-line URL swap.
+  'reddit-acquisition-flow': 'https://embed.figma.com/deck/REPLACE_WITH_DECK_ID/Reddit-Pro-Dynamic-Acquisition-Sign-Up-Flow?node-id=1-42&viewport=-104%2C-47%2C0.5&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
   'fetch-figma-data': 'https://embed.figma.com/proto/TFOcvXbwsCU33FQqBkNMWO/Colt-Fulk?page-id=737%3A4564&node-id=738-4584&p=f&viewport=-378%2C384%2C0.26&scaling=contain&content-scaling=fixed&embed-host=share',
   'select-projects': 'https://embed.figma.com/deck/4u9UmVjECH20l1Q7xQSw82/Colt-Fulk---Select-Projects?node-id=2-1341&viewport=-95%2C-25%2C0.46&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&embed-host=share',
 };

@@ -56,6 +56,25 @@ export const caseStudyRegistry = {
     }
   },
 
+  // Reddit Case Studies
+  // `comingSoon` renders the button in a disabled state — visible, but it never
+  // opens a viewer. The Figma deck isn't published yet, so the embed URL in
+  // netlify/lib/caseStudyContent.mjs is still a placeholder. To ship it: swap in
+  // the real deck URL there, restore the button text and icon set below, and
+  // drop this flag.
+  'reddit-acquisition-flow': {
+    enabled: true,
+    comingSoon: true,
+    section: 'reddit',
+    button: {
+      text: 'Casestudy Coming Soon',
+      icon: 'Clock'
+    },
+    viewer: {
+      type: 'FigmaEmbedViewer',
+    }
+  },
+
   // YouTube Case Studies
   'youtube-tv-redesign': {
     enabled: true,
@@ -224,7 +243,7 @@ export const getEnabledCaseStudies = () => {
 
 /**
  * Get enabled case studies for a specific section
- * @param {string} section - Section name (snapchat, youtube, apple, figma)
+ * @param {string} section - Section name (snapchat, reddit, youtube, apple, figma)
  * @returns {Array} Array of case study objects with keys
  */
 export const getCaseStudiesBySection = (section) => {
