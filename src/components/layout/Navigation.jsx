@@ -24,10 +24,9 @@ const selectProjects = {
 const sectionLinks = [
   { label: 'Home', selector: '.hero' },
   { label: 'YouTube', selector: '.first-section' },
-  { label: 'Reddit', selector: '.second-section' },
-  { label: 'Snapchat', selector: '.third-section' },
-  { label: 'Apple', selector: '.fourth-section' },
-  { label: 'Figma Dev', selector: '.fifth-section' }
+  { label: 'Snapchat', selector: '.second-section' },
+  { label: 'Apple', selector: '.third-section' },
+  { label: 'Figma Dev', selector: '.fourth-section' }
 ];
 
 // Keep in sync with the .mobile-nav-drawer / .mobile-nav-backdrop CSS transition (0.3s):
