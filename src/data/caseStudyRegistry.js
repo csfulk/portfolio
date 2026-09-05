@@ -57,11 +57,14 @@ export const caseStudyRegistry = {
   },
 
   // Reddit Case Studies
+  // Dormant: the Reddit Pro section was pulled from sectionsData.js, so nothing
+  // calls getCaseStudiesBySection('reddit') and this entry renders nowhere. It
+  // stays because relaunching is then just re-adding the section object.
   // `comingSoon` renders the button in a disabled state — visible, but it never
   // opens a viewer. The Figma deck isn't published yet, so the embed URL in
-  // netlify/lib/caseStudyContent.mjs is still a placeholder. To ship it: swap in
-  // the real deck URL there, restore the button text and icon set below, and
-  // drop this flag.
+  // netlify/lib/caseStudyContent.mjs is still a placeholder. To ship it: restore
+  // the section, swap in the real deck URL there, restore the button text and
+  // icon set below, and drop this flag.
   'reddit-acquisition-flow': {
     enabled: true,
     comingSoon: true,

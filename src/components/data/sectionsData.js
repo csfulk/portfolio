@@ -17,21 +17,8 @@ In 2018, I also led the design system for YouTube on TV. That system still power
     caseStudies: getCaseStudiesBySection('youtube'),
   },
   {
-    id: 'reddit-case-study',
-    className: 'second-section',
-    logo: 'assets/reddit_logo_colt.fulk.webp',
-    title: 'Product Design & Growth Strategy for Reddit Pro',
-    subtitle: 'Full-time, 8 months',
-    description: `At Reddit, I led the design and implementation strategy alongside my engineering partners to craft a dynamic acquisition and onboarding experience for Reddit Pro. I approached this surface as the platform’s front door for businesses and creators. The goal was to build a Growth UX that felt natural rather than transactional—removing every ounce of friction from the sign-up process while making Reddit Pro’s value instantly obvious.
-
-To accelerate the launch, I bypassed static mockups and built fully functional prototypes. Testing live flows transformed our feedback loop, driving rapid iteration, faster product decisions, and giving engineering a bulletproof, interactive spec.`,
-    bulletPoints: [],
-    image: '/assets/section_03_colt.fulk.reddit.webp',
-    caseStudies: getCaseStudiesBySection('reddit'),
-  },
-  {
     id: 'snapchat-case-study',
-    className: 'third-section',
+    className: 'second-section',
     logo: 'assets/snapchat_logo_colt.fulk.webp',
     title: 'Design Systems & Platform Cohesion at Snapchat',
     subtitle: 'Full-time, 2 years spanning 2024 to 2026',
@@ -46,7 +33,7 @@ Beyond product work, I facilitated a series of cross-functional workshops to ali
   },
   {
     id: 'apple-case-study',
-    className: 'fourth-section',
+    className: 'third-section',
     logo: 'assets/apple_colt.fulk.webp',
     title: 'UI Production, Technical Design Systems & Team Lead',
     subtitle: 'Full-time, 1.5 years from 2011 through end of 2012',
@@ -58,7 +45,7 @@ Beyond product work, I facilitated a series of cross-functional workshops to ali
   },
   {
     id: 'figma-case-study',
-    className: 'fifth-section',
+    className: 'fourth-section',
     logo: 'assets/figma-google.colt.fulk.webp',
     title: 'Figma Evangelist — Systems, Development, Plugins',
     subtitle: '2020—Present',
